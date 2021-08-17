@@ -68,7 +68,7 @@ export const InputArea = styled.View`
 export const InputDiv = styled.View`
     flex-direction: row;
     align-items: center;
-    border-bottom-color: ${grayish};
+    border-bottom-color: ${props=>props.borderColor};
     border-bottom-width: 1px;
     height: 58px;
     margin-top: 5px;
@@ -77,7 +77,8 @@ export const Input = styled.TextInput`
     flex: 1;
     color: ${black};
     margin-right: auto;
-    padding-left: 10px;
+    margin-left: 5px;
+    padding-left: 5px;
 `;
 
 /** ----------------------------------------------------- **/
@@ -93,7 +94,7 @@ export const ForgotPasswordText = styled.Text`
 
 /** ----------------------------------------------------- **/
 
-export const SubmitButton = styled.View`
+export const SubmitButton = styled.TouchableHighlight`
     background-color: ${purple};
     align-items: center;
     justify-content: center;
