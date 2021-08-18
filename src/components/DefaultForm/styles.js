@@ -41,9 +41,9 @@ export const OtherSignUpOptions = styled.View`
     margin-top: 30px;
 `;
 export const OtherSignUpButton = styled.TouchableOpacity`
+    background-color: ${props=>props.backgroundColor};
     align-items: center;
     justify-content: center;
-    border: 1px solid ${grayish};
     width: 25%;
     height: 52px;
     border-radius: 10px;
