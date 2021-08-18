@@ -37,7 +37,7 @@ export const Title = styled.Text`
 export const OtherSignUpOptions = styled.View`
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%;
     margin-top: 30px;
 `;
@@ -45,9 +45,10 @@ export const OtherSignUpButton = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
     border: 1px solid ${grayish};
-    width: 30%;
+    width: 25%;
     height: 52px;
     border-radius: 10px;
+    margin: 0 10px;
 `;
 
 /** ----------------------------------------------------- **/
@@ -105,5 +106,23 @@ export const SubmitButton = styled.TouchableHighlight`
 `;
 export const SubmitButtonText = styled.Text`
     color: ${white};
+    font-size: 16px;
+`;
+
+/** ----------------------------------------------------- **/
+
+export const AlreadyHaveAnAccount = styled.View`
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+`;
+export const AlreadyHaveAnAccountText = styled.Text`
+    font-size: 16px;
+`;
+export const AlreadyHaveAnAccountButton = styled.TouchableOpacity`
+    margin-left: 10px;
+`;
+export const AlreadyHaveAnAccountButtonText = styled.Text`
+    color: ${purple};
     font-size: 16px;
 `;

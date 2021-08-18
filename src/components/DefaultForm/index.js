@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
+
+import validator from 'validator';
 
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Feather from 'react-native-vector-icons/Feather';
@@ -33,6 +35,11 @@ import {
 
     SubmitButton,
     SubmitButtonText,
+
+    AlreadyHaveAnAccount,
+    AlreadyHaveAnAccountText,
+    AlreadyHaveAnAccountButton,
+    AlreadyHaveAnAccountButtonText,
 } from './styles';
 
 export default () => {
@@ -40,48 +47,52 @@ export default () => {
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
-    
-    const [nameError, setNameError] = useState(false);
-    const [emailError, setEmailError] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);
-    const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+
+    const [hasValidName, setHasValidName] = useState(false);
+    const [hasValidEmail, setHasValidEmail] = useState(false);
+    const [hasValidPassword, setHasValidPassword] = useState(false);
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+
+    function nameValidation () {
+        if(nameValue) {
+            const isValidName = validator.isAlpha(nameValue);
+
+            if(isValidName) {
+                setHasValidName(true);
+            } else {
+                setHasValidName(false);
+            }
+        } else {
+            setHasValidName(false);
+        }
+    }
+
+    function emailValidation () {
+        if(emailValue) {
+            const isValidEmail = validator.isEmail(emailValue);
+
+            if(isValidEmail) {
+                setHasValidEmail(true);
+            } else {
+                setHasValidEmail(false);
+            }
+        } else {
+            setHasValidEmail(false);
+        }
+    }
+
+    function passwordValidation () {
+        if(passwordValue && passwordValue === confirmPasswordValue && passwordValue.length >= 6 && confirmPasswordValue.length >= 6) {
+            setHasValidPassword(true);
+        } else {
+            setHasValidPassword(false);
+        }
+    }
+
     function submitForm () {
-        if(passwordValue !== confirmPasswordValue) {
-            setPasswordError(true);
-            setConfirmPasswordError(true);
-        }  else if (passwordValue === confirmPasswordValue) {
-            setPasswordError(false);
-            setConfirmPasswordError(false);
-        }
-        
-        if (!nameValue) {
-            setNameError(true);
-        } else if (nameValue) {
-            setNameError(false);
-        }
-        
-        if (!emailValue) {
-            setEmailError(true);
-        } else if (emailValue) {
-            setEmailError(false);
-        }
-        
-        if (!passwordValue) {
-            setPasswordError(true);
-        } else if (passwordValue) {
-            setPasswordError(true);
-        }
-        
-        if (!confirmPasswordValue) {
-            setConfirmPasswordError(true);
-        } else if (confirmPasswordValue) {
-            setConfirmPasswordError(false);
-        }
-        
         if(nameValue && emailValue && passwordValue && confirmPasswordValue && passwordValue === confirmPasswordValue) {
             api.post('/create-user', {
                 name: nameValue,
@@ -97,7 +108,6 @@ export default () => {
             setConfirmPasswordError(false);
         }
     };
-
         
     return(
         <FormArea>
@@ -126,19 +136,19 @@ export default () => {
             </Divider>
 
             <InputArea>
-                <InputDiv borderColor={nameError ? 'red' : '#eee'}>
-                    <Feather name="user" size={22} color="#aaa" />
-                    <Input value={nameValue} onChangeText={v => setNameValue(v)} placeholder="Name" placeholderTextColor="#aaa"  />
+                <InputDiv borderColor={hasValidName ? '#0125FC' : '#aaa'}>
+                    <Feather name='user' size={22} color={hasValidName ? '#0125FC' : '#aaa'} />
+                    <Input onBlur={nameValidation} value={nameValue} onChangeText={v => setNameValue(v)} placeholder="Name" placeholderTextColor="#aaa"  />
                 </InputDiv>
 
-                <InputDiv borderColor={emailError ? 'red' : '#eee'}>
-                    <Fontisto name="email" size={22} color="#aaa" />
-                    <Input value={emailValue} onChangeText={v => setEmailValue(v)} placeholder="Email" placeholderTextColor="#aaa"  />
+                <InputDiv borderColor={hasValidEmail ? '#0125FC' : '#aaa'}>
+                    <Fontisto name="email" size={22} color={hasValidEmail ? '#0125FC' : '#aaa'} />
+                    <Input onBlur={emailValidation} value={emailValue} keyboardType='email-address' onChangeText={v => setEmailValue(v)} placeholder="Email" placeholderTextColor="#aaa"  />
                 </InputDiv>
 
-                <InputDiv borderColor={passwordError ? 'red' : '#eee'}>
-                    <Feather name="lock" size={22} color="#aaa" />
-                    <Input value={passwordValue} onChangeText={v => setPasswordValue(v)} secureTextEntry={!showPassword} placeholder="Password" placeholderTextColor="#aaa"  />
+                <InputDiv borderColor={hasValidPassword ? '#0125FC' : '#aaa'}>
+                    <Feather name="lock" size={22} color={hasValidPassword ? '#0125FC' : '#aaa'} />
+                    <Input onBlur={passwordValidation} value={passwordValue} onChangeText={v => setPasswordValue(v)} secureTextEntry={!showPassword} placeholder="Password" placeholderTextColor="#aaa"  />
 
                     <TouchableWithoutFeedback onPress={() => setShowPassword(!showPassword)}>
                         {showPassword ? 
@@ -149,9 +159,9 @@ export default () => {
                     </TouchableWithoutFeedback>
                 </InputDiv>
                 
-                <InputDiv borderColor={confirmPasswordError ? 'red' : '#eee'}>
-                    <Feather name="lock" size={22} color="#aaa" />
-                    <Input value={confirmPasswordValue} onChangeText={v => setConfirmPasswordValue(v)} secureTextEntry={!showConfirmPassword} placeholder="Confirm your password" placeholderTextColor="#aaa"  />
+                <InputDiv borderColor={hasValidPassword ? '#0125FC' : '#aaa'}>
+                    <Feather name="lock" size={22} color={hasValidPassword ? '#0125FC' : '#aaa'} />
+                    <Input onBlur={passwordValidation} value={confirmPasswordValue} onChangeText={v => setConfirmPasswordValue(v)} secureTextEntry={!showConfirmPassword} placeholder="Confirm your password" placeholderTextColor="#aaa"  />
 
                     <TouchableWithoutFeedback onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
                         {showConfirmPassword ? 
@@ -170,6 +180,14 @@ export default () => {
             <SubmitButton onPress={submitForm} underlayColor="rgba(0, 0, 0, 0.1)">
                 <SubmitButtonText>Sign Up</SubmitButtonText>
             </SubmitButton>
+
+            <AlreadyHaveAnAccount>
+                <AlreadyHaveAnAccountText>Already have an account?</AlreadyHaveAnAccountText>
+
+                <AlreadyHaveAnAccountButton>
+                    <AlreadyHaveAnAccountButtonText>Login</AlreadyHaveAnAccountButtonText>
+                </AlreadyHaveAnAccountButton>
+            </AlreadyHaveAnAccount>
         </FormArea>
     )
 }

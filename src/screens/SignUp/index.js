@@ -10,7 +10,9 @@ import {
 export default function SignUp () {
     return(
         <SignUpContainer>
-            <DefaultForm register={true} />
+            <ScrollView contentContainerStyle={{paddingVertical: 20, paddingHorizontal: 30}}>
+                <DefaultForm register={true} />
+            </ScrollView>
         </SignUpContainer>
     )
 }
