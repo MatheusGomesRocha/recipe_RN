@@ -1,10 +1,12 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 
-import SignUp from './src/screens/SignUp';
+import MainStack from './src/navigators/MainStack';
 
 export default () => {
     return(
-            <SignUp />
+        <NavigationContainer>
+            <MainStack />
+        </NavigationContainer>
     )
 }

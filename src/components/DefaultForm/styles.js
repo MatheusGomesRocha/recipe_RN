@@ -119,7 +119,7 @@ export const AlreadyHaveAnAccountText = styled.Text`
     font-size: 16px;
 `;
 export const AlreadyHaveAnAccountButton = styled.TouchableOpacity`
-    margin-left: 10px;
+    margin-left: 3px;
 `;
 export const AlreadyHaveAnAccountButtonText = styled.Text`
     color: ${purple};

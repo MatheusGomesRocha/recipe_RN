@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
 
 import validator from 'validator';
+import { useNavigation } from '@react-navigation/native';
 
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import Feather from 'react-native-vector-icons/Feather';
@@ -42,7 +43,7 @@ import {
     AlreadyHaveAnAccountButtonText,
 } from './styles';
 
-export default () => {
+export default ({ screen }) => {
     const [nameValue, setNameValue] = useState('');
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
@@ -55,6 +56,7 @@ export default () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const navigation = useNavigation();
 
     function nameValidation () {
         if(nameValue) {
@@ -115,7 +117,7 @@ export default () => {
                 <LogoImg source={Logo} />
             </LogoArea>
 
-            <Title>Sign Up</Title>
+            <Title>{screen === 'signUp' ? 'Sign Up' : 'Login'}</Title>
 
             <OtherSignUpOptions>
                 <OtherSignUpButton backgroundColor="#db4a39">
@@ -132,14 +134,16 @@ export default () => {
             </OtherSignUpOptions>
 
             <Divider>
-                <DividerText>Or sign up with an email</DividerText>
+                <DividerText>{screen === 'signUp' ? 'Or sign up with an email' : 'Or login with an email'}</DividerText>
             </Divider>
 
             <InputArea>
-                <InputDiv borderColor={hasValidName ? '#0125FC' : '#aaa'}>
-                    <Feather name='user' size={22} color={hasValidName ? '#0125FC' : '#aaa'} />
-                    <Input onBlur={nameValidation} value={nameValue} onChangeText={v => setNameValue(v)} placeholder="Name" placeholderTextColor="#aaa"  />
-                </InputDiv>
+                {screen === 'signUp' ? 
+                    <InputDiv borderColor={hasValidName ? '#0125FC' : '#aaa'}>
+                        <Feather name='user' size={22} color={hasValidName ? '#0125FC' : '#aaa'} />
+                        <Input onBlur={nameValidation} value={nameValue} onChangeText={v => setNameValue(v)} placeholder="Name" placeholderTextColor="#aaa"  />
+                    </InputDiv>
+                : undefined}
 
                 <InputDiv borderColor={hasValidEmail ? '#0125FC' : '#aaa'}>
                     <Fontisto name="email" size={22} color={hasValidEmail ? '#0125FC' : '#aaa'} />
@@ -159,33 +163,37 @@ export default () => {
                     </TouchableWithoutFeedback>
                 </InputDiv>
                 
-                <InputDiv borderColor={hasValidPassword ? '#0125FC' : '#aaa'}>
-                    <Feather name="lock" size={22} color={hasValidPassword ? '#0125FC' : '#aaa'} />
-                    <Input onBlur={passwordValidation} value={confirmPasswordValue} onChangeText={v => setConfirmPasswordValue(v)} secureTextEntry={!showConfirmPassword} placeholder="Confirm your password" placeholderTextColor="#aaa"  />
+                {screen === 'signUp' ? 
+                    <InputDiv borderColor={hasValidPassword ? '#0125FC' : '#aaa'}>
+                        <Feather name="lock" size={22} color={hasValidPassword ? '#0125FC' : '#aaa'} />
+                        <Input onBlur={passwordValidation} value={confirmPasswordValue} onChangeText={v => setConfirmPasswordValue(v)} secureTextEntry={!showConfirmPassword} placeholder="Confirm your password" placeholderTextColor="#aaa"  />
 
-                    <TouchableWithoutFeedback onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-                        {showConfirmPassword ? 
-                            <Feather name="eye-off" size={22} color="#aaa" />
-                        :
-                            <Feather name="eye" size={22} color="#aaa" />
-                        }
-                    </TouchableWithoutFeedback>
-                </InputDiv>
+                        <TouchableWithoutFeedback onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
+                            {showConfirmPassword ? 
+                                <Feather name="eye-off" size={22} color="#aaa" />
+                            :
+                                <Feather name="eye" size={22} color="#aaa" />
+                            }
+                        </TouchableWithoutFeedback>
+                    </InputDiv>
+                : undefined}
             </InputArea>
 
-            <ForgotPasswordButton>
-                <ForgotPasswordText>Forgot password?</ForgotPasswordText>
-            </ForgotPasswordButton>
+            {screen === 'signUp' ? undefined : 
+                <ForgotPasswordButton>
+                    <ForgotPasswordText>Forgot password?</ForgotPasswordText>
+                </ForgotPasswordButton>
+            }
 
             <SubmitButton onPress={submitForm} underlayColor="rgba(0, 0, 0, 0.1)">
-                <SubmitButtonText>Sign Up</SubmitButtonText>
+                <SubmitButtonText>{screen === 'signUp' ? 'Sign Up' : 'Login'}</SubmitButtonText>
             </SubmitButton>
 
             <AlreadyHaveAnAccount>
-                <AlreadyHaveAnAccountText>Already have an account?</AlreadyHaveAnAccountText>
+                <AlreadyHaveAnAccountText>{screen === 'signUp' ? 'Already have an account?' : "Don't have an account?"} </AlreadyHaveAnAccountText>
 
-                <AlreadyHaveAnAccountButton>
-                    <AlreadyHaveAnAccountButtonText>Login</AlreadyHaveAnAccountButtonText>
+                <AlreadyHaveAnAccountButton onPress={() => navigation.navigate(screen === 'signUp' ? 'login' : 'sign__up')}>
+                    <AlreadyHaveAnAccountButtonText>{screen === 'signUp' ? 'Login' : 'Sign Up'}</AlreadyHaveAnAccountButtonText>
                 </AlreadyHaveAnAccountButton>
             </AlreadyHaveAnAccount>
         </FormArea>
