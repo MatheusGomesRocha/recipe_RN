@@ -10,7 +10,7 @@ import {
 export default function SignUp () {
     return(
         <SignUpContainer>
-            <ScrollView contentContainerStyle={{paddingVertical: 20, paddingHorizontal: 30}}>
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20, paddingHorizontal: 30}}>
                 <DefaultForm screen={'signUp'} />
             </ScrollView>
         </SignUpContainer>
