@@ -26,7 +26,6 @@ export const LogoImg = styled.Image`
 /** ----------------------------------------------------- **/
 
 export const Title = styled.Text`
-    align-self: flex-start;
     font-weight: bold;
     font-size: 30px;
     margin-top: ${marginTopAreas};
