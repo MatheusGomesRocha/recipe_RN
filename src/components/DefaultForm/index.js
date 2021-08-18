@@ -118,16 +118,16 @@ export default () => {
             <Title>Sign Up</Title>
 
             <OtherSignUpOptions>
-                <OtherSignUpButton backgroundColor="#db439">
-                    <AntDesign name="google" size={30} color="#fff" />
+                <OtherSignUpButton backgroundColor="#db4a39">
+                    <AntDesign name="google" size={25} color="#fff" />
                 </OtherSignUpButton>
 
                 <OtherSignUpButton backgroundColor="#3b5998">
-                    <FontAwesome5Pro name="facebook" size={30} color="#fff" />
+                    <FontAwesome5Pro name="facebook" size={25} color="#fff" />
                 </OtherSignUpButton>
 
                 <OtherSignUpButton backgroundColor="#000">
-                    <AntDesign name="apple1" size={30} color="#fff" />
+                    <AntDesign name="apple1" size={25} color="#fff" />
                 </OtherSignUpButton>
             </OtherSignUpOptions>
 
