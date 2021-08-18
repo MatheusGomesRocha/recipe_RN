@@ -29,7 +29,7 @@ export default function Home () {
     return(
         <HomeContainer>
             <ScrollView showsVerticalScrollIndicator={false}>
-                <Title>Simple recipy with your <Title style={{color: '#0125FC'}}>fridge's ingredients</Title></Title>
+                <Title>Simple recipy with your <Title style={{color: '#fc6011'}}>fridge's ingredients</Title></Title>
 
                 <View style={{marginTop: 30}}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>

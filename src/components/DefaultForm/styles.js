@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { black, grayFont, marginTopAreas, blue, white } from '../../globals';
+import { black, grayFont, marginTopAreas, orange, white } from '../../globals';
 
 export const FormArea = styled.View`
     flex: 1;
@@ -87,14 +87,14 @@ export const ForgotPasswordButton = styled.TouchableOpacity`
     margin-top: ${marginTopAreas};
 `;
 export const ForgotPasswordText = styled.Text`
-    color: ${blue};
+    color: ${orange};
     font-size: 16px;
 `;
 
 /** ----------------------------------------------------- **/
 
 export const SubmitButton = styled.TouchableHighlight`
-    background-color: ${blue};
+    background-color: ${orange};
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -121,6 +121,6 @@ export const AlreadyHaveAnAccountButton = styled.TouchableOpacity`
     margin-left: 3px;
 `;
 export const AlreadyHaveAnAccountButtonText = styled.Text`
-    color: ${blue};
+    color: ${orange};
     font-size: 16px;
 `;
