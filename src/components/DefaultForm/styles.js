@@ -11,7 +11,6 @@ export const FormArea = styled.View`
 /** ----------------------------------------------------- **/
 
 export const LogoArea = styled.View`
-    background-color: #f7f7f7;
     align-items: center;
     justify-content: center;
     width: 120px;

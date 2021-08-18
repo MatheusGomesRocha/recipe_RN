@@ -87,10 +87,18 @@ export default ({ screen }) => {
     }
 
     function passwordValidation () {
-        if(passwordValue && passwordValue === confirmPasswordValue && passwordValue.length >= 6 && confirmPasswordValue.length >= 6) {
-            setHasValidPassword(true);
+        if(screen === 'signUp') {
+            if(passwordValue && passwordValue === confirmPasswordValue && passwordValue.length >= 6 && confirmPasswordValue.length >= 6) {
+                setHasValidPassword(true);
+            } else {
+                setHasValidPassword(false);
+            }
         } else {
-            setHasValidPassword(false);
+            if(passwordValue.length >= 6) {
+                setHasValidPassword(true);
+            } else {
+                setHasValidPassword(false);
+            }
         }
     }
 
