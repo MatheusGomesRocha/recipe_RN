@@ -1,7 +1,8 @@
 import React from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
-import food1 from '../../assets/images/food1.png';
+import RecipeComponent from '../../components/RecipeComponent';
+
 import type1 from '../../assets/images/type1.png';
 import type2 from '../../assets/images/type2.png';
 import type3 from '../../assets/images/type3.png';
@@ -27,15 +28,21 @@ let categoryArray = [
 export default function Home () {
     return(
         <HomeContainer>
-            <Title>Simple recipy with your <Title style={{color: '#0125FC'}}>fridge's ingredients</Title></Title>
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <Title>Simple recipy with your <Title style={{color: '#0125FC'}}>fridge's ingredients</Title></Title>
 
-            <ScrollView contentContainerStyle={{marginTop: 20}} horizontal={true} showsHorizontalScrollIndicator={false}>
-                {categoryArray.map((item, k) => (
-                    <CategoryButton key={k}>
-                        <CategoryIcon source={item.icon} />
-                        <CategoryName>{item.name}</CategoryName>
-                    </CategoryButton>
-                ))}
+                <View style={{marginTop: 30}}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                        {categoryArray.map((item, k) => (
+                            <CategoryButton key={k}>
+                                <CategoryIcon source={item.icon} />
+                                <CategoryName>{item.name}</CategoryName>
+                            </CategoryButton>
+                        ))}
+                    </ScrollView>
+                </View>
+
+                <RecipeComponent />
             </ScrollView>
         </HomeContainer>
     )
