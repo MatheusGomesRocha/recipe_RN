@@ -88,3 +88,18 @@ export const DescriptionText = styled.Text`
     color: ${grayFont};
     line-height: 19px;
 `;
+
+/** ------------------------------------------------------- **/
+
+export const YoutubeVideoArea = styled.View`
+    margin: 30px;
+`;
+export const YoutubeVideoTitle = styled.Text`
+    font-weight: bold;
+    font-size: 16px;
+`;
+export const YoutubeVideo = styled.View`
+    flex-direction: row;
+    height: 250px;
+    margin-top: 15px;
+`;
