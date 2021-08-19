@@ -14,6 +14,9 @@ export const RecipeItem = styled.View`
     border-radius: 20px;
     margin: 0 12px;
 `;
+
+/** ------------------------------------------------------- */
+
 export const RecipeImg = styled.Image`
     width: 200px;
     height: 200px;
@@ -21,6 +24,9 @@ export const RecipeImg = styled.Image`
     top: -60px;
     z-index: 999;
 `;
+
+/** ------------------------------------------------------- */
+
 export const CategoryArea = styled.View`
     flex-direction: row;
     align-items: center;
@@ -35,16 +41,25 @@ export const CategoryText = styled.Text`
     color: ${orange};
     margin-left: 10px;
 `;
+
+/** ------------------------------------------------------- */
+
 export const RecipeName = styled.Text`
     font-size: 30px;
     font-weight: bold;
     margin: 20px 20px 0 20px;
 `;
+
+/** ------------------------------------------------------- */
+
 export const RecipeDescription = styled.Text`
     color: ${blackish};
     margin: 20px 20px 0 20px;
     font-size: 16px;
 `;
+
+/** ------------------------------------------------------- */
+
 export const RecipeMoreInfoArea = styled.View`
     flex-direction: row;
     align-items: center;
@@ -60,6 +75,9 @@ export const RecipeMoreInfoText = styled.Text`
     margin-left: 7px;
     font-size: 16px;
 `;
+
+/** ------------------------------------------------------- */
+
 export const RecipeButtonArea = styled.View`
     flex-direction: row;
     align-items: center;
