@@ -74,7 +74,7 @@ export const RecipeSaveButton = styled.View`
     height: 52px;
     border-radius: 10px;
 `;
-export const RecipeViewButton = styled.View`
+export const RecipeViewButton = styled.TouchableOpacity`
     flex: 1;
     background-color: ${orange};
     align-items: center;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FlatList, Dimensions} from 'react-native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -9,6 +9,8 @@ import food1 from '../../assets/images/food1.png';
 import food2 from '../../assets/images/food2.png';
 import food3 from '../../assets/images/food3.png';
 import food4 from '../../assets/images/food4.png';
+
+import { api } from '../../services/api';
 
 import {
     RecipeArea, 
@@ -44,13 +46,21 @@ let recipeArray = [
 
 
 export default function RecipeComponent () {
+    const [recipes, setRecipes] = useState({});
     const windowWidth = Dimensions.get('window').width;
+
+    useEffect(() => {
+        api.get('/recipes')
+        .then(res => {
+            const data = res.data.recipes;
+            setRecipes({ data });
+        })
+    }, []);
 
     const renderItem = ({item}) => {
         return(
             <RecipeItem style={{width: windowWidth - 120}}>
-                <RecipeImg resizeMode='center' source={item.img} />
-
+                <RecipeImg resizeMode='center' source={food} />
                 <CategoryArea>
                     <CategoryDivider />
                     <CategoryText>{item.category}</CategoryText>
@@ -90,7 +100,7 @@ export default function RecipeComponent () {
             <FlatList
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
-                data={recipeArray}
+                data={recipes.data}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />
