@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, Dimensions} from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import food1 from '../../assets/images/food1.png';
-import food2 from '../../assets/images/food2.png';
-import food3 from '../../assets/images/food3.png';
-import food4 from '../../assets/images/food4.png';
 
 import { api } from '../../services/api';
 
@@ -37,16 +35,12 @@ import {
     RecipeViewButtonText,
 } from './styles';
 
-let recipeArray = [
-    {id: 1, img: food1, category: 'Chinese', name: 'Hot Chilli w/ Milk', description: 'Lorem Ipsum do Lorem Ipsum do Lorem Ipsum do Lorem Ipsum dolor sit amet, Lor sit amet dolor lorem em Ipsum dolor sit amet Lorem Ipsum dolor sit amet', cookTime: 25, ingQuantity: 7},
-    {id: 2, img: food2, category: 'Chinese', name: 'Hot Chilli w/ Milk', description: 'Lorem Ipsum dolor amet, sit Lorem Ipsum dolor sit amet Lorem Ipsum dolor sit amet', cookTime: 25, ingQuantity: 7},
-    {id: 3, img: food3, category: 'Chinese', name: 'Hot Chilli w/ Milk', description: 'Lorem Ipsum dolor sit amet, amet sit lorem dolor Lorem Ipsum dolor sit amet Lorem Ipsum dolor sit amet', cookTime: 25, ingQuantity: 7},
-    {id: 4, img: food4, category: 'Chinese', name: 'Hot Chilli w/ Milk', description: 'Lorem Ipsum dolor sit amet, Lorem Ipsum dolor sit amet Lorem Ipsum dolor sit amet', cookTime: 25, ingQuantity: 7},
-];
-
 
 export default function RecipeComponent () {
     const [recipes, setRecipes] = useState({});
+
+    const navigation = useNavigation();
+
     const windowWidth = Dimensions.get('window').width;
 
     useEffect(() => {
@@ -60,7 +54,7 @@ export default function RecipeComponent () {
     const renderItem = ({item}) => {
         return(
             <RecipeItem style={{width: windowWidth - 120}}>
-                <RecipeImg resizeMode='center' source={food} />
+                <RecipeImg resizeMode='center' source={food1} />
                 <CategoryArea>
                     <CategoryDivider />
                     <CategoryText>{item.category}</CategoryText>
@@ -87,7 +81,7 @@ export default function RecipeComponent () {
                         <AntDesign name="pluscircleo" color="#fff" size={25} />
                     </RecipeSaveButton>
 
-                    <RecipeViewButton>
+                    <RecipeViewButton onPress={() => navigation.navigate('recipe__info', {recipeId: item.id})}>
                         <RecipeViewButtonText>View Recipe</RecipeViewButtonText>
                     </RecipeViewButton>
                 </RecipeButtonArea>
