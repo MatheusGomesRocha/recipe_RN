@@ -8,8 +8,7 @@ import RecipeInfo from './src/screens/RecipeInfo';
 export default () => {
     return(
         <NavigationContainer>
-            {/* <MainStack /> */}
-            <RecipeInfo />
+            <MainStack />
         </NavigationContainer>
     )
 }

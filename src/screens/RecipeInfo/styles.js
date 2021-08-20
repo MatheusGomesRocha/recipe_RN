@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { grayFont, orange, orangeTransparent, white } from '../../globals';
+import { grayFont, grayish, orange, orangeTransparent, white } from '../../globals';
 
 export const RecipeInfoContainer = styled.SafeAreaView`
     flex: 1;
@@ -68,7 +68,7 @@ export const RecipeMoreInfoArea = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin: 30px 30px 0 30px;
+    margin: 20px 30px 0 30px;
 `;
 export const RecipeMoreInfo = styled.View`
     flex-direction: row;
@@ -87,6 +87,34 @@ export const DescriptionArea = styled.View`
 export const DescriptionText = styled.Text`
     color: ${grayFont};
     line-height: 19px;
+`;
+
+/** ------------------------------------------------------- **/
+
+export const IngArea = styled.View``;
+export const IngTitle = styled.Text`
+    font-weight: bold;
+    margin: 20px 0 0 30px;
+    font-size: 16px;
+`;
+export const IngItemArea = styled.View`
+    align-items: center;
+    margin: 0 7px;
+`;
+export const IngItem = styled.View`
+    background-color: ${grayish};
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+`;
+export const IngImg = styled.Image`
+    width: 26px;
+    height: 26px;
+`;
+export const IngName = styled.Text`
+    margin-top: 5px;
 `;
 
 /** ------------------------------------------------------- **/
