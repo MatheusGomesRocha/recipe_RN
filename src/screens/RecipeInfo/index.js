@@ -96,7 +96,7 @@ export default function RecipeInfo () {
         <RecipeInfoContainer>
             <ScrollView>
                 <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#bbb', true)} onPress={() => navigation.goBack()}>
-                    <View style={{position: 'absolute', top: 25, left: 2-00, width: 40, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 20}}>
+                    <View style={{position: 'absolute', top: 25, left: 20, width: 40, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 20}}>
                         <Feather name="arrow-left" color="#000" size={25}/>
                     </View>
                 </TouchableNativeFeedback>

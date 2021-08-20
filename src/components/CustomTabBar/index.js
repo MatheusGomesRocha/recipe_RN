@@ -61,7 +61,7 @@ export default ({ state, navigation, index }) => {          /** Props que vem pa
                 borderColor={state.index === 1 ? orange : 'transparent'} 
                 backgroundColor={state.index === 1 ? orangeTransparent : 'transparent'} 
                 key={index} 
-                onPress={() => goTo('placeholder1')}
+                onPress={() => goTo('placeholder2')}
             >
                 <FontAwesome name="bookmark" color={state.index === 1 ? orange : grayFont} size={25} />
 
@@ -74,7 +74,7 @@ export default ({ state, navigation, index }) => {          /** Props que vem pa
                 borderColor={state.index === 2 ? orange : 'transparent'} 
                 backgroundColor={state.index === 2 ? orangeTransparent : 'transparent'} 
                 key={index} 
-                onPress={() => goTo('placeholder2')}
+                onPress={() => goTo('profile')}
             >
                 <FontAwesome name="user" color={state.index === 2 ? orange : grayFont} size={25} />
 
