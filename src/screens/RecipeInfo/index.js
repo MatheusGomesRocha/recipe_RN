@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Dimensions, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
+import { Dimensions, ScrollView, TouchableNativeFeedback, TouchableWithoutFeedback, View } from 'react-native';
 
 import { WebView } from 'react-native-webview';
+import { useNavigation } from '@react-navigation/native';
 
 import food1 from '../../assets/images/food1.png';
 import imgPlaceholder from '../../assets/images/type1.png';
@@ -10,6 +11,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Feather from 'react-native-vector-icons/Feather';
 
 import { api } from '../../services/api';
 
@@ -69,6 +71,7 @@ export default function RecipeInfo () {
     const [isFavorited, setIsFavorited] = useState(false);
     const [showDescription, setShowDescription] = useState(false);
 
+    const navigation = useNavigation();
     const windowWidth = Dimensions.get('window').width;
 
     useEffect(() => {
@@ -92,6 +95,12 @@ export default function RecipeInfo () {
     return(
         <RecipeInfoContainer>
             <ScrollView>
+                <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#bbb', true)} onPress={() => navigation.goBack()}>
+                    <View style={{position: 'absolute', top: 25, left: 2-00, width: 40, height: 40, alignItems: 'center', justifyContent: 'center', borderRadius: 20}}>
+                        <Feather name="arrow-left" color="#000" size={25}/>
+                    </View>
+                </TouchableNativeFeedback>
+
                 <RecipeInfoArea>
                         <RecipeImg style={{left: windowWidth - 210}} source={food1} />
 
