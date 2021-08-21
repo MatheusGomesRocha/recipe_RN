@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import Feather from 'react-native-vector-icons/Feather';
 
 import {
     VerticalBar,
@@ -12,27 +14,52 @@ import {
     VerticalBarSelectedItemBall,
 } from './styles';
 
-export default function VerticalBar () {
+export default function VerticalBarComponent () {
+    const [itemSelected, setItemSelected] = useState('refrigerator');
+
     return(
         <VerticalBar>
-            <VerticalBarContent style={{ transform: [{ rotate: '90deg'}] }}>
-                <VerticalBarItem>
-                    <VerticalBarItemText>What I Have Refrigerator</VerticalBarItemText>
-                    <VerticalBarSelectedItem>
-                        <VerticalBarSelectedItemBall />
-                    </VerticalBarSelectedItem>
+            <Feather name="menu" color="#000" size={25} />
+            
+            <VerticalBarContent>
+                <VerticalBarItem style={{ transform: [{ rotate: '270deg'}] }} onPress={() => setItemSelected('refrigerator')} >
+                    <VerticalBarItemText bold={itemSelected === 'refrigerator' ? 'bold' : 'normal'} style={{width: 220}}>What i have Refrigerator</VerticalBarItemText>
+                    
+                    {itemSelected === 'refrigerator' ? 
+                        <VerticalBarSelectedItem right={'-60px'}>
+                            <VerticalBarSelectedItemBall />
+                        </VerticalBarSelectedItem>
+                    : undefined}
                 </VerticalBarItem>
 
-                <VerticalBarItem>
-                    <VerticalBarItemText>Snacks</VerticalBarItemText>
+                <VerticalBarItem style={{ transform: [{ rotate: '270deg'}] }} onPress={() => setItemSelected('snack')}>
+                    <VerticalBarItemText bold={itemSelected === 'snack' ? 'bold' : 'normal'}>Snacks</VerticalBarItemText>
+
+                    {itemSelected === 'snack' ? 
+                        <VerticalBarSelectedItem right={'7px'}>
+                            <VerticalBarSelectedItemBall />
+                        </VerticalBarSelectedItem>
+                    : undefined}
                 </VerticalBarItem>
 
-                <VerticalBarItem>
-                    <VerticalBarItemText>Drinks</VerticalBarItemText>
+                <VerticalBarItem style={{ transform: [{ rotate: '270deg'}] }} onPress={() => setItemSelected('drink')}>
+                    <VerticalBarItemText bold={itemSelected === 'drink' ? 'bold' : 'normal'}>Drinks</VerticalBarItemText>
+
+                    {itemSelected === 'drink' ? 
+                        <VerticalBarSelectedItem right={'8px'}>
+                            <VerticalBarSelectedItemBall />
+                        </VerticalBarSelectedItem>
+                    : undefined}
                 </VerticalBarItem>
 
-                <VerticalBarItem>
-                    <VerticalBarItemText>Food</VerticalBarItemText>
+                <VerticalBarItem style={{ transform: [{ rotate: '270deg'}] }} onPress={() => setItemSelected('food')}>
+                    <VerticalBarItemText bold={itemSelected === 'food' ? 'bold' : 'normal'}>Food</VerticalBarItemText>
+
+                    {itemSelected === 'food' ? 
+                        <VerticalBarSelectedItem right={'10px'}>
+                            <VerticalBarSelectedItemBall />
+                        </VerticalBarSelectedItem>
+                    : undefined}
                 </VerticalBarItem>
             </VerticalBarContent>
         </VerticalBar>

@@ -1,7 +1,8 @@
-import React from 'react';
-import { ScrollView, View } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, TouchableNativeFeedback, View } from 'react-native';
 
 import RecipeComponent from '../../components/RecipeComponent';
+import VerticalBar from '../../components/VerticalBar';
 
 import type1 from '../../assets/images/type1.png';
 import type2 from '../../assets/images/type2.png';
@@ -26,18 +27,24 @@ let categoryArray = [
 ];
 
 export default function Home () {
+    const [filter, setFilter] = useState('All');
+
     return(
         <HomeContainer>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <VerticalBar />
+
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
                 <Title>Simple recipy with your <Title style={{color: '#fc6011'}}>fridge's ingredients</Title></Title>
 
                 <View style={{marginTop: 30}}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 25}}>
                         {categoryArray.map((item, k) => (
-                            <CategoryButton key={k}>
-                                <CategoryIcon source={item.icon} />
-                                <CategoryName>{item.name}</CategoryName>
-                            </CategoryButton>
+                            <TouchableNativeFeedback key={k} onPress={() => setFilter(item.name)} background={TouchableNativeFeedback.Ripple('#ccc', false, 55)}>
+                                <CategoryButton backgroundColor={filter === item.name ? '#fc6011' : '#eee'}>
+                                    <CategoryIcon source={item.icon} />
+                                    <CategoryName color={filter === item.name ? '#fff' : '#000'}>{item.name}</CategoryName>
+                                </CategoryButton>
+                            </TouchableNativeFeedback>
                         ))}
                     </ScrollView>
                 </View>

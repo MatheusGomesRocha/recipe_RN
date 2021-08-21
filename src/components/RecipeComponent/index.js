@@ -47,7 +47,7 @@ export default function RecipeComponent () {
         api.get('/recipes')
         .then(res => {
             const data = res.data.recipes;
-            setRecipes({ data });
+            setRecipes({data});
         })
     }, []);
 
@@ -94,6 +94,7 @@ export default function RecipeComponent () {
             <FlatList
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{paddingHorizontal: 20}}
                 data={recipes.data}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}

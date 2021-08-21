@@ -3,13 +3,12 @@ import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import { grayFont, orange, orangeTransparent } from '../../globals';
+import { grayFont, grayish, orange, orangeTransparent } from '../../globals';
 
 import styled from 'styled-components/native';
 
-
 const Container = styled.View`
-    background-color: #fff;
+    background-color: ${grayish};
     flex-direction: row;
     align-items: center;
     justify-content: center;
