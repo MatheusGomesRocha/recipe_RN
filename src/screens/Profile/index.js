@@ -1,5 +1,5 @@
-import React from 'react';
-import { ScrollView, TouchableNativeFeedback } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { ScrollView, TouchableNativeFeedback, Animated } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -27,9 +27,39 @@ import {
     ProfileUploadButton,
     ProfileFollowButton,
     ProfileFollowButtonText,
+
+    FilterArea,
+    FilterButton,
+    FilterButtonText,
 } from './styles';
 
 export default function Profile() {
+    const borderBottomAnimated = useRef(new Animated.Value(0)).current;
+    const [borderBottomValue, setBorderBottomValue] = useState(0);
+
+    const borderToLeft = () => {
+        setBorderBottomValue(0);
+
+        Animated.spring(borderBottomAnimated, {
+          toValue: 0,
+          useNativeDriver: false,
+        }).start();
+      };
+
+    const borderToRight = () => {
+        setBorderBottomValue(1);
+
+        Animated.spring(borderBottomAnimated, {
+            toValue: 1,
+            useNativeDriver: false,
+        }).start();
+    }
+    
+    const borderInterpolated = borderBottomAnimated.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0%', '50%'],
+    })
+
     return(
         <ProfileContainer>
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{padding: 20}}>
@@ -82,6 +112,29 @@ export default function Profile() {
                     </TouchableNativeFeedback> */}
                 </ProfileButtonsArea>
 
+                <FilterArea>
+                    <Animated.View 
+                        style={{
+                            position: 'absolute',
+                            bottom: 0,
+                            height: 2,
+                            width: '50%',
+                            backgroundColor: 'red',
+                            left: borderInterpolated
+                        }}
+                    />
+                    <TouchableNativeFeedback onPress={borderToLeft} background={TouchableNativeFeedback.Ripple('#ccc', false)}>
+                        <FilterButton>
+                            <FilterButtonText color={borderBottomValue === 0 ? 'red' : '#ccc'}>Recipes (503)</FilterButtonText>
+                        </FilterButton>
+                    </TouchableNativeFeedback>
+
+                    <TouchableNativeFeedback onPress={borderToRight} background={TouchableNativeFeedback.Ripple('#ccc', false)}>
+                        <FilterButton>
+                            <FilterButtonText color={borderBottomValue === 1 ? 'red' : '#ccc'}>Reviews</FilterButtonText>
+                        </FilterButton>
+                    </TouchableNativeFeedback>
+                </FilterArea>
             </ScrollView>
         </ProfileContainer>
     )

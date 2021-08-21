@@ -100,3 +100,19 @@ export const ProfileFollowButtonText = styled.Text`
     font-size: 16px;
 `;
 
+/** -------------------------------------------------------- **/
+
+export const FilterArea = styled.View`
+    flex-direction: row;
+    align-items: center;
+    margin-top: 40px;
+`;
+export const FilterButton = styled.View`
+    align-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 52px;
+`;
+export const FilterButtonText = styled.Text`
+    color: ${props=>props.color};
+`;
