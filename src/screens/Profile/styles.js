@@ -116,3 +116,9 @@ export const FilterButton = styled.View`
 export const FilterButtonText = styled.Text`
     color: ${props=>props.color};
 `;
+
+/** -------------------------------------------------------- **/
+
+export const ReviewArea = styled.View`
+    margin-top: 15px;
+`;
