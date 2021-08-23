@@ -33,6 +33,7 @@ export const ReviewInfo = styled.View`
 export const ReviewUserName = styled.Text`
     font-weight: bold;
     font-size: 16px;
+    width: 140px;
 `;
 export const ReviewCommentDate = styled.Text``;
 

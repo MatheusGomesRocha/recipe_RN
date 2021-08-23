@@ -25,7 +25,7 @@ import {
 } from './styles';
 
 let array = [
-    {id: 1, userImg: imgPlaceholder, userName: 'Junioriano', commentDate: '59 minutes ago', commentRate: 4, commentEmoji: '😝', comment: 'Lorem ipsum asdkasmd askd amsam aakmsd aksmmd akakak amsms kamskma akmsa amsakdm askmakm'},
+    {id: 1, userImg: imgPlaceholder, userName: 'Juniorianoadm askmd adm akmdka', commentDate: '59 minutes ago', commentRate: 4, commentEmoji: '😝', comment: 'Lorem ipsum asdkasmd askd amsam aakmsd aksmmd akakaad asd asd a ad asd adsa asd adsad ad ask amsms kamskma akmsa amsakdm askmakm'},
     {id: 2, userImg: imgPlaceholder, userName: 'Junioriano', commentDate: '59 minutes ago', commentRate: 4, commentEmoji: '😝', comment: 'Lorem ipsum asdkasmd askd amsam asdmakmsd aksmmd akakak amsmdmams kamskma akmsa amsakdm askmakm'},
     {id: 3, userImg: imgPlaceholder, userName: 'Junioriano', commentDate: '59 minutes ago', commentRate: 4, commentEmoji: '😝', comment: 'Lorem ipsum asdkasmd askd amsam asdmakmsd aksmmd akakak amsmdmams kamskma akmsa amsakdm askmakm'},
     {id: 4, userImg: imgPlaceholder, userName: 'Junioriano', commentDate: '59 minutes ago', commentRate: 4, commentEmoji: '😝', comment: 'Lorem ipsum asdkasmd askd amsam asdmakmsd aksmmd akakak amsmdmams kamskma akmsa amsakdm askmakm'},
@@ -40,17 +40,17 @@ export default function Review () {
                         <ReviewUserImg source={item.userImg} />
 
                         <ReviewInfo>
-                            <ReviewUserName>{item.userName}</ReviewUserName>
+                            <ReviewUserName numberOfLines={1}>{item.userName}</ReviewUserName>
                             <ReviewCommentDate>{item.commentDate}</ReviewCommentDate>
                         </ReviewInfo>
 
                         <ReviewRatingInfo>
                             <ReviewStars>   
-                                <AntDesign name="star" color="gold" size={15} />
-                                <AntDesign name="star" color="gold" size={15} />
-                                <AntDesign name="star" color="gold" size={15} />
-                                <AntDesign name="staro" color="#000" size={15} />
-                                <AntDesign name="staro" color="#000" size={15} />
+                                <AntDesign name={item.commentRate > 0 ? 'star' : 'staro'} color={item.commentRate > 0 ? '#0125FC' : '#000'} size={15} />
+                                <AntDesign name={item.commentRate > 1 ? 'star' : 'staro'} color={item.commentRate > 1 ? '#0125FC' : '#000'} size={15} />
+                                <AntDesign name={item.commentRate > 2 ? 'star' : 'staro'} color={item.commentRate > 2 ? '#0125FC' : '#000'} size={15} />
+                                <AntDesign name={item.commentRate > 3 ? 'star' : 'staro'} color={item.commentRate > 3 ? '#0125FC' : '#000'} size={15} />
+                                <AntDesign name={item.commentRate > 4 ? 'star' : 'staro'} color={item.commentRate > 4 ? '#0125FC' : '#000'} size={15} />
                             </ReviewStars>
                             
                             <ReviewEmoji>{item.commentEmoji}</ReviewEmoji>
