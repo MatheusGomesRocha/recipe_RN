@@ -118,7 +118,3 @@ export const FilterButtonText = styled.Text`
 `;
 
 /** -------------------------------------------------------- **/
-
-export const ReviewArea = styled.View`
-    margin-top: 15px;
-`;

@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { grayish, white } from '../../globals';
+import { white } from '../../globals';
 
 export const HomeContainer = styled.SafeAreaView`
     flex: 1;

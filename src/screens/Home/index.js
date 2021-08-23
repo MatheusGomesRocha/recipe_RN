@@ -34,13 +34,13 @@ export default function Home () {
             <VerticalBar />
 
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
-                <Title>Simple recipy with your <Title style={{color: '#fc6011'}}>fridge's ingredients</Title></Title>
+                <Title>Simple recipy with your <Title style={{color: '#0125FC'}}>fridge's ingredients</Title></Title>
 
                 <View style={{marginTop: 30}}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 25}}>
                         {categoryArray.map((item, k) => (
                             <TouchableNativeFeedback key={k} onPress={() => setFilter(item.name)} background={TouchableNativeFeedback.Ripple('#ccc', false, 55)}>
-                                <CategoryButton backgroundColor={filter === item.name ? '#fc6011' : '#eee'}>
+                                <CategoryButton backgroundColor={filter === item.name ? '#0125FC' : '#eee'}>
                                     <CategoryIcon source={item.icon} />
                                     <CategoryName color={filter === item.name ? '#fff' : '#000'}>{item.name}</CategoryName>
                                 </CategoryButton>

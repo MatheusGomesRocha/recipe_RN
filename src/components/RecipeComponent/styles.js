@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { blackish, orange, orangeTransparent, white } from '../../globals';
+import { blackish, defaultColor, defaultColorTransparent, white } from '../../globals';
 
 export const RecipeArea = styled.View`
     margin: 50px 0;
@@ -9,7 +9,7 @@ export const RecipeArea = styled.View`
 /** -------------------------------------------- **/
 
 export const RecipeItem = styled.View`
-    background-color: ${orangeTransparent};
+    background-color: ${defaultColorTransparent};
     height: auto;
     border-radius: 20px;
     margin: 0 12px;
@@ -35,10 +35,10 @@ export const CategoryArea = styled.View`
 export const CategoryDivider = styled.View`
     height: 20px;
     width: 2px;
-    background-color: ${orange};
+    background-color: ${defaultColor};
 `;
 export const CategoryText = styled.Text`
-    color: ${orange};
+    color: ${defaultColor};
     margin-left: 10px;
 `;
 
@@ -85,7 +85,7 @@ export const RecipeButtonArea = styled.View`
     margin: auto 20px 20px 20px;
 `;
 export const RecipeSaveButton = styled.View`
-    background-color: ${orange};
+    background-color: ${defaultColor};
     align-items: center;
     justify-content: center;
     width: 52px;
@@ -94,7 +94,7 @@ export const RecipeSaveButton = styled.View`
 `;
 export const RecipeViewButton = styled.TouchableOpacity`
     flex: 1;
-    background-color: ${orange};
+    background-color: ${defaultColor};
     align-items: center;
     justify-content: center;
     height: 52px;

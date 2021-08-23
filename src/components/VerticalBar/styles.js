@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { grayish, orange } from '../../globals';
+import { grayish, defaultColor } from '../../globals';
 
 export const VerticalBar = styled.View`
     background-color: ${grayish};
@@ -45,7 +45,7 @@ export const VerticalBarSelectedItem = styled.View`
     border-radius: 50px;
 `;
 export const VerticalBarSelectedItemBall = styled.View`
-    background-color: ${orange};
+    background-color: ${defaultColor};
     width: 8px;
     height: 8px;
     border-radius: 4px;

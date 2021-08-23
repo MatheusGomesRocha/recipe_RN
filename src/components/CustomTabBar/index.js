@@ -3,7 +3,7 @@ import React from 'react';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-import { grayFont, grayish, orange, orangeTransparent } from '../../globals';
+import { defaultColor, defaultColorTransparent, grayFont, grayish } from '../../globals';
 
 import styled from 'styled-components/native';
 
@@ -30,7 +30,7 @@ const Touch = styled.TouchableOpacity`
 
 const Title = styled.Text`
     margin-left: 7px;
-    color: ${orange};
+    color: ${defaultColor};
 `;
 
 
@@ -44,12 +44,12 @@ export default ({ state, navigation, index }) => {          /** Props que vem pa
     return (
         <Container>
             <Touch 
-                borderColor={state.index === 0 ? orange : 'transparent'} 
-                backgroundColor={state.index === 0 ? orangeTransparent : 'transparent'} 
+                borderColor={state.index === 0 ? defaultColor : 'transparent'} 
+                backgroundColor={state.index === 0 ? defaultColorTransparent : 'transparent'} 
                 key={index} 
                 onPress={() => goTo('home')}
             >
-                <Feather name="grid" color={state.index === 0 ? orange : grayFont} size={25} />
+                <Feather name="grid" color={state.index === 0 ? defaultColor : grayFont} size={25} />
 
                 {state.index === 0 ? 
                     <Title>Home</Title>
@@ -57,12 +57,12 @@ export default ({ state, navigation, index }) => {          /** Props que vem pa
             </Touch>
 
             <Touch 
-                borderColor={state.index === 1 ? orange : 'transparent'} 
-                backgroundColor={state.index === 1 ? orangeTransparent : 'transparent'} 
+                borderColor={state.index === 1 ? defaultColor : 'transparent'} 
+                backgroundColor={state.index === 1 ? defaultColorTransparent : 'transparent'} 
                 key={index} 
                 onPress={() => goTo('placeholder2')}
             >
-                <FontAwesome name="bookmark" color={state.index === 1 ? orange : grayFont} size={25} />
+                <FontAwesome name="bookmark" color={state.index === 1 ? defaultColor : grayFont} size={25} />
 
                 {state.index === 1 ? 
                     <Title>Saved</Title>
@@ -70,12 +70,12 @@ export default ({ state, navigation, index }) => {          /** Props que vem pa
             </Touch>
 
             <Touch 
-                borderColor={state.index === 2 ? orange : 'transparent'} 
-                backgroundColor={state.index === 2 ? orangeTransparent : 'transparent'} 
+                borderColor={state.index === 2 ? defaultColor : 'transparent'} 
+                backgroundColor={state.index === 2 ? defaultColorTransparent : 'transparent'} 
                 key={index} 
                 onPress={() => goTo('profile')}
             >
-                <FontAwesome name="user" color={state.index === 2 ? orange : grayFont} size={25} />
+                <FontAwesome name="user" color={state.index === 2 ? defaultColor : grayFont} size={25} />
 
                 {state.index === 2 ? 
                     <Title>Profile</Title>

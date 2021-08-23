@@ -6,6 +6,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import imgPlaceholder from '../../assets/images/profile.jpg';
 
+import Review from '../../components/Review';
+
 import {
     ProfileContainer,
 
@@ -31,17 +33,15 @@ import {
     FilterArea,
     FilterButton,
     FilterButtonText,
-
-    ReviewArea,
 } from './styles';
 
 
 export default function Profile() {
     const borderBottomAnimated = useRef(new Animated.Value(0)).current;
-    const [borderBottomValue, setBorderBottomValue] = useState(0);
+    const [filterValue, setFilterValue] = useState('recipes');
 
     const borderToLeft = () => {
-        setBorderBottomValue(0);
+        setFilterValue('recipes');
 
         Animated.spring(borderBottomAnimated, {
           toValue: 0,
@@ -50,7 +50,7 @@ export default function Profile() {
       };
 
     const borderToRight = () => {
-        setBorderBottomValue(1);
+        setFilterValue('reviews');
 
         Animated.spring(borderBottomAnimated, {
             toValue: 1,
@@ -104,7 +104,7 @@ export default function Profile() {
 
                     <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#ccc', false, 35)}>
                         <ProfileUploadButton>
-                            <Feather name="upload-cloud" size={25} color="#fc6011" />
+                            <Feather name="upload-cloud" size={25} color="#0125FC" />
                         </ProfileUploadButton>
                     </TouchableNativeFeedback>
 
@@ -122,26 +122,24 @@ export default function Profile() {
                             bottom: 0,
                             height: 2,
                             width: '50%',
-                            backgroundColor: '#fc6011',
+                            backgroundColor: '#0125FC',
                             left: borderInterpolated
                         }}
                     />
                     <TouchableNativeFeedback onPress={borderToLeft} background={TouchableNativeFeedback.Ripple('#ccc', false)}>
                         <FilterButton>
-                            <FilterButtonText color={borderBottomValue === 0 ? '#fc6011' : '#ccc'}>Recipes (503)</FilterButtonText>
+                            <FilterButtonText color={filterValue === 'recipes' ? '#0125FC' : '#666'}>Recipes (503)</FilterButtonText>
                         </FilterButton>
                     </TouchableNativeFeedback>
 
                     <TouchableNativeFeedback onPress={borderToRight} background={TouchableNativeFeedback.Ripple('#ccc', false)}>
                         <FilterButton>
-                            <FilterButtonText color={borderBottomValue === 1 ? '#fc6011' : '#ccc'}>Reviews</FilterButtonText>
+                            <FilterButtonText color={filterValue === 'reviews' ? '#0125FC' : '#666'}>Reviews</FilterButtonText>
                         </FilterButton>
                     </TouchableNativeFeedback>
                 </FilterArea>
 
-                <ReviewArea>
-                    <ReviewItem />
-                </ReviewArea>
+                {filterValue === 'recipes' ? undefined : <Review />}
             </ScrollView>
         </ProfileContainer>
     )

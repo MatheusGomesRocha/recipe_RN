@@ -1,9 +1,9 @@
 import styled from 'styled-components/native';
-import { grayFont, grayish, orange, orangeTransparent, white } from '../../globals';
+import { grayFont, grayish, defaultColor, defaultColorTransparent, white } from '../../globals';
 
 export const RecipeInfoContainer = styled.SafeAreaView`
     flex: 1;
-    background-color: ${orangeTransparent};
+    background-color: ${defaultColorTransparent};
 `;
 
 /** ------------------------------------------------------- **/
@@ -44,12 +44,12 @@ export const CategoryArea = styled.View`
     margin: 80px 0 0 30px;
 `;
 export const CategoryDivider = styled.View`
-    background-color: ${orange};
+    background-color: ${defaultColor};
     width: 2px;
     height: 20px;
 `;
 export const CategoryText = styled.Text`
-    color: ${orange};
+    color: ${defaultColor};
     margin-left: 10px;
     font-size: 16px;
 `;
