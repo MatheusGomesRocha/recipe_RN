@@ -2,12 +2,12 @@ import styled from 'styled-components/native';
 import { grayish } from '../../globals';
 
 export const ReviewArea = styled.View`
-    margin-top: 20px;
+    padding: 0 20px 20px 20px;
 `;
 export const ReviewItem = styled.View`
     background-color: ${grayish};
     border-radius: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
     padding: 20px;
 `;
 

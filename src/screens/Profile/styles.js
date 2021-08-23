@@ -8,7 +8,6 @@ export const ProfileContainer = styled.SafeAreaView`
 
 /** -------------------------------------------------------- **/
 
-
 export const HeaderButton = styled.View`
     align-self: flex-end;
     align-items: center;
@@ -16,13 +15,13 @@ export const HeaderButton = styled.View`
     height: 52px;
     width: 52px;
     border-radius: 26px;
+    margin: 10px 20px;
 `;
 
 /** -------------------------------------------------------- **/
 
 export const UserInfoArea = styled.View`
     align-items: center;
-    margin-top: 20px;
 `;
 export const UserImg = styled.Image`
     width: 110px;
@@ -46,6 +45,7 @@ export const ProfileInfoArea = styled.View`
     align-items: center;
     justify-content: space-between;
     margin-top: 30px;
+    padding: 0 20px;
 `;
 export const ProfileInfoItem = styled.View`
     background-color: ${grayish};
@@ -54,6 +54,7 @@ export const ProfileInfoItem = styled.View`
     height: 110px;
     width: 28%;
     border-radius: 10px;
+    padding: 0 20px;
 `;
 export const ProfileInfoTitle = styled.Text`
     font-weight: bold;
@@ -66,6 +67,7 @@ export const ProfileInfoText = styled.Text``;
 export const ProfileButtonsArea = styled.View`
     flex-direction: ${props=>props.flexDirection};
     margin-top: 20px;
+    padding: 0 20px;
 `;
 export const ProfileEditButton = styled.View`
     flex: 1;
@@ -105,7 +107,7 @@ export const ProfileFollowButtonText = styled.Text`
 export const FilterArea = styled.View`
     flex-direction: row;
     align-items: center;
-    margin-top: 40px;
+    margin: 20px 20px 0 20px;
 `;
 export const FilterButton = styled.View`
     align-items: center;

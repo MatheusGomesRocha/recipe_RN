@@ -1,12 +1,14 @@
 import React, { useRef, useState } from 'react';
-import { ScrollView, TouchableNativeFeedback, Animated } from 'react-native';
+import { ScrollView, TouchableNativeFeedback, Animated, FlatList, View } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import imgPlaceholder from '../../assets/images/profile.jpg';
+import food1 from '../../assets/images/food1.png';
 
 import Review from '../../components/Review';
+import UserRecipes from '../../components/UserRecipes';
 
 import {
     ProfileContainer,
@@ -34,7 +36,6 @@ import {
     FilterButton,
     FilterButtonText,
 } from './styles';
-
 
 export default function Profile() {
     const borderBottomAnimated = useRef(new Animated.Value(0)).current;
@@ -65,7 +66,7 @@ export default function Profile() {
 
     return(
         <ProfileContainer>
-            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{padding: 20}}>
+            <ScrollView>
                 <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#ccc', true)}>
                     <HeaderButton onPress={() => console.log('olá mundo')}>
                         <Ionicons name="notifications" color="#000" size={25} />
@@ -139,7 +140,7 @@ export default function Profile() {
                     </TouchableNativeFeedback>
                 </FilterArea>
 
-                {filterValue === 'recipes' ? undefined : <Review />}
+                {filterValue === 'recipes' ? <UserRecipes /> : <Review />}
             </ScrollView>
         </ProfileContainer>
     )
