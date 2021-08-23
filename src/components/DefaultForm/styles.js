@@ -93,7 +93,7 @@ export const ForgotPasswordText = styled.Text`
 
 /** ----------------------------------------------------- **/
 
-export const SubmitButton = styled.TouchableHighlight`
+export const SubmitButton = styled.TouchableOpacity`
     background-color: ${defaultColor};
     align-items: center;
     justify-content: center;

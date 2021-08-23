@@ -1,14 +1,15 @@
 import React, { useRef, useState } from 'react';
-import { ScrollView, TouchableNativeFeedback, Animated, FlatList, View } from 'react-native';
+import { ScrollView, TouchableNativeFeedback, Animated } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import imgPlaceholder from '../../assets/images/profile.jpg';
-import food1 from '../../assets/images/food1.png';
 
 import Review from '../../components/Review';
 import UserRecipes from '../../components/UserRecipes';
+
+import { defaultColor } from '../../globals';
 
 import {
     ProfileContainer,
@@ -105,7 +106,7 @@ export default function Profile() {
 
                     <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#ccc', false, 35)}>
                         <ProfileUploadButton>
-                            <Feather name="upload-cloud" size={25} color="#0125FC" />
+                            <Feather name="upload-cloud" size={25} color={defaultColor} />
                         </ProfileUploadButton>
                     </TouchableNativeFeedback>
 
@@ -123,19 +124,19 @@ export default function Profile() {
                             bottom: 0,
                             height: 2,
                             width: '50%',
-                            backgroundColor: '#0125FC',
+                            backgroundColor: defaultColor,
                             left: borderInterpolated
                         }}
                     />
                     <TouchableNativeFeedback onPress={borderToLeft} background={TouchableNativeFeedback.Ripple('#ccc', false)}>
                         <FilterButton>
-                            <FilterButtonText color={filterValue === 'recipes' ? '#0125FC' : '#666'}>Recipes (503)</FilterButtonText>
+                            <FilterButtonText color={filterValue === 'recipes' ? defaultColor : '#666'}>Recipes (503)</FilterButtonText>
                         </FilterButton>
                     </TouchableNativeFeedback>
 
                     <TouchableNativeFeedback onPress={borderToRight} background={TouchableNativeFeedback.Ripple('#ccc', false)}>
                         <FilterButton>
-                            <FilterButtonText color={filterValue === 'reviews' ? '#0125FC' : '#666'}>Reviews</FilterButtonText>
+                            <FilterButtonText color={filterValue === 'reviews' ? defaultColor : '#666'}>Reviews</FilterButtonText>
                         </FilterButton>
                     </TouchableNativeFeedback>
                 </FilterArea>

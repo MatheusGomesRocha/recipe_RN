@@ -147,19 +147,19 @@ export default ({ screen }) => {
 
             <InputArea>
                 {screen === 'signUp' ? 
-                    <InputDiv borderColor={hasValidName ? '#0125FC' : '#aaa'}>
-                        <Feather name='user' size={22} color={hasValidName ? '#0125FC' : '#aaa'} />
+                    <InputDiv borderColor={hasValidName ? '#D7263D' : '#aaa'}>
+                        <Feather name='user' size={22} color={hasValidName ? '#D7263D' : '#aaa'} />
                         <Input onBlur={nameValidation} value={nameValue} onChangeText={v => setNameValue(v)} placeholder="Name" placeholderTextColor="#aaa"  />
                     </InputDiv>
                 : undefined}
 
-                <InputDiv borderColor={hasValidEmail ? '#0125FC' : '#aaa'}>
-                    <Fontisto name="email" size={22} color={hasValidEmail ? '#0125FC' : '#aaa'} />
+                <InputDiv borderColor={hasValidEmail ? '#D7263D' : '#aaa'}>
+                    <Fontisto name="email" size={22} color={hasValidEmail ? '#D7263D' : '#aaa'} />
                     <Input onBlur={emailValidation} value={emailValue} keyboardType='email-address' onChangeText={v => setEmailValue(v)} placeholder="Email" placeholderTextColor="#aaa"  />
                 </InputDiv>
 
-                <InputDiv borderColor={hasValidPassword ? '#0125FC' : '#aaa'}>
-                    <Feather name="lock" size={22} color={hasValidPassword ? '#0125FC' : '#aaa'} />
+                <InputDiv borderColor={hasValidPassword ? '#D7263D' : '#aaa'}>
+                    <Feather name="lock" size={22} color={hasValidPassword ? '#D7263D' : '#aaa'} />
                     <Input onBlur={passwordValidation} value={passwordValue} onChangeText={v => setPasswordValue(v)} secureTextEntry={!showPassword} placeholder="Password" placeholderTextColor="#aaa"  />
 
                     <TouchableWithoutFeedback onPress={() => setShowPassword(!showPassword)}>
@@ -172,8 +172,8 @@ export default ({ screen }) => {
                 </InputDiv>
                 
                 {screen === 'signUp' ? 
-                    <InputDiv borderColor={hasValidPassword ? '#0125FC' : '#aaa'}>
-                        <Feather name="lock" size={22} color={hasValidPassword ? '#0125FC' : '#aaa'} />
+                    <InputDiv borderColor={hasValidPassword ? '#D7263D' : '#aaa'}>
+                        <Feather name="lock" size={22} color={hasValidPassword ? '#D7263D' : '#aaa'} />
                         <Input onBlur={passwordValidation} value={confirmPasswordValue} onChangeText={v => setConfirmPasswordValue(v)} secureTextEntry={!showConfirmPassword} placeholder="Confirm your password" placeholderTextColor="#aaa"  />
 
                         <TouchableWithoutFeedback onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
@@ -193,7 +193,7 @@ export default ({ screen }) => {
                 </ForgotPasswordButton>
             }
 
-            <SubmitButton onPress={submitForm} underlayColor="rgba(0, 0, 0, 0.1)">
+            <SubmitButton onPress={submitForm}>
                 <SubmitButtonText>{screen === 'signUp' ? 'Sign Up' : 'Login'}</SubmitButtonText>
             </SubmitButton>
 

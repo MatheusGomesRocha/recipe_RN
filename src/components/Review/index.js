@@ -3,6 +3,7 @@ import React from 'react';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import imgPlaceholder from '../../assets/images/profile.jpg';
+import { defaultColor } from '../../globals';
 
 import {
     ReviewArea,
@@ -46,11 +47,11 @@ export default function Review () {
 
                         <ReviewRatingInfo>
                             <ReviewStars>   
-                                <AntDesign name={item.commentRate > 0 ? 'star' : 'staro'} color={item.commentRate > 0 ? '#0125FC' : '#000'} size={15} />
-                                <AntDesign name={item.commentRate > 1 ? 'star' : 'staro'} color={item.commentRate > 1 ? '#0125FC' : '#000'} size={15} />
-                                <AntDesign name={item.commentRate > 2 ? 'star' : 'staro'} color={item.commentRate > 2 ? '#0125FC' : '#000'} size={15} />
-                                <AntDesign name={item.commentRate > 3 ? 'star' : 'staro'} color={item.commentRate > 3 ? '#0125FC' : '#000'} size={15} />
-                                <AntDesign name={item.commentRate > 4 ? 'star' : 'staro'} color={item.commentRate > 4 ? '#0125FC' : '#000'} size={15} />
+                                <AntDesign name={item.commentRate > 0 ? 'star' : 'staro'} color={item.commentRate > 0 ? defaultColor : '#000'} size={15} />
+                                <AntDesign name={item.commentRate > 1 ? 'star' : 'staro'} color={item.commentRate > 1 ? defaultColor : '#000'} size={15} />
+                                <AntDesign name={item.commentRate > 2 ? 'star' : 'staro'} color={item.commentRate > 2 ? defaultColor : '#000'} size={15} />
+                                <AntDesign name={item.commentRate > 3 ? 'star' : 'staro'} color={item.commentRate > 3 ? defaultColor : '#000'} size={15} />
+                                <AntDesign name={item.commentRate > 4 ? 'star' : 'staro'} color={item.commentRate > 4 ? defaultColor : '#000'} size={15} />
                             </ReviewStars>
                             
                             <ReviewEmoji>{item.commentEmoji}</ReviewEmoji>

@@ -45,7 +45,7 @@ export default function UserRecipes() {
             <ScrollView contentContainerStyle={{paddingHorizontal: 20}} horizontal={true} showsHorizontalScrollIndicator={false}>
                 <FilterRecipeArea>
                     {arrayFilter.map((item, k) => (
-                        <FilterRecipeItem backgroundColor={filterRecipeValue === item.title ? '#0125FC' : '#eee'} onPress={() => setFilterRecipeValue(item.title)} key={k}>
+                        <FilterRecipeItem backgroundColor={filterRecipeValue === item.title ? '#D7263D' : '#eee'} onPress={() => setFilterRecipeValue(item.title)} key={k}>
                             <FilterRecipeText color={filterRecipeValue === item.title ? '#fff' : '#666'}>{item.title}</FilterRecipeText>
                         </FilterRecipeItem>
                     ))}
