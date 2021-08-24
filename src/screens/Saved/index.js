@@ -1,5 +1,7 @@
 import React from 'react';
 
+import SmallerRecipe from '../../components/SmallerRecipeComponent';
+
 import {
     SavedContainer
 } from './styles';
@@ -7,7 +9,8 @@ import {
 export default function Saved() {
     return(
         <SavedContainer>
-            
+
+            <SmallerRecipe />
         </SavedContainer>
     )
 }
