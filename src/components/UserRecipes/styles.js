@@ -22,7 +22,7 @@ export const FilterRecipeItem = styled.TouchableOpacity`
     margin-right: 10px;
 `;
 export const FilterRecipeText = styled.Text`
-    color: ${props=>props.color}
+    color: ${props=>props.color};
 `;
 
 /** ------------------------------------------------- **/
@@ -34,6 +34,10 @@ export const RecipeItem = styled.View`
     height: 250px;
     margin: 30px 10px;
     padding: 0 20px;
+`;
+export const RecipeHeader = styled.View`
+    flex-direction: row;
+    align-items: center;
 `;
 export const RecipeImg = styled.Image`
     width: 120px;

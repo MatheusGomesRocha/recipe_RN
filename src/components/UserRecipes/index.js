@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, TouchableWithoutFeedback } from 'react-native';
+
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import food1 from '../../assets/images/food1.png';
 
@@ -11,6 +13,7 @@ import {
     FilterRecipeText,
 
     RecipeItem,
+    RecipeHeader,
     RecipeImg,
     RecipeCategory,
     RecipeCategoryMarkdown,
@@ -55,7 +58,11 @@ export default function UserRecipes() {
             <ScrollView contentContainerStyle={{paddingHorizontal: 10}} showsHorizontalScrollIndicator={false} horizontal={true}>
                 {array.map((item, k) => (
                     <RecipeItem key={k}>
-                        <RecipeImg source={item.img} />
+                        <RecipeHeader>
+                            <AntDesign name="pluscircleo" color="#D7263D" size={20} />
+                            <RecipeImg source={item.img} />
+                        </RecipeHeader>
+
 
                         <RecipeCategory>
                             <RecipeCategoryMarkdown />
