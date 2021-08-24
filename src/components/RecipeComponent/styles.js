@@ -3,16 +3,14 @@ import { blackish, defaultColor, defaultColorTransparent, white } from '../../gl
 
 export const RecipeArea = styled.View`
     margin: 50px 0;
-    width: 100%;
 `;
 
 /** -------------------------------------------- **/
 
 export const RecipeItem = styled.View`
     background-color: ${defaultColorTransparent};
-    height: auto;
-    border-radius: 20px;
-    margin: 0 12px;
+    border-radius: 15px;
+    margin: 0 10px 0 5px;
 `;
 
 /** ------------------------------------------------------- */
@@ -22,7 +20,6 @@ export const RecipeImg = styled.Image`
     height: 200px;
     right: -100px;
     top: -60px;
-    z-index: 999;
 `;
 
 /** ------------------------------------------------------- */

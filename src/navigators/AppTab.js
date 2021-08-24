@@ -4,8 +4,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import CustomTabBar from '../components/CustomTabBar';
 
 import HomeScreen from '../screens/Home';
+import SavedScreen from '../screens/Saved';
 import ProfileScreen from '../screens/Profile';
-import Placeholder2 from '../screens/SignUp';
 
 const AppTab = createBottomTabNavigator();
 
@@ -18,7 +18,7 @@ export default () => {
             }}
         >
             <AppTab.Screen name="home" component={HomeScreen} options={{title: null, headerTransparent: true}}/>
-            <AppTab.Screen name="placeholder2" component={Placeholder2} options={{title: null, headerTransparent: true}}/>
+            <AppTab.Screen name="saved" component={SavedScreen} options={{title: null, headerTransparent: true}}/>
             <AppTab.Screen name="profile" component={ProfileScreen} options={{title: null, headerTransparent: true}}/>
         </AppTab.Navigator>
     )

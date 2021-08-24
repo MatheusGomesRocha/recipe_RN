@@ -60,7 +60,7 @@ export default ({ state, navigation, index }) => {          /** Props que vem pa
                 borderColor={state.index === 1 ? defaultColor : 'transparent'} 
                 backgroundColor={state.index === 1 ? defaultColorTransparent : 'transparent'} 
                 key={index} 
-                onPress={() => goTo('placeholder2')}
+                onPress={() => goTo('saved')}
             >
                 <FontAwesome name="bookmark" color={state.index === 1 ? defaultColor : grayFont} size={25} />
 
