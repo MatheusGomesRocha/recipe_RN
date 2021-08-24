@@ -47,6 +47,7 @@ export default function RecipeComponent () {
         api.get('/recipes')
         .then(res => {
             const data = res.data.recipes;
+            console.log('olá mundo');
             setRecipes({data});
         })
     }, []);

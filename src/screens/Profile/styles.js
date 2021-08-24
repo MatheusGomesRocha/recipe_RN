@@ -52,7 +52,7 @@ export const ProfileInfoItem = styled.View`
     align-items: center;
     justify-content: center;
     height: 110px;
-    width: 28%;
+    width: 30%;
     border-radius: 10px;
     padding: 0 20px;
 `;
