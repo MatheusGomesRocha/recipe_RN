@@ -15,7 +15,7 @@ export const RecipeItem = styled.View`
 
 /** ------------------------------------------------------- */
 
-export const RecipeImg = styled.Image`
+export const ItemImg = styled.Image`
     width: 200px;
     height: 200px;
     right: -100px;
@@ -24,24 +24,24 @@ export const RecipeImg = styled.Image`
 
 /** ------------------------------------------------------- */
 
-export const CategoryArea = styled.View`
+export const ItemCategoryArea = styled.View`
     flex-direction: row;
     align-items: center;
     margin: -60px 20px 0 20px;
 `;
-export const CategoryDivider = styled.View`
+export const ItemCategoryMarkdown = styled.View`
     height: 20px;
     width: 2px;
     background-color: ${defaultColor};
 `;
-export const CategoryText = styled.Text`
+export const ItemCategoryText = styled.Text`
     color: ${defaultColor};
     margin-left: 10px;
 `;
 
 /** ------------------------------------------------------- */
 
-export const RecipeName = styled.Text`
+export const ItemName = styled.Text`
     font-size: 30px;
     font-weight: bold;
     margin: 20px 20px 0 20px;
@@ -49,7 +49,7 @@ export const RecipeName = styled.Text`
 
 /** ------------------------------------------------------- */
 
-export const RecipeDescription = styled.Text`
+export const ItemDescription = styled.Text`
     color: ${blackish};
     margin: 20px 20px 0 20px;
     font-size: 16px;
@@ -57,31 +57,31 @@ export const RecipeDescription = styled.Text`
 
 /** ------------------------------------------------------- */
 
-export const RecipeMoreInfoArea = styled.View`
+export const ItemMoreInfoArea = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     padding: 0 20px;
     margin: 20px 0;
 `;
-export const RecipeMoreInfo = styled.View`
+export const ItemMoreInfo = styled.View`
     flex-direction: row;
     align-items: center;
 `;
-export const RecipeMoreInfoText = styled.Text`
+export const ItemMoreInfoText = styled.Text`
     margin-left: 7px;
     font-size: 16px;
 `;
 
 /** ------------------------------------------------------- */
 
-export const RecipeButtonArea = styled.View`
+export const ItemButtonArea = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     margin: auto 20px 20px 20px;
 `;
-export const RecipeSaveButton = styled.View`
+export const ItemSaveButton = styled.View`
     background-color: ${defaultColor};
     align-items: center;
     justify-content: center;
@@ -89,7 +89,7 @@ export const RecipeSaveButton = styled.View`
     height: 52px;
     border-radius: 10px;
 `;
-export const RecipeViewButton = styled.TouchableOpacity`
+export const ItemViewButton = styled.TouchableOpacity`
     flex: 1;
     background-color: ${defaultColor};
     align-items: center;
@@ -98,7 +98,7 @@ export const RecipeViewButton = styled.TouchableOpacity`
     border-radius: 10px;
     margin-left: 15px;
 `;
-export const RecipeViewButtonText = styled.Text`
+export const ItemViewButtonText = styled.Text`
     color: ${white};
     font-size: 16px;
 `;

@@ -15,24 +15,24 @@ import {
     
     RecipeItem,
 
-    RecipeImg,
+    ItemImg,
 
-    CategoryArea,
-    CategoryDivider,
-    CategoryText,
+    ItemCategoryArea,
+    ItemCategoryMarkdown,
+    ItemCategoryText,
 
-    RecipeName,
+    ItemName,
 
-    RecipeDescription,
+    ItemDescription,
 
-    RecipeMoreInfoArea,
-    RecipeMoreInfo,
-    RecipeMoreInfoText,
+    ItemMoreInfoArea,
+    ItemMoreInfo,
+    ItemMoreInfoText,
 
-    RecipeButtonArea,
-    RecipeSaveButton,
-    RecipeViewButton,
-    RecipeViewButtonText,
+    ItemButtonArea,
+    ItemSaveButton,
+    ItemViewButton,
+    ItemViewButtonText,
 } from './styles';
 
 
@@ -47,44 +47,44 @@ export default function RecipeComponent () {
         api.get('/recipes')
         .then(res => {
             const data = res.data.recipes;
-            setRecipes({data});
+            setRecipes(data);
         })
     }, []);
 
     const renderItem = ({item}) => {
         return(
             <RecipeItem style={{width: windowWidth - 120}}>
-                <RecipeImg resizeMode='center' source={food1} />
-                <CategoryArea>
-                    <CategoryDivider />
-                    <CategoryText>{item.category}</CategoryText>
-                </CategoryArea>
+                <ItemImg resizeMode='center' source={food1} />
+                <ItemCategoryArea>
+                    <ItemCategoryMarkdown />
+                    <ItemCategoryText>{item.category}</ItemCategoryText>
+                </ItemCategoryArea>
 
-                <RecipeName>{item.name}</RecipeName>
+                <ItemName>{item.name}</ItemName>
 
-                <RecipeDescription>{item.description}</RecipeDescription>
+                <ItemDescription>{item.description}</ItemDescription>
 
-                <RecipeMoreInfoArea>
-                    <RecipeMoreInfo>
+                <ItemMoreInfoArea>
+                    <ItemMoreInfo>
                         <Ionicons name="bonfire-outline" color="#000" size={25} />
-                        <RecipeMoreInfoText>{item.cookTime.toString()} min</RecipeMoreInfoText>
-                    </RecipeMoreInfo>
+                        <ItemMoreInfoText>{item.cookTime.toString()} min</ItemMoreInfoText>
+                    </ItemMoreInfo>
 
-                    <RecipeMoreInfo>
+                    <ItemMoreInfo>
                         <MaterialIcons name="kitchen" color="#000" size={25} />
-                        <RecipeMoreInfoText>{item.ingQuantity.toString()} ing</RecipeMoreInfoText>
-                    </RecipeMoreInfo>
-                </RecipeMoreInfoArea>
+                        <ItemMoreInfoText>{item.ingQuantity.toString()} ing</ItemMoreInfoText>
+                    </ItemMoreInfo>
+                </ItemMoreInfoArea>
 
-                <RecipeButtonArea>
-                    <RecipeSaveButton>
+                <ItemButtonArea>
+                    <ItemSaveButton>
                         <AntDesign name="pluscircleo" color="#fff" size={25} />
-                    </RecipeSaveButton>
+                    </ItemSaveButton>
 
-                    <RecipeViewButton onPress={() => navigation.navigate('recipe__info', {recipeId: item.id})}>
-                        <RecipeViewButtonText>View Recipe</RecipeViewButtonText>
-                    </RecipeViewButton>
-                </RecipeButtonArea>
+                    <ItemViewButton onPress={() => navigation.navigate('recipe__info', {recipeId: item.id})}>
+                        <ItemViewButtonText>View Recipe</ItemViewButtonText>
+                    </ItemViewButton>
+                </ItemButtonArea>
             </RecipeItem>
         )
     }
@@ -95,7 +95,7 @@ export default function RecipeComponent () {
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{paddingHorizontal: 20}}
-                data={recipes.data}
+                data={recipes}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />
