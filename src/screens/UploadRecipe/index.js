@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableNativeFeedback, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import Feather from 'react-native-vector-icons/Feather';
 
-import { defaultColor, black } from '../../globals';
+import { defaultColor, black, grayish, red, grayFont } from '../../globals';
 
 import {
     UploadRecipeContainer,
@@ -23,6 +23,8 @@ import {
     Input,
     FilterItem,
     FilterItemText,
+    SubmitButton,
+    SubmitButtonText
 } from './styles';
 
 let array = [
@@ -35,7 +37,48 @@ let array = [
 
 export default function UploadRecipe () {
     const [filter, setFilter] = useState('');
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [cookTime, setCookTime] = useState(0);
+    const [calories, setCalories] = useState(0);
+    const [cuisine, setCuisine] = useState('');
+    const [subIng, setSubIng] = useState('');
+
+    const [forgotName, setForgotName] = useState(false);
+    const [forgotDescription, setForgotDescription] = useState(false);
+    const [forgotCookTime, setForgotCookTime] = useState(false);
+    const [forgotCalories, setForgotCalories] = useState(false);
+    const [forgotCuisine, setForgotCuisine] = useState(false);
+    const [forgotSubIng, setForgotSubIng] = useState(false);
+
     const navigation = useNavigation();
+
+    function submitData () {
+        if(name === '') {
+            setForgotName(true);
+        } if (description === '') {
+            setForgotDescription(true);
+        } if (cookTime === 0) {
+            setForgotCookTime(true);
+        } if (calories === 0) {
+            setForgotCalories(true);
+        } if (cuisine === '') {
+            setForgotCuisine(true);
+        } if (subIng === '') {
+            setForgotSubIng(true);
+        }
+    }
+
+    useEffect(() => {
+        setTimeout(() => {
+            setForgotName(false);
+            setForgotDescription(false);
+            setForgotCookTime(false);
+            setForgotCalories(false);
+            setForgotCuisine(false);
+            setForgotSubIng(false);
+        }, 5000)
+    }, [submitData])
 
     return(
         <UploadRecipeContainer>
@@ -58,27 +101,27 @@ export default function UploadRecipe () {
 
                 <FormArea>
                     <InputArea>
-                        <Label>Name</Label>
-                        <Input />
+                        <Label color={forgotName ? red : grayFont}>Name</Label>
+                        <Input borderColor={forgotName ? red : 'transparent'} value={name} onChangeText={v => setName(v)} />
                     </InputArea>
 
                     <InputArea>
-                        <Label>Description</Label>
-                        <Input />
+                        <Label color={forgotDescription ? red : grayFont}>Description</Label>
+                        <Input borderColor={forgotDescription ? red : 'transparent'} value={description} onChangeText={v => setDescription(v)} />
                     </InputArea>
 
                     <InputArea>
-                        <Label>Time to cook (min)</Label>
-                        <Input keyboardType="numeric" />
+                        <Label color={forgotCookTime ? red : grayFont}>Time to cook (min)</Label>
+                        <Input borderColor={forgotCookTime ? red : 'transparent'} onChangeText={v => setCookTime(v)} keyboardType="numeric" />
                     </InputArea>
 
                     <InputArea>
-                        <Label>Calories</Label>
-                        <Input keyboardType="numeric" />
+                        <Label color={forgotCalories ? red : grayFont}>Calories</Label>
+                        <Input borderColor={forgotCalories ? red : 'transparent'} onChangeText={v => setCalories(v)} keyboardType="numeric" />
                     </InputArea>
 
                     <InputArea>
-                        <Label>Select cuisine</Label>
+                        <Label color={forgotCuisine ? red : grayFont}>Select cuisine</Label>
                         <ScrollView contentContainerStyle={{paddingHorizontal: 15, marginTop: 10}} horizontal={true} showsHorizontalScrollIndicator={false}>
                             {array.map((item, k) => (
                                 <FilterItem onPress={() => setFilter(item.title)} borderColor={filter === item.title ? defaultColor : 'transparent'} key={k}>
@@ -87,6 +130,18 @@ export default function UploadRecipe () {
                             ))}
                         </ScrollView>
                     </InputArea>
+
+                    <InputArea>
+                        <Label color={forgotSubIng ? red : grayFont}>Sub Ingredients</Label>
+                        <Input borderColor={forgotSubIng ? red : 'transparent'} value={subIng} onChangeText={v => setSubIng(v)} />
+
+                        <ScrollView contentContainerStyle={{paddingHorizontal: 15, marginTop: 10}} horizontal={true} showsHorizontalScrollIndicator={false}>
+                        </ScrollView>
+                    </InputArea>
+
+                    <SubmitButton onPress={submitData}>
+                        <SubmitButtonText>Upload recipe</SubmitButtonText>
+                    </SubmitButton>
                 </FormArea>
             </ScrollView>
         </UploadRecipeContainer>
