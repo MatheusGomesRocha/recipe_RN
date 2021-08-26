@@ -59,6 +59,9 @@ let array = [
     {id: 6, img: imgPlaceholder, name: 'apple'},
 ];
 
+// Fake DATA to use when the Database is off
+// {id: 1, name: 'Hot Sausage W/ Cheese And Milk', category: 'Chinese', description: 'Lorem ispum aksmd owodoia samda qqsdak mapodkqoa s aa mmammsa', cookTime: 50, ingQuantity: 12},
+
 export default function RecipeInfo () {
     const [recipe, setRecipe] = useState({
         id: 0,

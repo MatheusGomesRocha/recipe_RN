@@ -10,6 +10,12 @@ export default function FoodManager() {
     return(
         <FoodManagerContainer>
             <Header title='Food Manager' />
+
+            <FoodManagerArea>
+                <FoodManagerInfo>
+                    
+                </FoodManagerInfo>
+            </FoodManagerArea>
         </FoodManagerContainer>
     )
 }
