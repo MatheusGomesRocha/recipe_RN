@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableNativeFeedback, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { ScrollView } from 'react-native';
 
 import Feather from 'react-native-vector-icons/Feather';
 
-import { defaultColor, black, grayish, red, grayFont } from '../../globals';
+import Header from '../../components/Header';
+
+import { defaultColor, black, red, grayFont } from '../../globals';
 
 import {
     UploadRecipeContainer,
-
-    Header,
-    GoBackButton,
-    Title,
 
     UploadImageArea,
     UploadImageTitle,
@@ -51,7 +48,6 @@ export default function UploadRecipe () {
     const [forgotCuisine, setForgotCuisine] = useState(false);
     const [forgotSubIng, setForgotSubIng] = useState(false);
 
-    const navigation = useNavigation();
 
     function submitData () {
         if(name === '') {
@@ -83,15 +79,7 @@ export default function UploadRecipe () {
     return(
         <UploadRecipeContainer>
             <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
-                <Header>
-                    <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#bbb', true)} onPress={() => navigation.goBack()}>
-                        <GoBackButton>
-                            <Feather name="arrow-left" color="#000" size={25}/>
-                        </GoBackButton>
-                    </TouchableNativeFeedback>
-
-                    <Title>Upload new recipe</Title>
-                </Header>
+                <Header title='Upload new recipe' />
 
                 <UploadImageArea>
                     <Feather name="upload-cloud" size={65} color={defaultColor} />
