@@ -42,8 +42,8 @@ export const RecipeHeader = styled.View`
 export const RecipeImg = styled.Image`
     width: 120px;
     height: 120px;
-    top: -15px;
-    right: -115px;
+    top: -5px;
+    right: -100px;
 `;
 export const RecipeCategory = styled.View`
     flex-direction: row;
