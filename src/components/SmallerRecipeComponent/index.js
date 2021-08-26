@@ -33,7 +33,7 @@ import {
     ItemFooterDefaultText
 } from './styles';
 
-export default function SmallerRecipe() {
+export default function SmallerRecipe({children}) {
     const [recipes, setRecipes] = useState({});
 
     useEffect(() => {
@@ -90,6 +90,8 @@ export default function SmallerRecipe() {
     return(
         <SmallerRecipeArea>
             <FlatList
+                contentContainerStyle={{paddingHorizontal: 20, paddingVertical: 20}}
+                ListHeaderComponent={children}
                 showsVerticalScrollIndicator={false}
                 data={recipes}
                 renderItem={renderItem}
