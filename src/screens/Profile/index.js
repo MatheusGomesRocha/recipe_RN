@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, TouchableNativeFeedback, Animated } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -41,6 +42,8 @@ import {
 export default function Profile() {
     const borderBottomAnimated = useRef(new Animated.Value(0)).current;
     const [filterValue, setFilterValue] = useState('recipes');
+
+    const navigation = useNavigation();
 
     const borderToLeft = () => {
         setFilterValue('recipes');
@@ -104,7 +107,7 @@ export default function Profile() {
                         </ProfileEditButton>
                     </TouchableNativeFeedback>
 
-                    <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#ccc', false, 35)}>
+                    <TouchableNativeFeedback onPress={() => navigation.navigate('upload__recipe')} background={TouchableNativeFeedback.Ripple('#ccc', false, 35)}>
                         <ProfileUploadButton>
                             <Feather name="upload-cloud" size={25} color={defaultColor} />
                         </ProfileUploadButton>
