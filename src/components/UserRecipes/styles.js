@@ -13,9 +13,11 @@ export const FilterRecipeArea = styled.View`
     margin-top: 10px;
 `;
 export const FilterRecipeItem = styled.TouchableOpacity`
-    background-color: ${props=>props.backgroundColor};
+    background-color: ${grayish};
     align-items: center;
     justify-content: center;
+    border-color: ${props=>props.borderColor};
+    border-width: 1px;
     height: 52px;
     padding: 0 20px;
     border-radius: 10px;

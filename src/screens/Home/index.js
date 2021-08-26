@@ -9,7 +9,7 @@ import type2 from '../../assets/images/type2.png';
 import type3 from '../../assets/images/type3.png';
 import type4 from '../../assets/images/type4.png';
 
-import { defaultColor } from '../../globals';
+import { black, defaultColor } from '../../globals';
 
 import {
     HomeContainer,
@@ -42,16 +42,16 @@ export default function Home () {
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 25}}>
                         {categoryArray.map((item, k) => (
                             <TouchableNativeFeedback key={k} onPress={() => setFilter(item.name)} background={TouchableNativeFeedback.Ripple('#ccc', false, 55)}>
-                                <CategoryButton backgroundColor={filter === item.name ? defaultColor : '#eee'}>
+                                <CategoryButton borderColor={filter === item.name ? defaultColor : 'transparent'}>
                                     <CategoryIcon source={item.icon} />
-                                    <CategoryName color={filter === item.name ? '#fff' : '#000'}>{item.name}</CategoryName>
+                                    <CategoryName color={filter === item.name ? defaultColor : black}>{item.name}</CategoryName>
                                 </CategoryButton>
                             </TouchableNativeFeedback>
                         ))}
                     </ScrollView>
                 </View>
 
-                <RecipeComponent />
+                {/* <RecipeComponent /> */}
             </ScrollView>
         </HomeContainer>
     )

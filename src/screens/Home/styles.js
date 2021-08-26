@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { white } from '../../globals';
+import { grayish, white } from '../../globals';
 
 export const HomeContainer = styled.SafeAreaView`
     flex: 1;
@@ -17,9 +17,11 @@ export const Title = styled.Text`
 /** ----------------------------------------------------- **/
 
 export const CategoryButton = styled.View`
-    background-color: ${props=>props.backgroundColor};
+    background-color: ${grayish};
     align-items: center;
     justify-content: center;
+    border-color: ${props=>props.borderColor};
+    border-width: 1px;
     width: 82px;
     height: 82px;
     border-radius: 10px;

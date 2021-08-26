@@ -4,6 +4,7 @@ import { ScrollView, TouchableWithoutFeedback } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import food1 from '../../assets/images/food1.png';
+import { black, defaultColor } from '../../globals';
 
 import {
     Recipes,
@@ -45,15 +46,15 @@ export default function UserRecipes() {
 
     return(
         <Recipes>
-            <ScrollView contentContainerStyle={{paddingHorizontal: 20}} horizontal={true} showsHorizontalScrollIndicator={false}>
-                <FilterRecipeArea>
-                    {arrayFilter.map((item, k) => (
-                        <FilterRecipeItem backgroundColor={filterRecipeValue === item.title ? '#D7263D' : '#eee'} onPress={() => setFilterRecipeValue(item.title)} key={k}>
-                            <FilterRecipeText color={filterRecipeValue === item.title ? '#fff' : '#666'}>{item.title}</FilterRecipeText>
-                        </FilterRecipeItem>
-                    ))}
-                </FilterRecipeArea>
-            </ScrollView>
+            <FilterRecipeArea>
+                <ScrollView contentContainerStyle={{paddingHorizontal: 20}} horizontal={true} showsHorizontalScrollIndicator={false}>
+                        {arrayFilter.map((item, k) => (
+                            <FilterRecipeItem borderColor={filterRecipeValue === item.title ? defaultColor : 'transparent'} onPress={() => setFilterRecipeValue(item.title)} key={k}>
+                                <FilterRecipeText color={filterRecipeValue === item.title ? defaultColor : black}>{item.title}</FilterRecipeText>
+                            </FilterRecipeItem>
+                        ))}
+                </ScrollView>
+            </FilterRecipeArea>
 
             <ScrollView contentContainerStyle={{paddingHorizontal: 10}} showsHorizontalScrollIndicator={false} horizontal={true}>
                 {array.map((item, k) => (
