@@ -1,4 +1,5 @@
 import React from 'react';
+import { FlatList } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -6,16 +7,23 @@ import Header from '../../components/Header';
 
 import shrimp from '../../assets/images/shrimp.png';
 
-import { defaultColor, grayFont } from '../../globals';
+import { blackish, defaultColor } from '../../globals';
 
 import {
     FoodManagerContainer,
 
-    FoodManagerArea,
-
     SubHeaderArea,
     SubHeader,
-    SubHeaderText
+    SubHeaderText,
+
+    FoodItem,
+    FoodImageArea,
+    FoodImage,
+    FoodContent,
+    FoodContentRow,
+    FoodContentName,
+    FoodContentQuantityType,
+    FoodContentDate
 } from './styles';
 
 let array = [
@@ -31,22 +39,52 @@ let array = [
 ];
 
 export default function FoodManager() {
+    const renderItem = ({item}) => {
+        return(
+            <FoodItem>
+                <FoodImageArea>
+                    <FoodImage source={item.img} />
+                </FoodImageArea>
+
+                <FoodContent>
+                    <FoodContentRow>
+                        <FoodContentName numberOfLines={1}>{item.name}</FoodContentName>
+                        <FoodContentQuantityType>{item.quantity} {item.quantityType}</FoodContentQuantityType>
+                    </FoodContentRow>
+
+                    <FoodContentRow>
+                        <FoodContentDate>Added: {item.addedAt}</FoodContentDate>
+                        <FoodContentDate>Expire: {item.expireAt}</FoodContentDate>
+                    </FoodContentRow>
+                </FoodContent>
+            </FoodItem>
+        )
+    }
+
     return(
         <FoodManagerContainer>
-            <Header title='Food Manager' />
+            <FlatList 
+                ListHeaderComponent={
+                    <>
+                        <Header title='Food Manager' />
 
-            <FoodManagerArea>
-                <SubHeaderArea>
-                    <SubHeader>
-                        <SubHeaderText color={grayFont}>Ingredients (21)</SubHeaderText>
-                    </SubHeader>
+                        <SubHeaderArea>
+                            <SubHeader>
+                                <SubHeaderText color={blackish}>Ingredients (21)</SubHeaderText>
+                            </SubHeader>
 
-                    <SubHeader>
-                        <AntDesign name="pluscircleo" color={defaultColor} size={20} />
-                        <SubHeaderText color={defaultColor}>Add New</SubHeaderText>
-                    </SubHeader>
-                </SubHeaderArea>
-            </FoodManagerArea>
+                            <SubHeader>
+                                <AntDesign style={{marginRight: 7}} name="pluscircleo" color={defaultColor} size={20} />
+                                <SubHeaderText color={defaultColor}>Add New</SubHeaderText>
+                            </SubHeader>
+                        </SubHeaderArea>
+                    </>
+                }
+                ListHeaderComponentStyle={{marginBottom: 25}}
+                data={array}
+                renderItem={renderItem}
+                keyExtractor={item => item.id}
+            />
         </FoodManagerContainer>
     )
 }
