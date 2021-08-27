@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableNativeFeedback } from 'react-native';
-import { useNavigation } from '@react-navigation/natieve';
+import { useNavigation } from '@react-navigation/native';
 
 import Feather from 'react-native-vector-icons/Feather';
 

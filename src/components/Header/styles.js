@@ -4,6 +4,7 @@ export const HeaderContainer = styled.View`
     flex-direction: row;
     align-items: center;
     padding: 0 20px;
+    margin-top: 20px;
 `;
 export const GoBackButton = styled.View`
     align-items: center;

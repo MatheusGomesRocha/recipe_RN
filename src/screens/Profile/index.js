@@ -15,6 +15,7 @@ import { defaultColor } from '../../globals';
 import {
     ProfileContainer,
 
+    Header,
     HeaderButton,
     
     UserInfoArea,
@@ -71,11 +72,15 @@ export default function Profile() {
     return(
         <ProfileContainer>
             <ScrollView>
-                <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#ccc', true)}>
+                <Header>
+                    <HeaderButton onPress={() => navigation.navigate('food__manager')} >
+                        <Feather name="clipboard" color="#000" size={25} />
+                    </HeaderButton>
+                
                     <HeaderButton onPress={() => console.log('olá mundo')}>
                         <Ionicons name="notifications" color="#000" size={25} />
                     </HeaderButton>
-                </TouchableNativeFeedback>
+                </Header>
 
                 <UserInfoArea>
                     <UserImg source={imgPlaceholder} />

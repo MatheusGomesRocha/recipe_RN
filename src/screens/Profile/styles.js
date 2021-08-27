@@ -8,14 +8,19 @@ export const ProfileContainer = styled.SafeAreaView`
 
 /** -------------------------------------------------------- **/
 
-export const HeaderButton = styled.View`
-    align-self: flex-end;
+export const Header = styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    height: 102px;
+`;
+export const HeaderButton = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
     height: 52px;
     width: 52px;
     border-radius: 26px;
-    margin: 10px 20px;
 `;
 
 /** -------------------------------------------------------- **/
