@@ -1,5 +1,6 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -39,6 +40,8 @@ let array = [
 ];
 
 export default function FoodManager() {
+    const navigation = useNavigation();
+
     const renderItem = ({item}) => {
         return(
             <FoodItem>
@@ -73,10 +76,12 @@ export default function FoodManager() {
                                 <SubHeaderText color={blackish}>Ingredients (21)</SubHeaderText>
                             </SubHeader>
 
-                            <SubHeader>
-                                <AntDesign style={{marginRight: 7}} name="pluscircleo" color={defaultColor} size={20} />
-                                <SubHeaderText color={defaultColor}>Add New</SubHeaderText>
-                            </SubHeader>
+                            <TouchableOpacity onPress={() => navigation.navigate('add__food')}>
+                                <SubHeader>
+                                        <AntDesign style={{marginRight: 7}} name="pluscircleo" color={defaultColor} size={20} />
+                                        <SubHeaderText color={defaultColor}>Add New</SubHeaderText>
+                                </SubHeader>
+                            </TouchableOpacity>
                         </SubHeaderArea>
                     </>
                 }
