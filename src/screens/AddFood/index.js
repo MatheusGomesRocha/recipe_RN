@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Header from '../../components/Header';
+
 import {
     AddFoodContainer,
 } from './styles';
@@ -7,7 +9,7 @@ import {
 export default function AddFood () {
     return(
         <AddFoodContainer>
-            
+            <Header title="Add New Food" />
         </AddFoodContainer>
     )
 }
