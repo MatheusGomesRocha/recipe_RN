@@ -63,7 +63,7 @@ export const Input = styled.TextInput`
     border-radius: 10px;
 `;
 export const SubmitButton = styled.TouchableOpacity`
-    background-color: ${defaultColor};
+    background-color: ${props=>props.backgroundColor};
     align-items: center;
     justify-content: center;
     height: 52px;

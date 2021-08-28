@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Header from '../../components/Header';
 import Profile from '../../assets/images/profile.jpg';
+import { defaultColor, grayFont } from '../../globals';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -24,6 +25,8 @@ import {
 } from './styles';
 
 export default function UpdateProfile () {
+    const [hasChanges, setHasChanges] = useState(false);
+
     return(
         <UpdateProfileContainer>
             <Header title="Update Profile" />
@@ -55,7 +58,7 @@ export default function UpdateProfile () {
                         <Input value="@matheus1254" />
                     </InputArea>
 
-                    <SubmitButton>
+                    <SubmitButton disabled={hasChanges ? false : true} backgroundColor={hasChanges ? defaultColor : grayFont}>
                         <SubmitButtonText>Edit Changes</SubmitButtonText>
                     </SubmitButton>
                 </FormArea>
