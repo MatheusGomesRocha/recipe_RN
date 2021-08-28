@@ -106,7 +106,7 @@ export default function Profile() {
                 </ProfileInfoArea>
 
                 <ProfileButtonsArea flexDirection={'row'}>
-                    <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple('#ccc', false)}>
+                    <TouchableNativeFeedback onPress={() => navigation.navigate('update__profile')} background={TouchableNativeFeedback.Ripple('#ccc', false)}>
                         <ProfileEditButton>
                             <ProfileEditButtonText>Edit Profile</ProfileEditButtonText>
                         </ProfileEditButton>
