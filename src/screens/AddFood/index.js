@@ -4,6 +4,8 @@ import { ScrollView } from 'react-native';
 import Header from '../../components/Header';
 import { black, blackish, defaultColor, white } from '../../globals';
 
+import AntDesign from 'react-native-vector-icons/AntDesign';
+
 import {
     AddFoodContainer,
 
@@ -21,7 +23,12 @@ import {
     QuantityItemText,
 
     SubmitButton,
-    SubmitButtonText
+    SubmitButtonText,
+
+    QrCodeArea,
+    QrCodeTitle,
+    QrCodeItem,
+    QrCodeMarkdown
 } from './styles';
 
 let array = [
@@ -69,11 +76,30 @@ export default function AddFood () {
                         <Input />
                     </InputFather>
                 </InputView>
-
+                
                 <SubmitButton>
                     <SubmitButtonText>Add Food</SubmitButtonText>
                 </SubmitButton>
             </InputArea>
+        )
+    }
+
+    const RenderItemCode = () => {
+        return(
+            <>
+                <QrCodeArea>
+                    <QrCodeTitle>You can search near by device, or scan by QR code</QrCodeTitle>
+
+                    <QrCodeItem>
+                        <AntDesign name="qrcode" size={120} color="#000" />
+                    </QrCodeItem>
+                        <QrCodeMarkdown />
+                </QrCodeArea>
+
+                <SubmitButton style={{marginTop: 'auto'}}>
+                    <SubmitButtonText>Add Food</SubmitButtonText>
+                </SubmitButton>
+            </>
         )
     }
 
@@ -94,7 +120,7 @@ export default function AddFood () {
             {addFood === 'manually' ? 
                 <RenderItemManually /> 
                 : 
-                undefined
+                <RenderItemCode />
             }
         </AddFoodContainer>
     )

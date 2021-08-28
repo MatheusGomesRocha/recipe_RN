@@ -1,5 +1,5 @@
 import styled from 'styled-components/native';
-import { black, defaultColor, grayFont, grayish, white } from '../../globals';
+import { black, blackish, defaultColor, grayFont, grayish, white } from '../../globals';
 
 export const AddFoodContainer = styled.SafeAreaView`
     flex: 1;
@@ -70,11 +70,36 @@ export const QuantityItemText = styled.Text`
 
 /** ------------------------------------------------- */
 
+export const QrCodeArea = styled.View`
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    border: 1px dashed ${blackish};
+    border-radius: 20px;
+    margin: 40px 20px;
+`;
+export const QrCodeTitle = styled.Text`
+    color: ${blackish};
+    text-align: center;
+    font-size: 16px;
+    width: 70%;
+`;
+export const QrCodeItem = styled.View`
+`;
+export const QrCodeMarkdown = styled.View`
+    background-color: ${defaultColor};
+    height: 2px;
+    width: 50%;
+    top: -60px;
+`;
+
+/** ------------------------------------------------- */
+
 export const SubmitButton = styled.TouchableOpacity`
     background-color: ${defaultColor};
     align-items: center;
     justify-content: center;
-    margin: 20px 20px;
+    margin: 20px;
     height: 52px;
     border-radius: 10px;
 `;
@@ -82,3 +107,5 @@ export const SubmitButtonText = styled.Text`
     color: ${white};
     font-size: 16px;
 `;
+
+
