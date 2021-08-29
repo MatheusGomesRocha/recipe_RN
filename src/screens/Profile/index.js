@@ -77,7 +77,7 @@ export default function Profile() {
                         <Feather name="clipboard" color="#000" size={25} />
                     </HeaderButton>
                 
-                    <HeaderButton onPress={() => console.log('olá mundo')}>
+                    <HeaderButton onPress={() => navigation.navigate('notification')}>
                         <Ionicons name="notifications" color="#000" size={25} />
                     </HeaderButton>
                 </Header>
