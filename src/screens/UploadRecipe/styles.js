@@ -8,7 +8,7 @@ export const UploadRecipeContainer = styled.SafeAreaView`
 
 /** -------------------------------------------------- **/
 
-export const UploadImageArea = styled.View`
+export const UploadImageArea = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
     height: 220px;
@@ -26,6 +26,11 @@ export const UploadImageText = styled.Text`
     color: ${grayFont};
     font-size: 15px;
     margin-top: 5px;
+`;
+export const UploadImage = styled.Image`
+    height: 220px;
+    width: 100%;
+    border-radius: 20px;
 `;
 
 /** -------------------------------------------------- **/

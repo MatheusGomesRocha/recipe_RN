@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView } from 'react-native';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 import Feather from 'react-native-vector-icons/Feather';
 
 import Header from '../../components/Header';
+import { api } from '../../services/api';
 
 import { defaultColor, black, red, grayFont } from '../../globals';
 
@@ -13,6 +15,7 @@ import {
     UploadImageArea,
     UploadImageTitle,
     UploadImageText,
+    UploadImage,
 
     FormArea,
     InputArea,
@@ -34,8 +37,11 @@ let array = [
 
 export default function UploadRecipe () {
     const [filter, setFilter] = useState('');
+
+    const [dataImg, setDataImg] = useState('');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
+    const [type, setType] = useState('');
     const [cookTime, setCookTime] = useState(0);
     const [calories, setCalories] = useState(0);
     const [cuisine, setCuisine] = useState('');
@@ -43,27 +49,13 @@ export default function UploadRecipe () {
 
     const [forgotName, setForgotName] = useState(false);
     const [forgotDescription, setForgotDescription] = useState(false);
+    const [forgotType, setForgotType] = useState(false);
     const [forgotCookTime, setForgotCookTime] = useState(false);
     const [forgotCalories, setForgotCalories] = useState(false);
     const [forgotCuisine, setForgotCuisine] = useState(false);
     const [forgotSubIng, setForgotSubIng] = useState(false);
 
-
-    function submitData () {
-        if(name === '') {
-            setForgotName(true);
-        } if (description === '') {
-            setForgotDescription(true);
-        } if (cookTime === 0) {
-            setForgotCookTime(true);
-        } if (calories === 0) {
-            setForgotCalories(true);
-        } if (cuisine === '') {
-            setForgotCuisine(true);
-        } if (subIng === '') {
-            setForgotSubIng(true);
-        }
-    }
+    const [dataId, setDataId] = useState(0);
 
     useEffect(() => {
         setTimeout(() => {
@@ -76,15 +68,66 @@ export default function UploadRecipe () {
         }, 5000)
     }, [submitData])
 
+    function chooseImageGallery () {
+        launchImageLibrary(null, (res) => {
+            let data = res.assets;
+            setDataImg(data[0].uri);
+        });
+    }
+
+    function submitData () {
+        if(name === '') {
+            setForgotName(true);
+        } if (description === '') {
+            setForgotDescription(true);
+        } if (cookTime === 0) {
+            setForgotCookTime(true);
+        } if (calories === 0) {
+            setForgotCalories(true);
+        } if (subIng === '') {
+            setForgotSubIng(true);
+        }
+
+        if(name && type && description && cookTime && calories) {
+            let formData = new FormData();
+            formData.append('img', {
+                uri: dataImg,
+                type: 'image/jpg',
+                name: 'amdkmakdsmksa'
+            })
+    
+            api.post('/upload-recipe', {
+                category: 'Chinese',
+                type: type,
+                name: name,
+                description: description,
+                cookTime: cookTime,
+                ingQuantity: 5,
+                madeById: 2
+            })
+            .then((res) => console.log(res.data))
+            .catch((err) => console.error(err));
+
+            // api.post('/upload-recipe-image/130', formData)
+        } else {
+            console.log('Preencha todos os campos');
+        }
+    }
+
+    
     return(
         <UploadRecipeContainer>
-            <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
+            <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingBottom: 20}}>
                 <Header title='Upload new recipe' />
 
-                <UploadImageArea>
-                    <Feather name="upload-cloud" size={65} color={defaultColor} />
-                    <UploadImageTitle>Upload Cover</UploadImageTitle>
-                    <UploadImageText>Click here to upload cover photo</UploadImageText>
+                <UploadImageArea onPress={chooseImageGallery}>
+                    {dataImg ? <UploadImage source={{uri: dataImg}} /> : 
+                        <>
+                            <Feather name="upload-cloud" size={65} color={defaultColor} />
+                            <UploadImageTitle>Upload Cover</UploadImageTitle>
+                            <UploadImageText>Click here to upload cover photo</UploadImageText>
+                        </>
+                    }
                 </UploadImageArea>
 
                 <FormArea>
@@ -96,6 +139,11 @@ export default function UploadRecipe () {
                     <InputArea>
                         <Label color={forgotDescription ? red : grayFont}>Description</Label>
                         <Input borderColor={forgotDescription ? red : 'transparent'} value={description} onChangeText={v => setDescription(v)} />
+                    </InputArea>
+
+                    <InputArea>
+                        <Label color={forgotType ? red : grayFont}>Type</Label>
+                        <Input borderColor={forgotType ? red : 'transparent'} value={type} onChangeText={v => setType(v)} />
                     </InputArea>
 
                     <InputArea>

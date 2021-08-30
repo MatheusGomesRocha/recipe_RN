@@ -61,7 +61,7 @@ export default function RecipeComponent () {
     const renderItem = ({item}) => {
         return(
             <RecipeItem style={{width: windowWidth - 120}}>
-                <ItemImg resizeMode='center' source={{uri: `http://192.168.0.110:3000/${item.img}`}} />
+                <ItemImg resizeMode='center' source={{uri: `http://192.168.0.110:3000/media/${item.img}`}} />
                 <ItemCategoryArea>
                     <ItemCategoryMarkdown />
                     <ItemCategoryText>{item.category}</ItemCategoryText>
