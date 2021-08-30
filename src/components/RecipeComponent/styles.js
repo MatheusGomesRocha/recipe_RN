@@ -11,6 +11,7 @@ export const RecipeItem = styled.View`
     background-color: ${defaultColorTransparent};
     border-radius: 15px;
     margin: 0 10px 0 5px;
+    min-height: 500px;
 `;
 
 /** ------------------------------------------------------- */
