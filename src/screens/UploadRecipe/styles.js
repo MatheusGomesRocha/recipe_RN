@@ -8,6 +8,14 @@ export const UploadRecipeContainer = styled.SafeAreaView`
 
 /** -------------------------------------------------- **/
 
+export const ErrorText = styled.Text`
+    color: red;
+    font-size: 15px;
+    margin: 20px 20px 10px 20px;
+`;
+
+/** -------------------------------------------------- **/
+
 export const UploadImageArea = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;

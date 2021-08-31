@@ -2,7 +2,7 @@ import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Dimensions, ScrollView, TouchableNativeFeedback, TouchableWithoutFeedback, View } from 'react-native';
 
 import { WebView } from 'react-native-webview';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import food1 from '../../assets/images/food1.png';
 import imgPlaceholder from '../../assets/images/type1.png';
@@ -63,26 +63,23 @@ let array = [
 // {id: 1, name: 'Hot Sausage W/ Cheese And Milk', category: 'Chinese', description: 'Lorem ispum aksmd owodoia samda qqsdak mapodkqoa s aa mmammsa', cookTime: 50, ingQuantity: 12},
 
 export default function RecipeInfo () {
-    const [recipe, setRecipe] = useState({
-        id: 0,
-        category: '',
-        name: '',
-        description: '',
-        cookTime: 0,
-        ingQuantity: 0,
-    });
+    const [recipe, setRecipe] = useState([]);
     const [isFavorited, setIsFavorited] = useState(false);
     const [showDescription, setShowDescription] = useState(false);
 
     const navigation = useNavigation();
+    const route = useRoute();
+
+    const recipeId = route.params.recipeId;
     const windowWidth = Dimensions.get('window').width;
 
     useEffect(() => {
-        api.get(`/recipe/1`)
+        api.get(`/recipe/${recipeId}`)
         .then((res) => {
             const data = res.data;
             setRecipe({
                 id: data.recipe.id,
+                img: data.recipe.img,
                 category: data.recipe.category,
                 name: data.recipe.name,
                 description: data.recipe.description,
@@ -105,7 +102,7 @@ export default function RecipeInfo () {
                 </TouchableNativeFeedback>
 
                 <RecipeInfoArea>
-                        <RecipeImg style={{left: windowWidth - 210}} source={food1} />
+                        <RecipeImg style={{left: windowWidth - 210}} source={{uri: `http://192.168.0.110:3000/media/${recipe.img}`}} />
 
                         <RecipeHeaderButtons>
                             <TouchableWithoutFeedback>
@@ -131,12 +128,12 @@ export default function RecipeInfo () {
                         <RecipeMoreInfoArea>
                             <RecipeMoreInfo>
                                 <Ionicons name="bonfire-outline" color="#000" size={25} />
-                                <RecipeMoreInfoText>{recipe.cookTime.toString()} min</RecipeMoreInfoText>
+                                <RecipeMoreInfoText>{recipe.cookTime} min</RecipeMoreInfoText>
                             </RecipeMoreInfo>
 
                             <RecipeMoreInfo>
                                 <MaterialIcons name="kitchen" color="#000" size={25} />
-                                <RecipeMoreInfoText>{recipe.ingQuantity.toString()} ing</RecipeMoreInfoText>
+                                <RecipeMoreInfoText>{recipe.ingQuantity} ing</RecipeMoreInfoText>
                             </RecipeMoreInfo>
 
                             <RecipeMoreInfo>
@@ -153,7 +150,7 @@ export default function RecipeInfo () {
 
                         <IngArea>
                             <IngTitle>Ingredients ({array.length})</IngTitle>
-                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 17, marginTop: 20}}>    
+                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 23, marginTop: 20}}>    
                                 {array.map((item, k) => (
                                     <IngItemArea key={k}>
                                         <IngItem>

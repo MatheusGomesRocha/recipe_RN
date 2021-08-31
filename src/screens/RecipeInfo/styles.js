@@ -19,10 +19,9 @@ export const RecipeInfoArea = styled.View`
 /** ------------------------------------------------------- **/
 
 export const RecipeImg = styled.Image`
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     top: -150px;
-    right: -150px;
 `;
 
 /** ------------------------------------------------------- **/
@@ -30,7 +29,7 @@ export const RecipeImg = styled.Image`
 export const RecipeHeaderButtons = styled.View`
     flex-direction: row;
     align-items: center;
-    margin: -260px 0 0 5px;
+    margin: -200px 0 0 5px;
 `;
 export const RecipeHeaderButton = styled.View`
     margin-left: 25px;

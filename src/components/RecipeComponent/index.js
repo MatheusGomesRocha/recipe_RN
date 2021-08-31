@@ -44,7 +44,7 @@ let array = [
 ];
 
 export default function RecipeComponent () {
-    const [recipes, setRecipes] = useState({});
+    const [recipes, setRecipes] = useState([]);
 
     const navigation = useNavigation();
 

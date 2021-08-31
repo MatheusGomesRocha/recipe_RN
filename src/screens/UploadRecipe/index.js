@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ScrollView } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 
@@ -11,6 +11,8 @@ import { defaultColor, black, red, grayFont } from '../../globals';
 
 import {
     UploadRecipeContainer,
+
+    ErrorText,
 
     UploadImageArea,
     UploadImageTitle,
@@ -53,6 +55,11 @@ export default function UploadRecipe () {
     const [forgotCuisine, setForgotCuisine] = useState(false);
     const [forgotSubIng, setForgotSubIng] = useState(false);
 
+    const [errorMsg, setErrorMsg] = useState('');
+    const [uploadSuccess, setUploadSuccess] = useState(false);
+
+    const scrollRef = useRef(); 
+
     useEffect(() => {
         setTimeout(() => {
             setForgotName(false);
@@ -61,8 +68,16 @@ export default function UploadRecipe () {
             setForgotCalories(false);
             setForgotCuisine(false);
             setForgotSubIng(false);
-        }, 5000)
+            setErrorMsg('');
+        }, 8000);
     }, [submitData])
+
+    useEffect(() => {
+        scrollRef.current?.scrollTo({    
+            y: 0,
+            animated: true,
+        });
+    }, [errorMsg])
 
     function chooseImageGallery () {
         launchImageLibrary(null, (res) => {
@@ -84,7 +99,9 @@ export default function UploadRecipe () {
             setForgotSubIng(true);
         }
 
-        if(name && type && description && cookTime && calories) {
+        if(!name && !type && !description && !cookTime && !calories) {
+            console.log('Preencha todos os campos');
+        } else {
             let formData = new FormData();
 
             formData.append('name', name);
@@ -95,24 +112,34 @@ export default function UploadRecipe () {
             formData.append('ingQuantity', 5);
             formData.append('madeById', 2);
 
+            let fileExtension = dataImg.slice(-3);
+
             formData.append('img', {
                 uri: dataImg,
-                type: 'image/jpg',
-                name: 'amdkmakdsmksa'
+                type: `image/${fileExtension}`,
+                name: 'image'
             })
     
-            api.post('/upload-recipe', formData);
-        } else {
-            console.log('Preencha todos os campos');
+            api.post('/upload-recipe', formData)
+            .then((res) => {
+                if(res.data.error) {
+                    setErrorMsg(res.data.error)
+                } else {
+                    setUploadSuccess(true);
+                }
+            })
         }
     }
 
-    
     return(
         <UploadRecipeContainer>
-            <ScrollView showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingBottom: 20}}>
+            <ScrollView ref={scrollRef} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingBottom: 20}}>
                 <Header title='Upload new recipe' />
 
+                {errorMsg ? 
+                    <ErrorText>{errorMsg}</ErrorText>
+                : undefined
+                }
                 <UploadImageArea onPress={chooseImageGallery}>
                     {dataImg ? <UploadImage source={{uri: dataImg}} /> : 
                         <>
