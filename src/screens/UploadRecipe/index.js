@@ -38,7 +38,6 @@ let array = [
 export default function UploadRecipe () {
     const [filter, setFilter] = useState('');
 
-    const [dataImg, setDataImg] = useState('');
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('');
@@ -46,6 +45,7 @@ export default function UploadRecipe () {
     const [calories, setCalories] = useState(0);
     const [cuisine, setCuisine] = useState('');
     const [subIng, setSubIng] = useState('');
+    const [dataImg, setDataImg] = useState('');
 
     const [forgotName, setForgotName] = useState(false);
     const [forgotDescription, setForgotDescription] = useState(false);
@@ -96,19 +96,16 @@ export default function UploadRecipe () {
                 name: 'amdkmakdsmksa'
             })
     
-            api.post('/upload-recipe', {
-                category: 'Chinese',
-                type: type,
-                name: name,
-                description: description,
-                cookTime: cookTime,
+            api.post('/upload-recipe', formData, 
+            {
+                name: 'name',
+                description: 'description',
+                type: 'type',
+                category: 'cuisine',
+                cookTime: 5,
                 ingQuantity: 5,
-                madeById: 2
-            })
-            .then((res) => console.log(res.data))
-            .catch((err) => console.error(err));
-
-            // api.post('/upload-recipe-image/130', formData)
+                madeById: 4
+            });
         } else {
             console.log('Preencha todos os campos');
         }

@@ -51,7 +51,7 @@ export default function Home () {
                     </ScrollView>
                 </View>
 
-                {/* <RecipeComponent /> */}
+                <RecipeComponent />
             </ScrollView>
         </HomeContainer>
     )
