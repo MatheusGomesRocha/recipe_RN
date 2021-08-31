@@ -28,7 +28,7 @@ import {
 } from './styles';
 
 let array = [
-    {id: 1, title: 'All'},
+    {id: 1, title: 'Bulgarian'},
     {id: 2, title: 'Chinese'},
     {id: 3, title: 'Brazilian'},
     {id: 4, title: 'Italian'},
@@ -36,8 +36,6 @@ let array = [
 ];
 
 export default function UploadRecipe () {
-    const [filter, setFilter] = useState('');
-
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [type, setType] = useState('');
@@ -54,8 +52,6 @@ export default function UploadRecipe () {
     const [forgotCalories, setForgotCalories] = useState(false);
     const [forgotCuisine, setForgotCuisine] = useState(false);
     const [forgotSubIng, setForgotSubIng] = useState(false);
-
-    const [dataId, setDataId] = useState(0);
 
     useEffect(() => {
         setTimeout(() => {
@@ -90,22 +86,22 @@ export default function UploadRecipe () {
 
         if(name && type && description && cookTime && calories) {
             let formData = new FormData();
+
+            formData.append('name', name);
+            formData.append('description', description);
+            formData.append('type', type);
+            formData.append('category', 'Chinese');
+            formData.append('cookTime', cookTime);
+            formData.append('ingQuantity', 5);
+            formData.append('madeById', 2);
+
             formData.append('img', {
                 uri: dataImg,
                 type: 'image/jpg',
                 name: 'amdkmakdsmksa'
             })
     
-            api.post('/upload-recipe', formData, 
-            {
-                name: 'name',
-                description: 'description',
-                type: 'type',
-                category: 'cuisine',
-                cookTime: 5,
-                ingQuantity: 5,
-                madeById: 4
-            });
+            api.post('/upload-recipe', formData);
         } else {
             console.log('Preencha todos os campos');
         }
@@ -153,12 +149,12 @@ export default function UploadRecipe () {
                         <Input borderColor={forgotCalories ? red : 'transparent'} onChangeText={v => setCalories(v)} keyboardType="numeric" />
                     </InputArea>
 
-                    <InputArea>
+                    <InputArea style={{height: 90}}>
                         <Label color={forgotCuisine ? red : grayFont}>Select cuisine</Label>
                         <ScrollView contentContainerStyle={{paddingHorizontal: 15, marginTop: 10}} horizontal={true} showsHorizontalScrollIndicator={false}>
                             {array.map((item, k) => (
-                                <FilterItem onPress={() => setFilter(item.title)} borderColor={filter === item.title ? defaultColor : 'transparent'} key={k}>
-                                    <FilterItemText color={filter === item.title ? defaultColor : black}>{item.title}</FilterItemText>
+                                <FilterItem onPress={() => setCuisine(item.title)} borderColor={cuisine === item.title ? defaultColor : 'transparent'} key={k}>
+                                    <FilterItemText color={cuisine === item.title ? defaultColor : black}>{item.title}</FilterItemText>
                                 </FilterItem>
                             ))}
                         </ScrollView>
