@@ -56,6 +56,8 @@ export default ({ screen }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+    const [verificationConde, setVerificationCode] = useState(0);
+
     const navigation = useNavigation();
 
     function nameValidation () {
@@ -102,20 +104,26 @@ export default ({ screen }) => {
         }
     }
 
-    function submitForm () {
+    async function submitForm () {
         if(nameValue && emailValue && passwordValue && confirmPasswordValue && passwordValue === confirmPasswordValue) {
-            api.post('/create-user', {
-                name: nameValue,
-                email: emailValue,
-                password: passwordValue,
+            await api.post('/send-code-verification', {
+                email: emailValue
             })
             .then((response) => console.log(response.data))
             .catch((err) => console.error(err));
+            
+            // await api.post('/create-user', {
+            //     name: nameValue,
+            //     email: emailValue,
+            //     password: passwordValue,
+            // })
+            // .then((response) => console.log(response.data))
+            // .catch((err) => console.error(err));
 
-            setNameError(false);
-            setEmailError(false);
-            setPasswordError(false);
-            setConfirmPasswordError(false);
+            // setNameError(false);
+            // setEmailError(false);
+            // setPasswordError(false);
+            // setConfirmPasswordError(false);
         }
     };
         
