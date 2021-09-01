@@ -120,7 +120,7 @@ export default function UploadRecipe () {
                 name: 'image'
             })
     
-            api.post('/upload-recipe', formData)
+            api.post('/upload-recipe/auth?token=2', formData)
             .then((res) => {
                 if(res.data.error) {
                     setErrorMsg(res.data.error)
