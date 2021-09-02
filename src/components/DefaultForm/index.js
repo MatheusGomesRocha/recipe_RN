@@ -27,6 +27,8 @@ import {
     Divider,
     DividerText,
 
+    ErrorMessage,
+    
     InputArea,
     InputDiv,
     Input,
@@ -41,13 +43,6 @@ import {
     AlreadyHaveAnAccountText,
     AlreadyHaveAnAccountButton,
     AlreadyHaveAnAccountButtonText,
-
-    ModalContainer,
-    ModalText,
-    ModalInput,
-    ModalInputArea,
-    ModalSubmitButton,
-    ModalSubmitButtonText,
 } from './styles';
 
 export default ({ screen }) => {
@@ -63,7 +58,7 @@ export default ({ screen }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    const [verificationCode, setVerificationCode] = useState(0);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const navigation = useNavigation();
 
@@ -113,19 +108,26 @@ export default ({ screen }) => {
 
     function verificationSignUp () {
         if(emailValue && nameValue && passwordValue && confirmPasswordValue && passwordValue === confirmPasswordValue) {
-            api.post('/send-verification-code', {
-                email: emailValue
-            })
+            api.get(`/has-user/${emailValue}`)
             .then((response) => {
-                setVerificationCode(response.data.code);
-                navigation.navigate('verification__code', { 
-                    name: nameValue,
-                    email: emailValue,
-                    password: passwordValue,
-                    code: verificationCode
-                });
+                if(response.data.error) {
+                    setErrorMessage(response.data.error);
+                } else {
+                    api.post('/send-verification-code', {
+                        email: emailValue
+                    })
+                    .then((response) => {
+                        navigation.navigate('verification__code', { 
+                            name: nameValue,
+                            email: emailValue,
+                            password: passwordValue,
+                            code: response.data.code
+                        });
+                    })
+                    .catch((err) => console.error(err));
+                }
             })
-            .catch((err) => console.error(err));
+            .catch((err) => console.log(err));
         }
     };
 
@@ -155,6 +157,9 @@ export default ({ screen }) => {
                 <DividerText>{screen === 'signUp' ? 'Or sign up with an email' : 'Or login with an email'}</DividerText>
             </Divider>
 
+            {errorMessage ? 
+                <ErrorMessage>{errorMessage}</ErrorMessage>
+            : undefined}
             <InputArea>
                 {screen === 'signUp' ? 
                     <InputDiv borderColor={hasValidName ? '#D7263D' : '#aaa'}>

@@ -60,6 +60,14 @@ export const DividerText = styled.Text`
 
 /** ----------------------------------------------------- **/
 
+export const ErrorMessage = styled.Text`
+    color: red;
+    margin-top: 20px;
+    font-size: 18px;
+`;
+
+/** ----------------------------------------------------- **/
+
 export const InputArea = styled.View`
     width: 100%;
     margin-top: ${marginTopAreas};
