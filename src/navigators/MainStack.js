@@ -10,6 +10,7 @@ import FoodManagerScreen from '../screens/FoodManager';
 import AddFoodScreen from '../screens/AddFood';
 import UpdateProfileScreen from '../screens/UpdateProfile';
 import NotificationScreen from '../screens/Notification';
+import VerificationCodeScreen from '../screens/VerificationCode';
 
 const MainStack = createStackNavigator();
 
@@ -25,6 +26,7 @@ export default () => {
             <MainStack.Screen name="add__food" component={AddFoodScreen} options={{title: null, headerTransparent: true, headerLeft: null}} />
             <MainStack.Screen name="update__profile" component={UpdateProfileScreen} options={{title: null, headerTransparent: true, headerLeft: null}} />
             <MainStack.Screen name="notification" component={NotificationScreen} options={{title: null, headerTransparent: true, headerLeft: null}} />
+            <MainStack.Screen name="verification__code" component={VerificationCodeScreen} options={{title: null, headerTransparent: true, headerLeft: null}} />
         </MainStack.Navigator>
     )
 }

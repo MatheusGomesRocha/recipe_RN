@@ -55,10 +55,6 @@ export default ({ screen }) => {
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
-    const [verificationValue1, setVerificationValue1] = useState('');
-    const [verificationValue2, setVerificationValue2] = useState('');
-    const [verificationValue3, setVerificationValue3] = useState('');
-    const [verificationValue4, setVerificationValue4] = useState('');
 
     const [hasValidName, setHasValidName] = useState(false);
     const [hasValidEmail, setHasValidEmail] = useState(false);
@@ -68,38 +64,8 @@ export default ({ screen }) => {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const [verificationCode, setVerificationCode] = useState(0);
-    const [modalVisible, setModalVisible] = useState(false);
 
     const navigation = useNavigation();
-
-    const RenderModal = () => {
-        return(
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(false);
-                }}
-            >
-                <ModalContainer>
-                    <ModalText>Please enter the verification code we send to your email (may be in the spam fold)</ModalText>
-
-                    <ModalInputArea>
-                        <ModalInput keyboardType="numeric" maxLength={1} value={verificationValue1} onChangeText={v => setVerificationValue1(v)}  />
-                        <ModalInput keyboardType="numeric" maxLength={1} value={verificationValue2} onChangeText={v => setVerificationValue2(v)} />
-                        <ModalInput keyboardType="numeric" maxLength={1} value={verificationValue3} onChangeText={v => setVerificationValue3(v)} />
-                        <ModalInput keyboardType="numeric" maxLength={1} value={verificationValue4} onChangeText={v => setVerificationValue4(v)} />
-                    </ModalInputArea>
-
-                    <ModalSubmitButton onPress={submitForm}>
-                        <ModalSubmitButtonText>Submit</ModalSubmitButtonText>
-                    </ModalSubmitButton>
-
-                </ModalContainer>
-            </Modal>
-        )
-    }
 
     function nameValidation () {
         if(nameValue) {
@@ -152,32 +118,17 @@ export default ({ screen }) => {
             })
             .then((response) => {
                 setVerificationCode(response.data.code);
-                setModalVisible(true);
+                navigation.navigate('verification__code', { 
+                    name: nameValue,
+                    email: emailValue,
+                    password: passwordValue,
+                    code: verificationCode
+                });
             })
             .catch((err) => console.error(err));
         }
     };
 
-    function submitForm () {
-        let verificationCodeJoin = parseInt(verificationValue1+verificationValue2+verificationValue3+verificationValue4);
-
-        if(verificationCodeJoin !== verificationCode) {
-            console.log('Incorrect code');
-        } else {
-            api.post('/create-user', {
-                name: nameValue,
-                email: emailValue,
-                password: passwordValue,
-            })
-            .then((response) => console.log(response.data))
-            .catch((err) => console.error(err));
-    
-            setHasValidName(false);
-            setHasValidEmail(false);
-            setHasValidPassword(false);
-        }
-    }
-    
     return(
         <FormArea>
             <LogoArea>
@@ -251,8 +202,6 @@ export default ({ screen }) => {
                     <ForgotPasswordText>Forgot password?</ForgotPasswordText>
                 </ForgotPasswordButton>
             }
-
-            <RenderModal />
 
             <SubmitButton onPress={verificationSignUp}>
                 <SubmitButtonText>{screen === 'signUp' ? 'Sign Up' : 'Login'}</SubmitButtonText>
