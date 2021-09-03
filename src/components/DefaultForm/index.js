@@ -161,7 +161,9 @@ function DefaultForm (props) {
                 if(response.data.error) {
                     setErrorMessage(response.data.error)
                 } else {
-                    console.log('OK');
+                    props.setToken(response.data.hasUser.id);
+                    props.setName(response.data.hasUser.name);
+                    props.setEmail(response.data.hasUser.email);
                 }
             })
             .catch((err) => console.log(err));

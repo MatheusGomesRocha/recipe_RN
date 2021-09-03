@@ -1,6 +1,6 @@
 import React, { useState, createRef, useEffect } from 'react';
 import { useRoute } from '@react-navigation/native';
-
+import { useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import { api } from '../../services/api';
 import { black, blackish, defaultColor, white, grayish } from '../../globals';
@@ -25,6 +25,8 @@ export default function VerificationCode () {
     const [isFocused2, setIsFocused2] = useState(false);
     const [isFocused3, setIsFocused3] = useState(false);
     const [isFocused4, setIsFocused4] = useState(false);
+
+    const userName = useSelector(state => state.user.name);
 
     const [disableInput, setDisableInput] = useState(true);
 
