@@ -34,10 +34,10 @@ export default function VerificationCode () {
     function submitForm () {
         let verificationCodeJoin = parseInt(verificationValue1+verificationValue2+verificationValue3+verificationValue4);
 
-        if(verificationCodeJoin !== verificationCode) {
-            console.log(verificationCode);
-            console.log(verificationCodeJoin);
-        } else {
+        // if(verificationCodeJoin !== verificationCode) {
+        //     console.log(verificationCode);
+        //     console.log(verificationCodeJoin);
+        // } else {
             api.post('/create-user', {
                 name: nameValue,
                 email: emailValue,
@@ -45,7 +45,7 @@ export default function VerificationCode () {
             })
             .then((response) => console.log(response.data))
             .catch((err) => console.error(err));
-        }
+        // }
     }
 
     return(

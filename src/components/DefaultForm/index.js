@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { TouchableWithoutFeedback, Modal } from 'react-native';
-import { connect, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { TouchableWithoutFeedback } from 'react-native';
+import { connect } from 'react-redux';
 
 import validator from 'validator';
 import { useNavigation } from '@react-navigation/native';
@@ -66,6 +66,12 @@ function DefaultForm (props) {
 
     const navigation = useNavigation();
 
+    useEffect(() => {
+        setTimeout(() => {
+            setErrorMessage('');
+        }, 5000)
+    }, [verificationLogin, verificationSignUp])
+
     function nameValidation () {
         if(nameValue) {
             const isValidName = validator.isAlpha(nameValue);
@@ -111,7 +117,9 @@ function DefaultForm (props) {
     }
 
     function verificationSignUp () {
-        if(emailValue && nameValue && passwordValue && confirmPasswordValue && passwordValue === confirmPasswordValue) {
+        if(!emailValue || !nameValue || !passwordValue || !confirmPasswordValue || passwordValue !== confirmPasswordValue) {
+            setErrorMessage('All fields are required');
+        } else {
             api.get(`/has-user/${emailValue}`)
             .then((response) => {
                 if(response.data.error) {
@@ -136,16 +144,22 @@ function DefaultForm (props) {
     };
 
     function verificationLogin () {
-        console.log(emailValue);
-        console.log(passwordValue);
-        console.log(emailLoginValue);
-        console.log(passwordLoginValue);
-        // api.get('/login', {
-        //     email: emailLoginValue,
-        //     password: passwordLoginValue
-        // })
-        // .then((response) => console.log(response.data))
-        // .catch((err) => console.log(err));
+        if(!emailLoginValue || !passwordLoginValue) {
+            setErrorMessage('All fields are required');
+        } else {
+            api.post('/login', {
+                email: emailLoginValue,
+                password: passwordLoginValue
+            })
+            .then((response) => {
+                if(response.data.error) {
+                    setErrorMessage(response.data.error)
+                } else {
+                    console.log('OK');
+                }
+            })
+            .catch((err) => console.log(err));
+        }
     }
 
     return(
