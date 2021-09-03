@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ScrollView } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { useSelector } from 'react-redux';
 
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -57,6 +58,8 @@ export default function UploadRecipe () {
 
     const [errorMsg, setErrorMsg] = useState('');
     const [uploadSuccess, setUploadSuccess] = useState(false);
+
+    const token = useSelector(state => state.user.token);
 
     const scrollRef = useRef(); 
 
@@ -120,7 +123,9 @@ export default function UploadRecipe () {
                 name: 'image'
             })
     
-            api.post('/upload-recipe/auth?token=2', formData)
+            // ${token}
+
+            api.post(`/upload-recipe/auth?token=205`, formData)
             .then((res) => {
                 if(res.data.error) {
                     setErrorMsg(res.data.error)
