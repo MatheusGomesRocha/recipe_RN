@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TouchableWithoutFeedback, Modal } from 'react-native';
+import { connect, useSelector } from 'react-redux';
 
 import validator from 'validator';
 import { useNavigation } from '@react-navigation/native';
@@ -45,11 +46,14 @@ import {
     AlreadyHaveAnAccountButtonText,
 } from './styles';
 
-export default ({ screen }) => {
+function DefaultForm (props) {
     const [nameValue, setNameValue] = useState('');
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [confirmPasswordValue, setConfirmPasswordValue] = useState('');
+
+    const [emailLoginValue, setEmailLoginValue] = useState('');
+    const [passwordLoginValue, setPasswordLoginValue] = useState('');
 
     const [hasValidName, setHasValidName] = useState(false);
     const [hasValidEmail, setHasValidEmail] = useState(false);
@@ -91,7 +95,7 @@ export default ({ screen }) => {
     }
 
     function passwordValidation () {
-        if(screen === 'signUp') {
+        if(props.screen === 'signUp') {
             if(passwordValue && passwordValue === confirmPasswordValue && passwordValue.length >= 6 && confirmPasswordValue.length >= 6) {
                 setHasValidPassword(true);
             } else {
@@ -131,13 +135,26 @@ export default ({ screen }) => {
         }
     };
 
+    function verificationLogin () {
+        console.log(emailValue);
+        console.log(passwordValue);
+        console.log(emailLoginValue);
+        console.log(passwordLoginValue);
+        // api.get('/login', {
+        //     email: emailLoginValue,
+        //     password: passwordLoginValue
+        // })
+        // .then((response) => console.log(response.data))
+        // .catch((err) => console.log(err));
+    }
+
     return(
         <FormArea>
             <LogoArea>
                 <LogoImg source={Logo} />
             </LogoArea>
 
-            <Title>{screen === 'signUp' ? 'Sign Up' : 'Login'}</Title>
+            <Title>{props.screen === 'signUp' ? 'Sign Up' : 'Login'}</Title>
 
             <OtherSignUpOptions>
                 <OtherSignUpButton backgroundColor="#db4a39">
@@ -154,14 +171,15 @@ export default ({ screen }) => {
             </OtherSignUpOptions>
 
             <Divider>
-                <DividerText>{screen === 'signUp' ? 'Or sign up with an email' : 'Or login with an email'}</DividerText>
+                <DividerText>{props.screen === 'signUp' ? 'Or sign up with an email' : 'Or login with an email'}</DividerText>
             </Divider>
 
             {errorMessage ? 
                 <ErrorMessage>{errorMessage}</ErrorMessage>
             : undefined}
+
             <InputArea>
-                {screen === 'signUp' ? 
+                {props.screen === 'signUp' ? 
                     <InputDiv borderColor={hasValidName ? '#D7263D' : '#aaa'}>
                         <Feather name='user' size={22} color={hasValidName ? '#D7263D' : '#aaa'} />
                         <Input onBlur={nameValidation} value={nameValue} onChangeText={v => setNameValue(v)} placeholder="Name" placeholderTextColor="#aaa"  />
@@ -170,12 +188,12 @@ export default ({ screen }) => {
 
                 <InputDiv borderColor={hasValidEmail ? '#D7263D' : '#aaa'}>
                     <Fontisto name="email" size={22} color={hasValidEmail ? '#D7263D' : '#aaa'} />
-                    <Input onBlur={emailValidation} value={emailValue} keyboardType='email-address' onChangeText={v => setEmailValue(v)} placeholder="Email" placeholderTextColor="#aaa"  />
+                    <Input onBlur={emailValidation} value={props.screen === 'signUp' ? emailValue : emailLoginValue} keyboardType='email-address' onChangeText={props.screen === 'signUp' ? v => setEmailValue(v) : v => setEmailLoginValue(v)} placeholder="Email" placeholderTextColor="#aaa"  />
                 </InputDiv>
 
                 <InputDiv borderColor={hasValidPassword ? '#D7263D' : '#aaa'}>
                     <Feather name="lock" size={22} color={hasValidPassword ? '#D7263D' : '#aaa'} />
-                    <Input onBlur={passwordValidation} value={passwordValue} onChangeText={v => setPasswordValue(v)} secureTextEntry={!showPassword} placeholder="Password" placeholderTextColor="#aaa"  />
+                    <Input onBlur={passwordValidation} value={props.screen === 'signUp' ? passwordValue : passwordLoginValue} onChangeText={props.screen === 'signUp' ? v => setPasswordValue(v) : v => setPasswordLoginValue(v)} secureTextEntry={!showPassword} placeholder="Password" placeholderTextColor="#aaa"  />
 
                     <TouchableWithoutFeedback onPress={() => setShowPassword(!showPassword)}>
                         {showPassword ? 
@@ -186,7 +204,7 @@ export default ({ screen }) => {
                     </TouchableWithoutFeedback>
                 </InputDiv>
                 
-                {screen === 'signUp' ? 
+                {props.screen === 'signUp' ? 
                     <InputDiv borderColor={hasValidPassword ? '#D7263D' : '#aaa'}>
                         <Feather name="lock" size={22} color={hasValidPassword ? '#D7263D' : '#aaa'} />
                         <Input onBlur={passwordValidation} value={confirmPasswordValue} onChangeText={v => setConfirmPasswordValue(v)} secureTextEntry={!showConfirmPassword} placeholder="Confirm your password" placeholderTextColor="#aaa"  />
@@ -202,23 +220,33 @@ export default ({ screen }) => {
                 : undefined}
             </InputArea>
 
-            {screen === 'signUp' ? undefined : 
+            {props.screen === 'signUp' ? undefined : 
                 <ForgotPasswordButton>
                     <ForgotPasswordText>Forgot password?</ForgotPasswordText>
                 </ForgotPasswordButton>
             }
 
-            <SubmitButton onPress={verificationSignUp}>
-                <SubmitButtonText>{screen === 'signUp' ? 'Sign Up' : 'Login'}</SubmitButtonText>
+            <SubmitButton onPress={props.screen === 'signUp' ? verificationSignUp : verificationLogin}>
+                <SubmitButtonText>{props.screen === 'signUp' ? 'Sign Up' : 'Login'}</SubmitButtonText>
             </SubmitButton>
 
             <AlreadyHaveAnAccount>
-                <AlreadyHaveAnAccountText>{screen === 'signUp' ? 'Already have an account?' : "Don't have an account?"} </AlreadyHaveAnAccountText>
+                <AlreadyHaveAnAccountText>{props.screen === 'signUp' ? 'Already have an account?' : "Don't have an account?"} </AlreadyHaveAnAccountText>
 
-                <AlreadyHaveAnAccountButton onPress={() => navigation.navigate(screen === 'signUp' ? 'login' : 'sign__up')}>
-                    <AlreadyHaveAnAccountButtonText>{screen === 'signUp' ? 'Login' : 'Sign Up'}</AlreadyHaveAnAccountButtonText>
+                <AlreadyHaveAnAccountButton onPress={() => navigation.navigate(props.screen === 'signUp' ? 'login' : 'sign__up')}>
+                    <AlreadyHaveAnAccountButtonText>{props.screen === 'signUp' ? 'Login' : 'Sign Up'}</AlreadyHaveAnAccountButtonText>
                 </AlreadyHaveAnAccountButton>
             </AlreadyHaveAnAccount>
         </FormArea>
     )
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setName:(name)=>dispatch({type:'SET_NAME', payload: {name}}),    // Seta o email do usuário com redux
+        setEmail:(email)=>dispatch({type:'SET_EMAIL', payload: {email}}),    // Seta o email do usuário com redux
+        setToken:(token)=>dispatch({type:'SET_TOKEN', payload: {token}})    // Seta o email do usuário com redux
+    };
+}
+
+export default connect(null, mapDispatchToProps) (DefaultForm);
