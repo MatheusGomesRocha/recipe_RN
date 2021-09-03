@@ -1,5 +1,5 @@
 const initialState = {
-    name: 'Teste',
+    name: '',
     email: '',
     token: 0,
 }

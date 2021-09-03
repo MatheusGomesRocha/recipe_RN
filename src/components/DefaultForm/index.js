@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableWithoutFeedback } from 'react-native';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
 import validator from 'validator';
 import { useNavigation } from '@react-navigation/native';
@@ -64,6 +64,7 @@ function DefaultForm (props) {
 
     const [errorMessage, setErrorMessage] = useState('');
 
+    const name = useSelector(state=>state.user.name);
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -164,6 +165,7 @@ function DefaultForm (props) {
                     props.setToken(response.data.hasUser.id);
                     props.setName(response.data.hasUser.name);
                     props.setEmail(response.data.hasUser.email);
+                    navigation.navigate('preload');
                 }
             })
             .catch((err) => console.log(err));
@@ -176,7 +178,7 @@ function DefaultForm (props) {
                 <LogoImg source={Logo} />
             </LogoArea>
 
-            <Title>{props.screen === 'signUp' ? 'Sign Up' : 'Login'}</Title>
+            <Title>{props.screen === 'signUp' ? 'Sign Up' : name}</Title>
 
             <OtherSignUpOptions>
                 <OtherSignUpButton backgroundColor="#db4a39">
