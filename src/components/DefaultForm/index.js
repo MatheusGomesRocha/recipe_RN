@@ -120,26 +120,32 @@ function DefaultForm (props) {
         if(!emailValue || !nameValue || !passwordValue || !confirmPasswordValue || passwordValue !== confirmPasswordValue) {
             setErrorMessage('All fields are required');
         } else {
-            api.get(`/has-user/${emailValue}`)
-            .then((response) => {
-                if(response.data.error) {
-                    setErrorMessage(response.data.error);
-                } else {
-                    api.post('/send-verification-code', {
-                        email: emailValue
-                    })
-                    .then((response) => {
-                        navigation.navigate('verification__code', { 
-                            name: nameValue,
-                            email: emailValue,
-                            password: passwordValue,
-                            code: response.data.code
-                        });
-                    })
-                    .catch((err) => console.error(err));
-                }
-            })
-            .catch((err) => console.log(err));
+            // api.get(`/has-user/${emailValue}`)
+            // .then((response) => {
+            //     if(response.data.error) {
+            //         setErrorMessage(response.data.error);
+            //     } else {
+            //         api.post('/send-verification-code', {
+            //             email: emailValue
+            //         })
+            //         .then((response) => {
+            //             navigation.navigate('verification__code', { 
+            //                 name: nameValue,
+            //                 email: emailValue,
+            //                 password: passwordValue,
+            //                 code: response.data.code
+            //             });
+            //         })
+            //         .catch((err) => console.error(err));
+            //     }
+            // })
+            // .catch((err) => console.log(err));
+
+            navigation.navigate('verification__code', { 
+                name: nameValue,
+                email: emailValue,
+                password: passwordValue,
+            });
         }
     };
 
