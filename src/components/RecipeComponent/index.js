@@ -18,19 +18,17 @@ import {
     ItemImg,
 
     ItemCategoryArea,
-    ItemCategoryMarkdown,
     ItemCategoryText,
-
     ItemName,
 
+    ItemDescriptionArea,
+    ItemDescriptionTitle,
     ItemDescription,
 
     ItemMoreInfoArea,
     ItemMoreInfo,
     ItemMoreInfoText,
 
-    ItemButtonArea,
-    ItemSaveButton,
     ItemViewButton,
     ItemViewButtonText,
 } from './styles';
@@ -38,9 +36,9 @@ import {
 // Fake DATA to use when the Database is off
 let array = [
     {id: 1, name: 'Hot Sausage W/ Cheese And Milk', category: 'Chinese', description: 'Lorem ispum aksmd owodoia samda qqsdak mapodkqoa s aa mmammsa', cookTime: 50, ingQuantity: 12},
-    {id: 2, name: 'Hot Sausage W/ Cheese And Milk', category: 'Chinese', description: 'Lorem ispum aksmd owodoia samda qqsdak mapodkqoa s aa mmammsa', cookTime: 50, ingQuantity: 12},
-    {id: 3, name: 'Hot Sausage W/ Cheese And Milk', category: 'Chinese', description: 'Lorem ispum aksmd owodoia samda qqsdak mapodkqoa s aa mmammsa', cookTime: 50, ingQuantity: 12},
-    {id: 4, name: 'Hot Sausage W/ Cheese And Milk', category: 'Chinese', description: 'Lorem ispum aksmd owodoia samda qqsdak mapodkqoa s aa mmammsa', cookTime: 50, ingQuantity: 12},
+    {id: 2, name: 'Hot Sausage W/ Cheese And Milk', category: 'Brazillian', description: 'Lorem ispum aksmd owodoia samda qqsdak mapodkqoa s aa mmammsa', cookTime: 50, ingQuantity: 12},
+    {id: 3, name: 'Hot Sausage W/ Cheese And Milk', category: 'Italian', description: 'Lorem ispum aksmd owodoia samda qqsdak mapodkqoa s aa mmammsa', cookTime: 50, ingQuantity: 12},
+    {id: 4, name: 'Hot Sausage W/ Cheese And Milk', category: 'Japanese', description: 'Lorem ispum aksmd owodoia samda qqsdak mapodkqoa s aa mmammsa', cookTime: 50, ingQuantity: 12},
 ];
 
 export default function RecipeComponent () {
@@ -60,16 +58,19 @@ export default function RecipeComponent () {
 
     const renderItem = ({item}) => {
         return(
-            <RecipeItem style={{width: windowWidth - 120}}>
-                <ItemImg resizeMode='center' source={{uri: `http://192.168.0.110:3000/media/${item.img}`}} />
+            <RecipeItem style={{width: windowWidth}}>
                 <ItemCategoryArea>
-                    <ItemCategoryMarkdown />
-                    <ItemCategoryText>{item.category}</ItemCategoryText>
+                    <ItemCategoryText>{item.category} Food</ItemCategoryText>
+                    <ItemName numberOfLines={1}>{item.name}</ItemName>
                 </ItemCategoryArea>
 
-                <ItemName>{item.name}</ItemName>
+                {/* <ItemImg resizeMode='contain' source={{uri: `http://192.168.0.110:3000/media/${item.img}`}} /> */}
+                <ItemImg resizeMode='contain' source={food1} />
 
-                <ItemDescription>{item.description}</ItemDescription>
+                <ItemDescriptionArea>
+                    <ItemDescriptionTitle>Details</ItemDescriptionTitle>
+                    <ItemDescription numberOfLines={2}>{item.description}askdm askdm adm askmd ak akmsd ka akmdc aksmd aksmdkam am sakdmk</ItemDescription>
+                </ItemDescriptionArea>
 
                 <ItemMoreInfoArea>
                     <ItemMoreInfo>
@@ -83,15 +84,9 @@ export default function RecipeComponent () {
                     </ItemMoreInfo>
                 </ItemMoreInfoArea>
 
-                <ItemButtonArea>
-                    <ItemSaveButton>
-                        <AntDesign name="pluscircleo" color="#fff" size={25} />
-                    </ItemSaveButton>
-
-                    <ItemViewButton onPress={() => navigation.navigate('recipe__info', {recipeId: item.id})}>
-                        <ItemViewButtonText>View Recipe</ItemViewButtonText>
-                    </ItemViewButton>
-                </ItemButtonArea>
+                <ItemViewButton onPress={() => navigation.navigate('recipe__info', {recipeId: item.id})}>
+                    <ItemViewButtonText>View Recipe</ItemViewButtonText>
+                </ItemViewButton>
             </RecipeItem>
         )
     }
@@ -100,9 +95,10 @@ export default function RecipeComponent () {
         <RecipeArea>
             <FlatList
                 horizontal={true}
+                pagingEnabled={true}
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{paddingHorizontal: 20}}
-                data={recipes}
+                contentContainerStyle={{paddingVertical: 20}}
+                data={array}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />

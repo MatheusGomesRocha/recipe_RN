@@ -33,7 +33,7 @@ export default function Home () {
 
     return(
         <HomeContainer>
-            <VerticalBar />
+            {/* <VerticalBar />
 
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
                 <Title>Simple recipy with your <Title style={{color: defaultColor}}>fridge's ingredients</Title></Title>
@@ -49,10 +49,10 @@ export default function Home () {
                             </TouchableNativeFeedback>
                         ))}
                     </ScrollView>
-                </View>
+                </View> */}
 
                 <RecipeComponent />
-            </ScrollView>
+            {/* </ScrollView> */}
         </HomeContainer>
     )
 }

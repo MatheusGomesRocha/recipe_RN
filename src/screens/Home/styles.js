@@ -4,7 +4,6 @@ import { grayish, white } from '../../globals';
 export const HomeContainer = styled.SafeAreaView`
     flex: 1;
     background-color: ${white};
-    padding: 0 0 0 62px;
 `;
 
 /** ----------------------------------------------------- **/
