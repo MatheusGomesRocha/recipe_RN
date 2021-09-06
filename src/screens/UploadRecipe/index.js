@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useSelector } from 'react-redux';
 
 import Feather from 'react-native-vector-icons/Feather';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Header from '../../components/Header';
 import { api } from '../../services/api';
@@ -27,7 +28,11 @@ import {
     FilterItem,
     FilterItemText,
     SubmitButton,
-    SubmitButtonText
+    SubmitButtonText,
+
+    ViewToSubIngInput,
+    SubIngItem,
+    SubIngName,
 } from './styles';
 
 let array = [
@@ -45,8 +50,9 @@ export default function UploadRecipe () {
     const [cookTime, setCookTime] = useState(0);
     const [calories, setCalories] = useState(0);
     const [cuisine, setCuisine] = useState('');
-    const [subIng, setSubIng] = useState('');
     const [dataImg, setDataImg] = useState('');
+    const [subIng, setSubIng] = useState([]);
+    const [subIngValue, setSubIngValue] = useState('');
 
     const [forgotName, setForgotName] = useState(false);
     const [forgotDescription, setForgotDescription] = useState(false);
@@ -82,6 +88,27 @@ export default function UploadRecipe () {
         });
     }, [errorMsg])
 
+    function newIngToArray () {
+        if(subIngValue.trim() !== '') {
+            let arrayIng = [...subIng];
+
+            arrayIng.push({
+                id: Math.floor(Math.random() * 99999),
+                name: subIngValue.trim()
+            })
+
+            setSubIng(arrayIng);
+        }
+
+        setSubIngValue('');
+    }
+
+    function removeFromIngArray (ingId) {
+        let newArray = subIng.filter(item => item.id !== ingId);
+
+        setSubIng(newArray);
+    }
+
     function chooseImageGallery () {
         launchImageLibrary(null, (res) => {
             let data = res.assets;
@@ -98,12 +125,12 @@ export default function UploadRecipe () {
             setForgotCookTime(true);
         } if (calories === 0) {
             setForgotCalories(true);
-        } if (subIng === '') {
+        } if (subIng.length < 1) {
             setForgotSubIng(true);
         }
 
-        if(!name && !type && !description && !cookTime && !calories) {
-            console.log('Preencha todos os campos');
+        if(!name || !type || !description || !cookTime || !calories) {
+            setErrorMsg('All the fields are required');
         } else {
             let formData = new FormData();
 
@@ -113,7 +140,8 @@ export default function UploadRecipe () {
             formData.append('category', 'Chinese');
             formData.append('cookTime', cookTime);
             formData.append('ingQuantity', 5);
-            formData.append('madeById', 2);
+            formData.append('madeById', token);
+            formData.append('subIng', subIng);
 
             let fileExtension = dataImg.slice(-3);
 
@@ -194,10 +222,27 @@ export default function UploadRecipe () {
 
                     <InputArea>
                         <Label color={forgotSubIng ? red : grayFont}>Sub Ingredients</Label>
-                        <Input borderColor={forgotSubIng ? red : 'transparent'} value={subIng} onChangeText={v => setSubIng(v)} />
+                        
+                        <ViewToSubIngInput borderColor={forgotSubIng ? red : 'transparent'} >
+                            <TextInput style={{paddingLeft: 10, color: '#000', flex: 1, fontSize: 15}} onSubmitEditing={newIngToArray} returnKeyType="send" value={subIngValue} onChangeText={v => setSubIngValue(v)} />
 
-                        <ScrollView contentContainerStyle={{paddingHorizontal: 15, marginTop: 10}} horizontal={true} showsHorizontalScrollIndicator={false}>
-                        </ScrollView>
+                            <TouchableOpacity onPress={newIngToArray} style={{marginRight: 20}}>
+                                <Ionicons name="send" color="#000" size={30} />
+                            </TouchableOpacity>
+                        </ViewToSubIngInput>
+
+                            {subIng ? 
+                                <ScrollView contentContainerStyle={{paddingHorizontal: 15, marginTop: 10}} horizontal={true} showsHorizontalScrollIndicator={false}>
+                                    {subIng.map((item, k) => (
+                                        <SubIngItem key={k}>
+                                            <SubIngName>{item.name}</SubIngName>
+                                            <TouchableOpacity onPress={() => removeFromIngArray(item.id)}>
+                                                <Feather style={{marginLeft: 20}} name="x-circle" color="red" size={20} />
+                                            </TouchableOpacity>
+                                        </SubIngItem>
+                                    ))}
+                                </ScrollView>
+                            : undefined}
                     </InputArea>
 
                     <SubmitButton onPress={submitData}>

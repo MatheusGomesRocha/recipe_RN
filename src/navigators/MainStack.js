@@ -17,7 +17,7 @@ const MainStack = createStackNavigator();
 
 export default () => {
     return(
-        <MainStack.Navigator initialRouteName="preload">
+        <MainStack.Navigator initialRouteName="upload__recipe">
             <MainStack.Screen name="app__tab" component={AppTab} options={{title: null, headerTransparent: true, headerLeft: null}} />
             <MainStack.Screen name="login" component={LoginScreen} options={{title: null, headerTransparent: true, headerLeft: null}} />
             <MainStack.Screen name="sign__up" component={SignUpScreen} options={{title: null, headerTransparent: true, headerLeft: null}} />

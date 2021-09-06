@@ -91,3 +91,27 @@ export const SubmitButtonText = styled.Text`
     color: ${white};
     font-size: 16px;
 `;
+
+/** -------------------------------------------------- **/
+
+export const ViewToSubIngInput = styled.View`
+    background-color: ${grayish};
+    flex-direction: row;
+    align-items: center;
+    border-color: ${props=>props.borderColor};
+    border-width: 1px;
+    height: 58px;
+    border-radius: 10px;
+    margin: 7px 20px 0 20px;
+`;
+export const SubIngItem = styled.View`
+    background-color: ${grayish};
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    height: 45px;
+    margin: 0 5px;
+    padding: 0 10px;
+    border-radius: 10px;
+`;
+export const SubIngName = styled.Text``;
