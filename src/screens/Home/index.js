@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView, TouchableNativeFeedback, View } from 'react-native';
 
 import RecipeComponent from '../../components/RecipeComponent';
@@ -9,7 +9,7 @@ import type2 from '../../assets/images/type2.png';
 import type3 from '../../assets/images/type3.png';
 import type4 from '../../assets/images/type4.png';
 
-import { black, defaultColor } from '../../globals';
+import { black, defaultColor, grayish } from '../../globals';
 
 import {
     HomeContainer,

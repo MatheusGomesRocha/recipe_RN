@@ -14,8 +14,3 @@ export const Logo = styled.Image`
     width: 200px;
     height: 200px;
 `;
-export const WelcomeText = styled.Text`
-    color: ${white};
-    font-size: 24px;
-    margin-top: 20px;
-`;

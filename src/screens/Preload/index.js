@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 import { defaultColor } from '../../globals';
 import LogoBranca from '../../assets/images/logo-recipe-branco.png';
@@ -10,7 +11,6 @@ import {
     PreloadContainer,
     CenterArea,
     Logo,
-    WelcomeText
 } from './styles';
 
 export default function Preload() {
@@ -36,6 +36,19 @@ export default function Preload() {
                 });
             }, 4000)
         }
+    }, [])
+
+    const example = async () => {
+        try{    
+            await changeNavigationBarColor('#D7263D');     // {success: true}
+        }catch(e){
+            console.log(e)  // {success: false}
+        }
+   
+    };
+
+    useEffect(() => {
+        example()
     }, [])
 
     return(
