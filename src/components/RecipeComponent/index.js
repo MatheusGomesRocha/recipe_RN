@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, Dimensions} from 'react-native';
+import { FlatList, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import food1 from '../../assets/images/food1.png';
 
@@ -98,7 +97,7 @@ export default function RecipeComponent () {
                 pagingEnabled={true}
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{paddingVertical: 20}}
-                data={array}
+                data={recipes}
                 renderItem={renderItem}
                 keyExtractor={item => item.id}
             />

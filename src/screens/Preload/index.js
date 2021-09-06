@@ -44,14 +44,7 @@ export default function Preload() {
 
             <CenterArea>
                 <Logo source={LogoBranca} />
-                {token ? 
-                    <WelcomeText>Welcome {name}</WelcomeText>
-                : undefined    
-                }
             </CenterArea>
-
-
-            <ActivityIndicator color="#fff" size='large' style={{marginTop: 'auto', marginBottom: 40}} />
         </PreloadContainer>
     )
 }
