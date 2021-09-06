@@ -115,3 +115,13 @@ export const SubIngItem = styled.View`
     border-radius: 10px;
 `;
 export const SubIngName = styled.Text``;
+
+/** -------------------------------------------------- **/
+
+export const ModalArea = styled.View`
+    flex: 1;
+    background-color: ${white};
+    align-items: center;
+    justify-content: center;
+`;
+export const ModalImage = styled.Image``;

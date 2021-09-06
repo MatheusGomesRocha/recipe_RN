@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ScrollView, TextInput, TouchableOpacity } from 'react-native';
+import { ScrollView, TextInput, TouchableOpacity, Modal, Platform, Vibration, StatusBar } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useSelector } from 'react-redux';
 
@@ -8,6 +8,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import Header from '../../components/Header';
 import { api } from '../../services/api';
+import CheckImage from '../../assets/images/checked.png';
 
 import { defaultColor, black, red, grayFont } from '../../globals';
 
@@ -33,6 +34,9 @@ import {
     ViewToSubIngInput,
     SubIngItem,
     SubIngName,
+
+    ModalArea,
+    ModalImage
 } from './styles';
 
 let array = [
@@ -63,11 +67,18 @@ export default function UploadRecipe () {
     const [forgotSubIng, setForgotSubIng] = useState(false);
 
     const [errorMsg, setErrorMsg] = useState('');
-    const [uploadSuccess, setUploadSuccess] = useState(false);
+
+    const [modalVisible, setModalVisible] = useState(false);
 
     const token = useSelector(state => state.user.token);
 
     const scrollRef = useRef(); 
+
+    useEffect(() => {
+        setTimeout(() => {
+            setModalVisible(false);
+        }, 5000)
+    }, [modalVisible]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -87,6 +98,24 @@ export default function UploadRecipe () {
             animated: true,
         });
     }, [errorMsg])
+
+    const ModalComponent = () => {
+        return(
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(false);
+                }}
+            >
+                <ModalArea>
+                    <StatusBar backgroundColor="#fff" barStyle="dark-content" />
+                    <ModalImage source={CheckImage} />
+                </ModalArea>
+            </Modal>
+        )
+    }
 
     function newIngToArray () {
         if(subIngValue.trim() !== '') {
@@ -158,14 +187,19 @@ export default function UploadRecipe () {
                 if(res.data.error) {
                     setErrorMsg(res.data.error)
                 } else {
-                    setUploadSuccess(true);
+                    setModalVisible(true);      // Modal que indica que a receita foi adicionada corretamente
+                    Vibration.vibrate(1000);    // Celular do usuário vibra para indicar mais claramente que a recieta foi adicionada
                 }
             })
         }
     }
 
+
     return(
         <UploadRecipeContainer>
+
+            <ModalComponent />
+
             <ScrollView ref={scrollRef} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingBottom: 20}}>
                 <Header title='Upload new recipe' />
 
