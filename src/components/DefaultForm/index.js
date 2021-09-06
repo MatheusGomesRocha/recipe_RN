@@ -55,9 +55,9 @@ function DefaultForm (props) {
     const [emailLoginValue, setEmailLoginValue] = useState('');
     const [passwordLoginValue, setPasswordLoginValue] = useState('');
 
-    const [hasValidName, setHasValidName] = useState(false);
-    const [hasValidEmail, setHasValidEmail] = useState(false);
-    const [hasValidPassword, setHasValidPassword] = useState(false);
+    const [hasValidName, setHasValidName] = useState(true);
+    const [hasValidEmail, setHasValidEmail] = useState(true);
+    const [hasValidPassword, setHasValidPassword] = useState(true);
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -88,17 +88,13 @@ function DefaultForm (props) {
     }
 
     function emailValidation () {
-        if(emailValue) {
-            const isValidEmail = validator.isEmail(emailValue);
+        const isValidEmail = validator.isEmail(emailValue);
 
             if(isValidEmail) {
                 setHasValidEmail(true);
             } else {
                 setHasValidEmail(false);
             }
-        } else {
-            setHasValidEmail(false);
-        }
     }
 
     function passwordValidation () {
@@ -118,8 +114,15 @@ function DefaultForm (props) {
     }
 
     function verificationSignUp () {
-        if(!emailValue || !nameValue || !passwordValue || !confirmPasswordValue || passwordValue !== confirmPasswordValue) {
+        if(!emailValue || !nameValue || !passwordValue || !confirmPasswordValue) {
             setErrorMessage('All fields are required');
+            return;
+        } if(passwordValue || confirmPasswordValue) {
+            passwordValidation();
+        } if (nameValue) {
+            nameValidation();
+        } if (emailValue) {
+            emailValidation();
         } else {
             // api.get(`/has-user/${emailValue}`)
             // .then((response) => {
@@ -159,8 +162,12 @@ function DefaultForm (props) {
                 password: passwordLoginValue
             })
             .then((response) => {
-                if(response.data.error) {
-                    setErrorMessage(response.data.error)
+                if(response.data.emailError) {
+                    setHasValidEmail(false);
+                    setHasValidPassword(true);
+                } else if (response.data.passwordError) {
+                    setHasValidPassword(false);
+                    setHasValidEmail(true);
                 } else {
                     props.setToken(response.data.hasUser.id);
                     props.setName(response.data.hasUser.name);
@@ -204,20 +211,20 @@ function DefaultForm (props) {
 
             <InputArea>
                 {props.screen === 'signUp' ? 
-                    <InputDiv borderColor={hasValidName ? '#D7263D' : '#aaa'}>
-                        <Feather name='user' size={22} color={hasValidName ? '#D7263D' : '#aaa'} />
-                        <Input onBlur={nameValidation} value={nameValue} onChangeText={v => setNameValue(v)} placeholder="Name" placeholderTextColor="#aaa"  />
+                    <InputDiv borderColor={hasValidName ? '#aaa' : '#ff0000'}>
+                        <Feather name='user' size={22} color={hasValidName ? '#aaa' : '#ff0000'} />
+                        <Input value={nameValue} onChangeText={v => setNameValue(v)} placeholder="Name" placeholderTextColor="#aaa"  />
                     </InputDiv>
                 : undefined}
 
-                <InputDiv borderColor={hasValidEmail ? '#D7263D' : '#aaa'}>
-                    <Fontisto name="email" size={22} color={hasValidEmail ? '#D7263D' : '#aaa'} />
-                    <Input onBlur={emailValidation} value={props.screen === 'signUp' ? emailValue : emailLoginValue} keyboardType='email-address' onChangeText={props.screen === 'signUp' ? v => setEmailValue(v) : v => setEmailLoginValue(v)} placeholder="Email" placeholderTextColor="#aaa"  />
+                <InputDiv borderColor={hasValidEmail ? '#aaa' : '#ff0000'}>
+                    <Fontisto name="email" size={22} color={hasValidEmail ? '#aaa' : '#ff0000'} />
+                    <Input value={props.screen === 'signUp' ? emailValue : emailLoginValue} keyboardType='email-address' onChangeText={props.screen === 'signUp' ? v => setEmailValue(v) : v => setEmailLoginValue(v)} placeholder="Email" placeholderTextColor="#aaa"  />
                 </InputDiv>
 
-                <InputDiv borderColor={hasValidPassword ? '#D7263D' : '#aaa'}>
-                    <Feather name="lock" size={22} color={hasValidPassword ? '#D7263D' : '#aaa'} />
-                    <Input onBlur={passwordValidation} value={props.screen === 'signUp' ? passwordValue : passwordLoginValue} onChangeText={props.screen === 'signUp' ? v => setPasswordValue(v) : v => setPasswordLoginValue(v)} secureTextEntry={!showPassword} placeholder="Password" placeholderTextColor="#aaa"  />
+                <InputDiv borderColor={hasValidPassword ? '#aaa' : '#ff0000'}>
+                    <Feather name="lock" size={22} color={hasValidPassword ? '#aaa' : '#ff0000'} />
+                    <Input value={props.screen === 'signUp' ? passwordValue : passwordLoginValue} onChangeText={props.screen === 'signUp' ? v => setPasswordValue(v) : v => setPasswordLoginValue(v)} secureTextEntry={!showPassword} placeholder="Password" placeholderTextColor="#aaa"  />
 
                     <TouchableWithoutFeedback onPress={() => setShowPassword(!showPassword)}>
                         {showPassword ? 
@@ -229,9 +236,9 @@ function DefaultForm (props) {
                 </InputDiv>
                 
                 {props.screen === 'signUp' ? 
-                    <InputDiv borderColor={hasValidPassword ? '#D7263D' : '#aaa'}>
-                        <Feather name="lock" size={22} color={hasValidPassword ? '#D7263D' : '#aaa'} />
-                        <Input onBlur={passwordValidation} value={confirmPasswordValue} onChangeText={v => setConfirmPasswordValue(v)} secureTextEntry={!showConfirmPassword} placeholder="Confirm your password" placeholderTextColor="#aaa"  />
+                    <InputDiv borderColor={hasValidPassword ? '#aaa' : '#ff0000'}>
+                        <Feather name="lock" size={22} color={hasValidPassword ? '#aaa' : '#ff0000'} />
+                        <Input value={confirmPasswordValue} onChangeText={v => setConfirmPasswordValue(v)} secureTextEntry={!showConfirmPassword} placeholder="Confirm your password" placeholderTextColor="#aaa"  />
 
                         <TouchableWithoutFeedback onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
                             {showConfirmPassword ? 
