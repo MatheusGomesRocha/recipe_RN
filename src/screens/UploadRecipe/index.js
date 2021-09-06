@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ScrollView, TextInput, TouchableOpacity, Modal, Platform, Vibration, StatusBar } from 'react-native';
+import { ScrollView, TextInput, TouchableOpacity, Modal, Alert, Vibration, StatusBar } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useSelector } from 'react-redux';
 
@@ -45,6 +45,12 @@ let array = [
     {id: 3, title: 'Brazilian'},
     {id: 4, title: 'Italian'},
     {id: 5, title: 'Japanese'},
+];
+
+let arrayType = [
+    {id: 1, title: 'Food'},
+    {id: 2, title: 'Drink'},
+    {id: 3, title: 'Snack'},
 ];
 
 export default function UploadRecipe () {
@@ -98,6 +104,21 @@ export default function UploadRecipe () {
             animated: true,
         });
     }, [errorMsg])
+
+    const deleteSubIngAlert = (ingId, ingName) => {
+        Alert.alert(
+            `Delete item ${ingName}`,
+            "You want to delete this item ?",
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel",
+                },
+                { text: "OK", onPress: () => removeFromIngArray(ingId) }
+            ],
+            {cancelable: true},
+        )
+    }
 
     const ModalComponent = () => {
         return(
@@ -156,10 +177,14 @@ export default function UploadRecipe () {
             setForgotCalories(true);
         } if (subIng.length < 1) {
             setForgotSubIng(true);
+        } if (cuisine === '') {
+            setForgotCuisine(true);
+        } if (type === '') {
+            setForgotType(true);
         }
 
-        if(!name || !type || !description || !cookTime || !calories) {
-            setErrorMsg('All the fields are required');
+        if(!name || !type || !description || !cookTime || !calories || subIng.length < 1 || !cuisine) {
+            setErrorMsg('* All fields are required');
         } else {
             let formData = new FormData();
 
@@ -194,7 +219,6 @@ export default function UploadRecipe () {
         }
     }
 
-
     return(
         <UploadRecipeContainer>
 
@@ -228,9 +252,15 @@ export default function UploadRecipe () {
                         <Input borderColor={forgotDescription ? red : 'transparent'} value={description} onChangeText={v => setDescription(v)} />
                     </InputArea>
 
-                    <InputArea>
+                    <InputArea style={{height: 90}}>
                         <Label color={forgotType ? red : grayFont}>Type</Label>
-                        <Input borderColor={forgotType ? red : 'transparent'} value={type} onChangeText={v => setType(v)} />
+                        <ScrollView contentContainerStyle={{paddingHorizontal: 15, marginTop: 10}} horizontal={true} showsHorizontalScrollIndicator={false}>
+                            {arrayType.map((item, k) => (
+                                <FilterItem onPress={() => setType(item.title)} borderColor={type === item.title ? defaultColor : 'transparent'} key={k}>
+                                    <FilterItemText color={type === item.title ? defaultColor : black}>{item.title}</FilterItemText>
+                                </FilterItem>
+                            ))}
+                        </ScrollView>
                     </InputArea>
 
                     <InputArea>
@@ -270,7 +300,7 @@ export default function UploadRecipe () {
                                     {subIng.map((item, k) => (
                                         <SubIngItem key={k}>
                                             <SubIngName>{item.name}</SubIngName>
-                                            <TouchableOpacity onPress={() => removeFromIngArray(item.id)}>
+                                            <TouchableOpacity onPress={() => deleteSubIngAlert(item.id, item.name)}>
                                                 <Feather style={{marginLeft: 20}} name="x-circle" color="red" size={20} />
                                             </TouchableOpacity>
                                         </SubIngItem>

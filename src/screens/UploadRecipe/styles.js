@@ -10,7 +10,7 @@ export const UploadRecipeContainer = styled.SafeAreaView`
 
 export const ErrorText = styled.Text`
     color: red;
-    font-size: 15px;
+    font-size: 18px;
     margin: 20px 20px 10px 20px;
 `;
 
