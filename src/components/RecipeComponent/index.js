@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, Dimensions } from 'react-native';
+import { FlatList, Dimensions, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -42,6 +42,7 @@ let array = [
 
 export default function RecipeComponent () {
     const [recipes, setRecipes] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     const navigation = useNavigation();
 
@@ -54,6 +55,12 @@ export default function RecipeComponent () {
             setRecipes(data);
         })
     }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 4000)
+    }, [])
 
     const renderItem = ({item}) => {
         return(
@@ -90,16 +97,20 @@ export default function RecipeComponent () {
     }
 
     return(
-        <RecipeArea>
-            <FlatList
-                horizontal={true}
-                pagingEnabled={true}
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{paddingVertical: 20}}
-                data={recipes}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-            />
+        <RecipeArea style={{marginTop: isLoading ? 200 : 0}}>
+            {isLoading ? 
+                <ActivityIndicator size="large" color="#D7263D" />
+            :
+                <FlatList
+                    horizontal={true}
+                    pagingEnabled={true}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{paddingVertical: 20}}
+                    data={recipes}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                />
+            }
         </RecipeArea>
     )
 }

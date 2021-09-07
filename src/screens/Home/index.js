@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, ScrollView, TouchableNativeFeedback, View } from 'react-native';
+import React, { useState } from 'react';
+import { ScrollView, TouchableNativeFeedback, View } from 'react-native';
 
 import RecipeComponent from '../../components/RecipeComponent';
 import VerticalBar from '../../components/VerticalBar';
@@ -31,42 +31,31 @@ let categoryArray = [
 
 export default function Home () {
     const [filter, setFilter] = useState('All');
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 4000)
-    }, [])
 
     return(
         <HomeContainer>
-            {isLoading ? 
-                <ActivityIndicator size="large" color="#D7263D" />
-            : 
-                // <VerticalBar />
+             
+            {/* <VerticalBar /> */}
 
-                <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
-                    <Title>Welcome <Title style={{color: defaultColor}}>Matheus</Title></Title>
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
+                <Title>Welcome <Title style={{color: defaultColor}}>Matheus</Title></Title>
 
-                    <View style={{marginTop: 30}}>
-                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 25}}>
-                            {categoryArray.map((item, k) => (
-                                <TouchableNativeFeedback key={k} onPress={() => setFilter(item.name)} background={TouchableNativeFeedback.Ripple('#ccc', false, 55)}>
-                                    <CategoryButton borderColor={filter === item.name ? defaultColor : 'transparent'}>
-                                        <CategoryIcon source={item.icon} />
-                                        <CategoryName color={filter === item.name ? defaultColor : black}>{item.name}</CategoryName>
-                                    </CategoryButton>
-                                </TouchableNativeFeedback>
-                            ))}
-                        </ScrollView>
-                    </View> 
+                <View style={{marginTop: 30}}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 25}}>
+                        {categoryArray.map((item, k) => (
+                            <TouchableNativeFeedback key={k} onPress={() => setFilter(item.name)} background={TouchableNativeFeedback.Ripple('#ccc', false, 55)}>
+                                <CategoryButton borderColor={filter === item.name ? defaultColor : 'transparent'}>
+                                    <CategoryIcon source={item.icon} />
+                                    <CategoryName color={filter === item.name ? defaultColor : black}>{item.name}</CategoryName>
+                                </CategoryButton>
+                            </TouchableNativeFeedback>
+                        ))}
+                    </ScrollView>
+                </View> 
 
-                    <RecipeComponent filter={filter} />
-                
-                </ScrollView> 
-            }
+                <RecipeComponent filter={filter} />
             
+            </ScrollView> 
         </HomeContainer>
     )
 }
