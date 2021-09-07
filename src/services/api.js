@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-    baseURL: 'http://192.168.78.196:3000'
+    baseURL: 'http://192.168.185.196:3000'
 });
 
 
@@ -9,3 +9,4 @@ export const api = axios.create({
 // 192.168.0.110  --> API normal
 // 192.168.247.196  --> API outra
 // 192.168.78.196  --> API outra
+// 192.168.185.196  --> API outra

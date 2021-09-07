@@ -40,7 +40,7 @@ export default function Preload() {
 
     const example = async () => {
         try{    
-            await changeNavigationBarColor('#D7263D');     // {success: true}
+            await changeNavigationBarColor('#000000');     // {success: true}
         }catch(e){
             console.log(e)  // {success: false}
         }

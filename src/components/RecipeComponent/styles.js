@@ -2,13 +2,11 @@ import styled from 'styled-components/native';
 import { blackish, defaultColor, defaultColorTransparent, white } from '../../globals';
 
 export const RecipeArea = styled.View`
-    flex: 1;
 `;
 
 /** -------------------------------------------- **/
 
 export const RecipeItem = styled.View`
-    flex: 1;
 `;
 
 /** ------------------------------------------------------- */
