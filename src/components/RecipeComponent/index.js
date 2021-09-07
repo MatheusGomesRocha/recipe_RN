@@ -8,6 +8,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import food1 from '../../assets/images/food1.png';
 
 import { api } from '../../services/api';
+import NotFound from '../404';
 
 import {
     RecipeArea, 
@@ -40,7 +41,7 @@ let array = [
     {id: 4, name: 'Hot Sausage W/ Cheese And Milk', category: 'Japanese', description: 'Lorem ispum aksmd owodoia samda qqsdak mapodkqoa s aa mmammsa', cookTime: 50, ingQuantity: 12},
 ];
 
-export default function RecipeComponent () {
+export default function RecipeComponent ({ filter }) {
     const [recipes, setRecipes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -49,18 +50,20 @@ export default function RecipeComponent () {
     const windowWidth = Dimensions.get('window').width;
 
     useEffect(() => {
-        api.get('/recipes')
+        api.get(`/recipes/filter?filter=${filter}`)
         .then(res => {
             const data = res.data.recipes;
             setRecipes(data);
+
+            setIsLoading(true);
         })
-    }, []);
+    }, [filter]);
 
     useEffect(() => {
         setTimeout(() => {
             setIsLoading(false);
-        }, 4000)
-    }, [])
+        }, 2000)
+    }, [isLoading])
 
     const renderItem = ({item}) => {
         return(
@@ -101,15 +104,18 @@ export default function RecipeComponent () {
             {isLoading ? 
                 <ActivityIndicator size="large" color="#D7263D" />
             :
-                <FlatList
-                    horizontal={true}
-                    pagingEnabled={true}
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{paddingVertical: 20}}
-                    data={recipes}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
-                />
+                recipes.length > 0 ? 
+                    <FlatList
+                        horizontal={true}
+                        pagingEnabled={true}
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{paddingTop: 20}}
+                        data={recipes}
+                        renderItem={renderItem}
+                        keyExtractor={item => item.id}
+                    />
+                :
+                    <NotFound />
             }
         </RecipeArea>
     )

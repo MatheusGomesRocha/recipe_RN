@@ -7,6 +7,7 @@ export const RecipeArea = styled.View`
 /** -------------------------------------------- **/
 
 export const RecipeItem = styled.View`
+    flex: 1;
 `;
 
 /** ------------------------------------------------------- */
