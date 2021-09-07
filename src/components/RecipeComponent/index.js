@@ -63,8 +63,7 @@ export default function RecipeComponent () {
                     <ItemName numberOfLines={1}>{item.name}</ItemName>
                 </ItemCategoryArea>
 
-                {/* <ItemImg resizeMode='contain' source={{uri: `http://192.168.0.110:3000/media/${item.img}`}} /> */}
-                <ItemImg resizeMode='contain' source={food1} />
+                <ItemImg resizeMode='contain' source={{uri: `http://192.168.0.110:3000/media/${item.img}`}} />
 
                 <ItemDescriptionArea>
                     <ItemDescriptionTitle>Details</ItemDescriptionTitle>

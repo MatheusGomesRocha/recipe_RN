@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { ScrollView, TextInput, TouchableOpacity, Modal, Alert, Vibration, StatusBar } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -78,18 +79,15 @@ export default function UploadRecipe () {
 
     const token = useSelector(state => state.user.token);
 
-    const scrollRef = useRef(); 
+    const navigation = useNavigation();
 
-    useEffect(() => {
-        setTimeout(() => {
-            setModalVisible(false);
-        }, 5000)
-    }, [modalVisible]);
+    const scrollRef = useRef(); 
 
     useEffect(() => {
         setTimeout(() => {
             setForgotName(false);
             setForgotDescription(false);
+            setForgotType(false);
             setForgotCookTime(false);
             setForgotCalories(false);
             setForgotCuisine(false);
@@ -173,7 +171,7 @@ export default function UploadRecipe () {
             setForgotDescription(true);
         } if (cookTime === 0) {
             setForgotCookTime(true);
-        } if (calories === 0) {
+        } if (!calories) {
             setForgotCalories(true);
         } if (subIng.length < 1) {
             setForgotSubIng(true);
@@ -191,11 +189,10 @@ export default function UploadRecipe () {
             formData.append('name', name);
             formData.append('description', description);
             formData.append('type', type);
-            formData.append('category', 'Chinese');
+            formData.append('category', cuisine);
             formData.append('cookTime', cookTime);
             formData.append('ingQuantity', 5);
             formData.append('madeById', token);
-            formData.append('subIng', subIng);
 
             let fileExtension = dataImg.slice(-3);
 
@@ -207,15 +204,25 @@ export default function UploadRecipe () {
     
             // ${token}
 
-            api.post(`/upload-recipe/auth?token=205`, formData)
+            api.post(`/upload-recipe/auth?token=${token}`, formData)
             .then((res) => {
                 if(res.data.error) {
-                    setErrorMsg(res.data.error)
+                    setErrorMsg(res.data.error);
+                    console.log(res.data.error);
                 } else {
-                    setModalVisible(true);      // Modal que indica que a receita foi adicionada corretamente
-                    Vibration.vibrate(1000);    // Celular do usuário vibra para indicar mais claramente que a recieta foi adicionada
+                    setModalVisible(true);
+                    Vibration.vibrate(1000);
+                    
+                    setTimeout(() => {
+                        navigation.reset({
+                            routes: [
+                                { name: 'upload__recipe' },
+                            ]
+                        });
+                    }, 3000)
                 }
-            })
+            }).catch((err) => console.log(err));
+
         }
     }
 
