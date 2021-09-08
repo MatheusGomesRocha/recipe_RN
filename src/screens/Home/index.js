@@ -35,13 +35,13 @@ export default function Home () {
     return(
         <HomeContainer>
              
-            {/* <VerticalBar /> */}
+            <VerticalBar />
 
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
                 <Title>Welcome <Title style={{color: defaultColor}}>Matheus</Title></Title>
 
                 <View style={{marginTop: 30}}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 25}}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 20, marginLeft: 60}}>
                         {categoryArray.map((item, k) => (
                             <TouchableNativeFeedback key={k} onPress={() => setFilter(item.name)} background={TouchableNativeFeedback.Ripple('#ccc', false, 55)}>
                                 <CategoryButton borderColor={filter === item.name ? defaultColor : 'transparent'}>

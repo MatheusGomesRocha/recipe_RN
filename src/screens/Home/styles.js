@@ -10,7 +10,7 @@ export const HomeContainer = styled.SafeAreaView`
 
 export const Title = styled.Text`
     font-size: 18px;
-    margin-left: 39px;
+    margin-left: 90px;
 `;
 
 /** ----------------------------------------------------- **/

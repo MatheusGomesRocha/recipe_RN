@@ -8,13 +8,13 @@ export const RecipeArea = styled.View`
 
 export const RecipeItem = styled.View`
     flex: 1;
+    padding: 0 20px;
 `;
 
 /** ------------------------------------------------------- */
 
 export const ItemCategoryArea = styled.View`
     align-items: flex-end;
-    margin-right: 20px;
 `;
 export const ItemCategoryText = styled.Text`
     color: ${defaultColor};
@@ -31,7 +31,7 @@ export const ItemName = styled.Text`
 export const ItemImg = styled.Image`
     width: 370px;
     height: 370px;
-    right: -150px;
+    right: -110px;
     top: 10px;
 `;
 
@@ -39,7 +39,7 @@ export const ItemImg = styled.Image`
 /** ------------------------------------------------------- */
 
 export const ItemDescriptionArea = styled.View`
-    margin: 20px 20px 0 20px;
+    margin: 20px 0 0 60px;
 `;
 export const ItemDescriptionTitle = styled.Text`
     color: ${defaultColor};
@@ -58,8 +58,7 @@ export const ItemMoreInfoArea = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
-    margin: 20px 0;
+    margin: 20px 0 20px 60px;
 `;
 export const ItemMoreInfo = styled.View`
     flex-direction: row;
@@ -78,7 +77,7 @@ export const ItemViewButton = styled.TouchableOpacity`
     justify-content: center;
     height: 62px;
     border-radius: 10px;
-    margin: 20px;
+    margin: 20px 0 20px 60px;
 `;
 export const ItemViewButtonText = styled.Text`
     color: ${white};
