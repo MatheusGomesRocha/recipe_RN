@@ -50,7 +50,7 @@ export default function RecipeComponent ({ filter }) {
     const windowWidth = Dimensions.get('window').width;
 
     useEffect(() => {
-        api.get(`/recipes/filter?filter=${filter}`)
+        api.get(`/recipes/filter?v=${filter}`)
         .then(res => {
             const data = res.data.recipes;
             setRecipes(data);
