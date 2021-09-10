@@ -172,6 +172,7 @@ function DefaultForm (props) {
                     props.setToken(response.data.hasUser.id);
                     props.setName(response.data.hasUser.name);
                     props.setEmail(response.data.hasUser.email);
+                    props.setAvatar(response.data.hasUser.avatar);
                     navigation.navigate('preload');
                 }
             })
@@ -274,9 +275,10 @@ function DefaultForm (props) {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setName:(name)=>dispatch({type:'SET_NAME', payload: {name}}),    // Seta o email do usuário com redux
+        setName:(name)=>dispatch({type:'SET_NAME', payload: {name}}),    // Seta o nome do usuário com redux
         setEmail:(email)=>dispatch({type:'SET_EMAIL', payload: {email}}),    // Seta o email do usuário com redux
-        setToken:(token)=>dispatch({type:'SET_TOKEN', payload: {token}})    // Seta o email do usuário com redux
+        setToken:(token)=>dispatch({type:'SET_TOKEN', payload: {token}}),    // Seta o token do usuário com redux
+        setAvatar:(token)=>dispatch({type:'SET_AVATAR', payload: {avatar}})    // Seta o avatar do usuário com redux
     };
 }
 

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { ScrollView, TouchableNativeFeedback, View } from 'react-native';
+import { useSelector } from 'react-redux';
+
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import RecipeComponent from '../../components/RecipeComponent';
 import VerticalBar from '../../components/VerticalBar';
@@ -9,12 +12,13 @@ import type2 from '../../assets/images/type2.png';
 import type3 from '../../assets/images/type3.png';
 import type4 from '../../assets/images/type4.png';
 
-
 import { black, defaultColor } from '../../globals';
 
 import {
     HomeContainer,
 
+    Header,
+    HeaderContent,
     Title,
 
     CategoryButton,
@@ -32,13 +36,25 @@ let categoryArray = [
 export default function Home () {
     const [filter, setFilter] = useState('All');
 
+    const avatar = useSelector(state=>state.user.avatar);
+
     return(
         <HomeContainer>
              
             <VerticalBar />
 
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
-                <Title>Welcome <Title style={{color: defaultColor}}>Matheus</Title></Title>
+                <Header>
+                    {avatar ?
+                        undefined
+                    :
+                        <FontAwesome name="user-circle" color="#999" size={60} />
+                    }
+                    <HeaderContent>
+                        <Title style={{fontSize: 14}}>Good Morning</Title>
+                        <Title style={{color: defaultColor}}>Matheus</Title>
+                    </HeaderContent>
+                </Header>
 
                 <View style={{marginTop: 30}}>
                     <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 20, marginLeft: 60}}>
