@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, FlatList, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -31,6 +32,8 @@ export default function Search() {
     const [search, setSearch] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [recipes, setRecipes] = useState([]);
+
+    const navigation = useNavigation();
 
     const windowWidth = Dimensions.get('window').width;
 
@@ -65,7 +68,7 @@ export default function Search() {
                 <ItemFooter>
                     <ItemDescription numberOfLines={3}>{item.description}kamsk akmsd akmds asmd am akdsm kamdk mak kma kmsdkm akmd kamsdk makdsm sakmdk maksd mkasmdkamdk makd kamd akmdsk</ItemDescription>
 
-                    <ItemButton>
+                    <ItemButton onPress={() => navigation.navigate('recipe__info', {recipeId: item.id}) }>
                         <ItemButtonText>View Recipe</ItemButtonText>
                     </ItemButton>
                 </ItemFooter>
