@@ -3,6 +3,8 @@ const initialState = {
     email: '',
     token: 0,
     avatar: '',
+    user: '',
+    menu: 0,
 }
 
 export default (state = initialState, action) => {
@@ -18,6 +20,12 @@ export default (state = initialState, action) => {
         break;
         case 'SET_AVATAR':
             return {...state, avatar: action.payload.avatar};
+        break
+        case 'SET_USER':
+            return {...state, user: action.payload.user};
+        break
+        case 'SHOW_MENU':
+            return {...state, menu: action.payload.menu};
         break
         default:
             return state

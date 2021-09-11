@@ -11,7 +11,7 @@ export const HomeContainer = styled.SafeAreaView`
 export const Header = styled.View`
     flex-direction: row;
     align-items: center;
-    margin-left: 90px;
+    margin-left: 20px;
 `;
 export const HeaderContent = styled.View`
     margin-left: 20px;

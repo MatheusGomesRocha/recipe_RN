@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useRef, useState } from 'react';
+import { TouchableOpacity, Animated, Easing } from 'react-native';
+import { useNavigation, DrawerActions } from '@react-navigation/native';
+import { connect } from 'react-redux';
 
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -11,16 +12,18 @@ import {
 
     VerticalBarItem,
     VerticalBarItemText,
+
 } from './styles';
 
 export default function VerticalBarComponent () {
     const [itemSelected, setItemSelected] = useState('refrigerator');
-
     const navigation = useNavigation();
 
     return(
         <VerticalBar>
-            <Feather name="menu" color="#000" size={25} />
+            <TouchableOpacity onPress={() => navigation.dispatch(DrawerActions.closeDrawer())}>
+                <Feather name="menu" color="#000" size={25} />
+            </TouchableOpacity>
 
             <TouchableOpacity onPress={() => navigation.navigate('search')} style={{marginTop: 30}}>
                 <Feather name="search" color="#000" size={25} />

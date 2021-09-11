@@ -202,8 +202,6 @@ export default function UploadRecipe () {
                 name: 'image'
             })
     
-            // ${token}
-
             api.post(`/upload-recipe/auth?token=${token}`, formData)
             .then((res) => {
                 if(res.data.error) {

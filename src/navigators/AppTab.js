@@ -2,8 +2,8 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import CustomTabBar from '../components/CustomTabBar';
+import Drawer from './Drawer'
 
-import HomeScreen from '../screens/Home';
 import SavedScreen from '../screens/Saved';
 import ProfileScreen from '../screens/Profile';
 
@@ -17,7 +17,7 @@ export default () => {
                 keyboardHidesTabBar: true
             }}
         >
-            <AppTab.Screen name="home" component={HomeScreen} options={{title: null, headerTransparent: true}}/>
+            <AppTab.Screen name="drawer" component={Drawer} options={{title: null, headerTransparent: true}}/>
             <AppTab.Screen name="saved" component={SavedScreen} options={{title: null, headerTransparent: true}}/>
             <AppTab.Screen name="profile" component={ProfileScreen} options={{title: null, headerTransparent: true}}/>
         </AppTab.Navigator>

@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import RecipeComponent from '../../components/RecipeComponent';
-import VerticalBar from '../../components/VerticalBar';
 
 import type1 from '../../assets/images/type1.png';
 import type2 from '../../assets/images/type2.png';
@@ -40,8 +39,6 @@ export default function Home () {
 
     return(
         <HomeContainer>
-             
-            <VerticalBar />
 
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
                 <Header>
@@ -57,7 +54,7 @@ export default function Home () {
                 </Header>
 
                 <View style={{marginTop: 30}}>
-                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 20, marginLeft: 60}}>
+                    <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 10}}>
                         {categoryArray.map((item, k) => (
                             <TouchableNativeFeedback key={k} onPress={() => setFilter(item.name)} background={TouchableNativeFeedback.Ripple('#ccc', false, 55)}>
                                 <CategoryButton borderColor={filter === item.name ? defaultColor : 'transparent'}>
@@ -69,7 +66,7 @@ export default function Home () {
                     </ScrollView>
                 </View> 
 
-                <RecipeComponent filter={filter} />
+                {/* <RecipeComponent filter={filter} /> */}
             
             </ScrollView> 
         </HomeContainer>

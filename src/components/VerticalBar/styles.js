@@ -6,7 +6,7 @@ export const VerticalBar = styled.View`
     position: absolute;
     align-items: center;
     z-index: 999;
-    padding: 30px 0;
+    padding: 50px 0;
     width: 62px;
     height: 100%;
 `;

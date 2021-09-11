@@ -25,7 +25,34 @@ import {
 } from './styles';
 
 export default function UpdateProfile () {
+    const [dataImg, setDataImg] = useState('');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [user, setUser] = useState('');
     const [hasChanges, setHasChanges] = useState(false);
+
+    function submitData () {
+        let formData = new FormData();
+
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('user', user);
+
+        let fileExtension = dataImg.slice(-3);
+
+        formData.append('img', {
+            uri: dataImg,
+            type: `image/${fileExtension}`,
+            name: 'image'
+        })
+    }
+
+    function chooseImageGallery () {
+        launchImageLibrary(null, (res) => {
+            let data = res.assets;
+            setDataImg(data[0].uri);
+        });
+    }
 
     return(
         <UpdateProfileContainer>
@@ -33,11 +60,11 @@ export default function UpdateProfile () {
 
             <UpdateProfileArea>
                 <UpdateImageArea>
-                    {/* <UpdateImage source={Profile}/> */}
+                    <UpdateImage source={{uri: dataImg}}/>
 
-                    <FontAwesome name="user" color="#aaa" size={80} />
+                    {/* <FontAwesome name="user" color="#aaa" size={80} /> */}
 
-                    <UpdateImageButton>
+                    <UpdateImageButton onPress={chooseImageGallery}>
                         <AntDesign name="camerao" color="#aaa" size={30} />
                     </UpdateImageButton>
                 </UpdateImageArea>
