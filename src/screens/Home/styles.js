@@ -11,7 +11,12 @@ export const HomeContainer = styled.SafeAreaView`
 export const Header = styled.View`
     flex-direction: row;
     align-items: center;
-    margin-left: 20px;
+    margin: 0 20px;
+`;
+export const Avatar = styled.Image`
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
 `;
 export const HeaderContent = styled.View`
     margin-left: 20px;
@@ -19,6 +24,13 @@ export const HeaderContent = styled.View`
 export const Title = styled.Text`
     color: ${grayFont};
     font-size: 17px;
+`;
+export const LogoutButton = styled.TouchableOpacity`
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    width: 40px;
+    height: 40px;
 `;
 
 /** ----------------------------------------------------- **/

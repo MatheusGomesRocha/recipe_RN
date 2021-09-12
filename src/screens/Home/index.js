@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { ScrollView, TouchableNativeFeedback, View } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 import RecipeComponent from '../../components/RecipeComponent';
@@ -17,8 +19,10 @@ import {
     HomeContainer,
 
     Header,
+    Avatar,
     HeaderContent,
     Title,
+    LogoutButton,
 
     CategoryButton,
     CategoryIcon,
@@ -32,10 +36,26 @@ let categoryArray = [
     {id: 4, name: 'Italian', icon: type4},
 ];
 
-export default function Home () {
+function Home (props) {
     const [filter, setFilter] = useState('All');
 
+    const navigation = useNavigation();
+
     const avatar = useSelector(state=>state.user.avatar);
+
+    function logout() {
+        props.setName('');
+        props.setEmail('');
+        props.setUser('');
+        props.setAvatar('');
+        props.setToken('');
+
+        navigation.reset({
+            routes: [
+                { name: 'preload' },
+            ]
+        });
+    }
 
     return(
         <HomeContainer>
@@ -43,7 +63,7 @@ export default function Home () {
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
                 <Header>
                     {avatar ?
-                        undefined
+                        <Avatar source={{uri: `http://192.168.0.110:3000/media/${avatar}`}} />
                     :
                         <FontAwesome name="user-circle" color="#999" size={60} />
                     }
@@ -51,6 +71,10 @@ export default function Home () {
                         <Title style={{fontSize: 14}}>Good Morning</Title>
                         <Title style={{color: defaultColor}}>Matheus</Title>
                     </HeaderContent>
+
+                    <LogoutButton onPress={logout}>
+                        <MaterialIcons name="logout" color="#000" size={35} />
+                    </LogoutButton>
                 </Header>
 
                 <View style={{marginTop: 30}}>
@@ -66,9 +90,21 @@ export default function Home () {
                     </ScrollView>
                 </View> 
 
-                {/* <RecipeComponent filter={filter} /> */}
+                <RecipeComponent filter={filter} />
             
             </ScrollView> 
         </HomeContainer>
     )
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setName:(name)=>dispatch({type:'SET_NAME', payload: {name}}),    // Seta o nome do usuário com redux
+        setEmail:(email)=>dispatch({type:'SET_EMAIL', payload: {email}}),    // Seta o email do usuário com redux
+        setToken:(token)=>dispatch({type:'SET_TOKEN', payload: {token}}),    // Seta o token do usuário com redux
+        setAvatar:(avatar)=>dispatch({type:'SET_AVATAR', payload: {avatar}}),    // Seta o avatar do usuário com redux
+        setUser:(user)=>dispatch({type:'SET_USER', payload: {user}})    // Seta o user do usuário com redux
+    };
+}
+
+export default connect(null, mapDispatchToProps) (Home);

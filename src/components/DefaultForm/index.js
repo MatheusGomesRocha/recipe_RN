@@ -187,7 +187,7 @@ function DefaultForm (props) {
                 <LogoImg source={Logo} />
             </LogoArea>
 
-            <Title>{props.screen === 'signUp' ? 'Sign Up' : name}</Title>
+            <Title>{props.screen === 'signUp' ? 'Sign Up' : 'Login'}</Title>
 
             <OtherSignUpOptions>
                 <OtherSignUpButton backgroundColor="#db4a39">
@@ -279,7 +279,7 @@ const mapDispatchToProps = (dispatch) => {
         setName:(name)=>dispatch({type:'SET_NAME', payload: {name}}),    // Seta o nome do usuário com redux
         setEmail:(email)=>dispatch({type:'SET_EMAIL', payload: {email}}),    // Seta o email do usuário com redux
         setToken:(token)=>dispatch({type:'SET_TOKEN', payload: {token}}),    // Seta o token do usuário com redux
-        setAvatar:(token)=>dispatch({type:'SET_AVATAR', payload: {avatar}}),    // Seta o avatar do usuário com redux
+        setAvatar:(avatar)=>dispatch({type:'SET_AVATAR', payload: {avatar}}),    // Seta o avatar do usuário com redux
         setUser:(user)=>dispatch({type:'SET_USER', payload: {user}})    // Seta o user do usuário com redux
     };
 }
