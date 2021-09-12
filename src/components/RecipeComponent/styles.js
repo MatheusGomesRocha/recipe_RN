@@ -39,7 +39,7 @@ export const ItemImg = styled.Image`
 /** ------------------------------------------------------- */
 
 export const ItemDescriptionArea = styled.View`
-    margin: 20px 0 0 60px;
+    margin-top: 20px;
 `;
 export const ItemDescriptionTitle = styled.Text`
     color: ${defaultColor};
@@ -58,7 +58,7 @@ export const ItemMoreInfoArea = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    margin: 20px 0 20px 60px;
+    margin: 20px 0;
 `;
 export const ItemMoreInfo = styled.View`
     flex-direction: row;
@@ -77,7 +77,7 @@ export const ItemViewButton = styled.TouchableOpacity`
     justify-content: center;
     height: 62px;
     border-radius: 10px;
-    margin: 20px 0 20px 60px;
+    margin: 20px 0;
 `;
 export const ItemViewButtonText = styled.Text`
     color: ${white};
