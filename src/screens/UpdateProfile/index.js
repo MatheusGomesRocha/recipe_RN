@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-native';
 import { useSelector } from 'react-redux';
 import { launchImageLibrary } from 'react-native-image-picker';
 
 import Header from '../../components/Header';
 import { defaultColor, grayFont } from '../../globals';
 import { api } from '../../services/api';
+import ModalLoading from '../../components/ModalLoading';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import {
     UpdateProfileContainer,
-    
+
     UpdateProfileArea,
     
     UpdateImageArea,
@@ -33,12 +35,20 @@ export default function UpdateProfile () {
     const [email, setEmail] = useState('');
     const [user, setUser] = useState('');
     const [hasChanges, setHasChanges] = useState(false);
+    const [modalVisible, setModalVisibile] = useState(false);
 
     const token = useSelector(state => state.user.token);
     const avatarLoggedIn = useSelector(state => state.user.avatar);
     const nameLoggedIn = useSelector(state => state.user.name);
     const emailLoggedIn = useSelector(state => state.user.email);
     const userLoggedIn = useSelector(state => state.user.user);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setModalVisibile(false);
+            submitData();
+        }, 2500)
+    }, [modalVisible]);
 
     useEffect(() => {
         setName(nameLoggedIn);
@@ -52,32 +62,33 @@ export default function UpdateProfile () {
         } else {
             setHasChanges(true);
         }
-    }, [name, email, user, dataImg])
+    }, [name, email, user, dataImg]);
 
     function submitData () {
-        let formData = new FormData();
+        // let formData = new FormData();
 
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('user', user);
-        formData.append('token', token);
+        // formData.append('name', name);
+        // formData.append('email', email);
+        // formData.append('user', user);
+        // formData.append('token', token);
 
-        let fileExtension = dataImg.slice(-3);
+        // let fileExtension = dataImg.slice(-3);
 
-        formData.append('img', {
-            uri: dataImg,
-            type: `image/${fileExtension}`,
-            name: 'image'
-        })
+        // formData.append('img', {
+        //     uri: dataImg,
+        //     type: `image/${fileExtension}`,
+        //     name: 'image'
+        // })
         
-        api.post(`/edit-profile/auth?token=${token}`, formData)
-            .then((res) => {
-                if(res.data.error) {
-                    console.log(res.data.error);
-                } else {
-                    console.log(res.data);
-                }
-            }).catch((err) => console.log(err));
+        // api.post(`/edit-profile/auth?token=${token}`, formData)
+        // .then((res) => {
+        //     if(res.data.error) {
+        //         console.log(res.data.error);
+        //     } else {
+        //         console.log(res.data);
+        //     }
+        // }).catch((err) => console.log(err));
+        console.log('está vindo aqui 2');
     }
 
     function chooseImageGallery () {
@@ -90,6 +101,15 @@ export default function UpdateProfile () {
     return(
         <UpdateProfileContainer>
             <Header title="Update Profile" />
+
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(!modalVisible)}
+            >
+                <ModalLoading />
+            </Modal>
 
             <UpdateProfileArea>
                 <UpdateImageArea>
@@ -125,7 +145,7 @@ export default function UpdateProfile () {
                         <Input onChange={() => setHasChanges(true)} onChangeText={v => setUser(v)} defaultValue={user} />
                     </InputArea>
 
-                    <SubmitButton onPress={submitData} disabled={hasChanges ? false : true} backgroundColor={hasChanges ? defaultColor : grayFont}>
+                    <SubmitButton onPress={() => setModalVisibile(true)} disabled={hasChanges ? false : true} backgroundColor={hasChanges ? defaultColor : grayFont}>
                         <SubmitButtonText>Edit Changes</SubmitButtonText>
                     </SubmitButton>
                 </FormArea>

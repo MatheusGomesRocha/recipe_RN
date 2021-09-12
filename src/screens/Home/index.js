@@ -66,7 +66,7 @@ export default function Home () {
                     </ScrollView>
                 </View> 
 
-                <RecipeComponent filter={filter} />
+                {/* <RecipeComponent filter={filter} /> */}
             
             </ScrollView> 
         </HomeContainer>
