@@ -23,12 +23,17 @@ export const UpdateImageArea = styled.View`
     height: 130px;
     border-radius: 65px;
 `;
+export const ErrorMessage = styled.Text`
+    color: red;
+    margin-top: 20px;
+    font-size: 16px;
+`;
 export const UpdateImage = styled.Image`
     width: 130px;
     height: 130px;
     border-radius: 65px;
 `; 
-export const UpdateImageButton = styled.View`
+export const UpdateImageButton = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
     position: absolute;

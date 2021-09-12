@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 import Header from '../../components/Header';
-import Profile from '../../assets/images/profile.jpg';
 import { defaultColor, grayFont } from '../../globals';
+import { api } from '../../services/api';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -13,6 +15,7 @@ import {
     UpdateProfileArea,
     
     UpdateImageArea,
+    ErrorMessage,
     UpdateImage,
     UpdateImageButton,
 
@@ -31,12 +34,33 @@ export default function UpdateProfile () {
     const [user, setUser] = useState('');
     const [hasChanges, setHasChanges] = useState(false);
 
+    const token = useSelector(state => state.user.token);
+    const avatarLoggedIn = useSelector(state => state.user.avatar);
+    const nameLoggedIn = useSelector(state => state.user.name);
+    const emailLoggedIn = useSelector(state => state.user.email);
+    const userLoggedIn = useSelector(state => state.user.user);
+
+    useEffect(() => {
+        setName(nameLoggedIn);
+        setEmail(emailLoggedIn);
+        setUser(userLoggedIn);
+    }, []);
+
+    useEffect(() => {
+        if(name === '' || email === '') {
+            setHasChanges(false);
+        } else {
+            setHasChanges(true);
+        }
+    }, [name, email, user, dataImg])
+
     function submitData () {
         let formData = new FormData();
 
         formData.append('name', name);
         formData.append('email', email);
         formData.append('user', user);
+        formData.append('token', token);
 
         let fileExtension = dataImg.slice(-3);
 
@@ -45,6 +69,15 @@ export default function UpdateProfile () {
             type: `image/${fileExtension}`,
             name: 'image'
         })
+        
+        api.post(`/edit-profile/auth?token=${token}`, formData)
+            .then((res) => {
+                if(res.data.error) {
+                    console.log(res.data.error);
+                } else {
+                    console.log(res.data);
+                }
+            }).catch((err) => console.log(err));
     }
 
     function chooseImageGallery () {
@@ -60,32 +93,39 @@ export default function UpdateProfile () {
 
             <UpdateProfileArea>
                 <UpdateImageArea>
-                    <UpdateImage source={{uri: dataImg}}/>
-
-                    {/* <FontAwesome name="user" color="#aaa" size={80} /> */}
+                    {dataImg ? 
+                        <UpdateImage source={{uri: dataImg}}/>
+                    :
+                        <FontAwesome name="user" color="#aaa" size={80} />
+                    }
 
                     <UpdateImageButton onPress={chooseImageGallery}>
                         <AntDesign name="camerao" color="#aaa" size={30} />
                     </UpdateImageButton>
                 </UpdateImageArea>
 
+                {!hasChanges ?
+                    <ErrorMessage>If you let an empty field, he will not be updated</ErrorMessage>
+                : 
+                    undefined
+                }
                 <FormArea>
                     <InputArea>
                         <Label>Name</Label>
-                        <Input value="Matheus" />
+                        <Input onChange={() => setHasChanges(true)} onChangeText={v => setName(v)} defaultValue={name} />
                     </InputArea>
 
                     <InputArea>
                         <Label>Email</Label>
-                        <Input value="matheusgomes192@hotmail.com" />
+                        <Input onChange={() => setHasChanges(true)} onChangeText={v => setEmail(v)} defaultValue={email} />
                     </InputArea>
 
                     <InputArea>
                         <Label>User</Label>
-                        <Input value="@matheus1254" />
+                        <Input onChange={() => setHasChanges(true)} onChangeText={v => setUser(v)} defaultValue={user} />
                     </InputArea>
 
-                    <SubmitButton disabled={hasChanges ? false : true} backgroundColor={hasChanges ? defaultColor : grayFont}>
+                    <SubmitButton onPress={submitData} disabled={hasChanges ? false : true} backgroundColor={hasChanges ? defaultColor : grayFont}>
                         <SubmitButtonText>Edit Changes</SubmitButtonText>
                     </SubmitButton>
                 </FormArea>
