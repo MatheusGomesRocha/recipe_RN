@@ -35,7 +35,7 @@ export default function UpdateProfile () {
     const [email, setEmail] = useState('');
     const [user, setUser] = useState('');
     const [hasChanges, setHasChanges] = useState(false);
-    const [modalVisible, setModalVisibile] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const token = useSelector(state => state.user.token);
     const avatarLoggedIn = useSelector(state => state.user.avatar);
@@ -45,7 +45,7 @@ export default function UpdateProfile () {
 
     useEffect(() => {
         setTimeout(() => {
-            setModalVisibile(false);
+            setModalVisible(false);
             submitData();
         }, 2500)
     }, [modalVisible]);
@@ -65,30 +65,29 @@ export default function UpdateProfile () {
     }, [name, email, user, dataImg]);
 
     function submitData () {
-        // let formData = new FormData();
+        let formData = new FormData();
 
-        // formData.append('name', name);
-        // formData.append('email', email);
-        // formData.append('user', user);
-        // formData.append('token', token);
+        formData.append('name', name);
+        formData.append('email', email);
+        formData.append('user', user);
+        formData.append('token', token);
 
-        // let fileExtension = dataImg.slice(-3);
+        let fileExtension = dataImg.slice(-3);
 
-        // formData.append('img', {
-        //     uri: dataImg,
-        //     type: `image/${fileExtension}`,
-        //     name: 'image'
-        // })
+        formData.append('img', {
+            uri: dataImg,
+            type: `image/${fileExtension}`,
+            name: 'image'
+        })
         
-        // api.post(`/edit-profile/auth?token=${token}`, formData)
-        // .then((res) => {
-        //     if(res.data.error) {
-        //         console.log(res.data.error);
-        //     } else {
-        //         console.log(res.data);
-        //     }
-        // }).catch((err) => console.log(err));
-        console.log('está vindo aqui 2');
+        api.post(`/edit-profile/auth?token=${token}`, formData)
+        .then((res) => {
+            if(res.data.error) {
+                console.log(res.data.error);
+            } else {
+                console.log(res.data);
+            }
+        }).catch((err) => console.log(err));
     }
 
     function chooseImageGallery () {
@@ -145,7 +144,7 @@ export default function UpdateProfile () {
                         <Input onChange={() => setHasChanges(true)} onChangeText={v => setUser(v)} defaultValue={user} />
                     </InputArea>
 
-                    <SubmitButton onPress={() => setModalVisibile(true)} disabled={hasChanges ? false : true} backgroundColor={hasChanges ? defaultColor : grayFont}>
+                    <SubmitButton onPress={() => setModalVisible(true)} disabled={hasChanges ? false : true} backgroundColor={hasChanges ? defaultColor : grayFont}>
                         <SubmitButtonText>Edit Changes</SubmitButtonText>
                     </SubmitButton>
                 </FormArea>

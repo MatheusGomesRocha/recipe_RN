@@ -10,13 +10,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Header from '../../components/Header';
 import { api } from '../../services/api';
 import CheckImage from '../../assets/images/checked.png';
+import ModalLoading from '../../components/ModalLoading';
+import ErrorMessage from '../../components/ErrorMessage';
 
 import { defaultColor, black, red, grayFont } from '../../globals';
 
 import {
     UploadRecipeContainer,
-
-    ErrorText,
 
     UploadImageArea,
     UploadImageTitle,
@@ -75,6 +75,7 @@ export default function UploadRecipe () {
 
     const [errorMsg, setErrorMsg] = useState('');
 
+    const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
     const token = useSelector(state => state.user.token);
@@ -184,8 +185,9 @@ export default function UploadRecipe () {
         if(!name || !type || !description || !cookTime || !calories || subIng.length < 1 || !cuisine) {
             setErrorMsg('* All fields are required');
         } else {
-            let formData = new FormData();
+            setModalLoadingVisible(true);
 
+            let formData = new FormData();
             formData.append('name', name);
             formData.append('description', description);
             formData.append('type', type);
@@ -220,7 +222,10 @@ export default function UploadRecipe () {
                     }, 3000)
                 }
             }).catch((err) => console.log(err));
-
+            
+            setTimeout(() => {
+                setModalLoadingVisible(false);
+            }, 2500);
         }
     }
 
@@ -229,11 +234,20 @@ export default function UploadRecipe () {
 
             <ModalComponent />
 
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalLoadingVisible}
+                onRequestClose={() => setModalLoadingVisible(!modalLoadingVisible)}
+            >
+                <ModalLoading />
+            </Modal>
+
             <ScrollView ref={scrollRef} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingBottom: 20}}>
                 <Header title='Upload new recipe' />
 
                 {errorMsg ? 
-                    <ErrorText>{errorMsg}</ErrorText>
+                    <ErrorMessage text={errorMsg} />
                 : undefined
                 }
                 <UploadImageArea onPress={chooseImageGallery}>
