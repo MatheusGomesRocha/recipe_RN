@@ -44,13 +44,6 @@ export default function UpdateProfile () {
     const userLoggedIn = useSelector(state => state.user.user);
 
     useEffect(() => {
-        setTimeout(() => {
-            setModalVisible(false);
-            submitData();
-        }, 2500)
-    }, [modalVisible]);
-
-    useEffect(() => {
         setName(nameLoggedIn);
         setEmail(emailLoggedIn);
         setUser(userLoggedIn);
@@ -65,6 +58,8 @@ export default function UpdateProfile () {
     }, [name, email, user, dataImg]);
 
     function submitData () {
+        setModalVisible(true);
+
         let formData = new FormData();
 
         formData.append('name', name);
@@ -72,13 +67,15 @@ export default function UpdateProfile () {
         formData.append('user', user);
         formData.append('token', token);
 
-        let fileExtension = dataImg.slice(-3);
+        if(dataImg) {
+            let fileExtension = dataImg.slice(-3);
 
-        formData.append('img', {
-            uri: dataImg,
-            type: `image/${fileExtension}`,
-            name: 'image'
-        })
+            formData.append('img', {
+                uri: dataImg,
+                type: `image/${fileExtension}`,
+                name: 'image'
+            })
+        }
         
         api.post(`/edit-profile/auth?token=${token}`, formData)
         .then((res) => {
@@ -88,6 +85,10 @@ export default function UpdateProfile () {
                 console.log(res.data);
             }
         }).catch((err) => console.log(err));
+
+        setTimeout(() => {
+            setModalVisible(false);
+        }, 2500)
     }
 
     function chooseImageGallery () {
@@ -144,7 +145,7 @@ export default function UpdateProfile () {
                         <Input onChange={() => setHasChanges(true)} onChangeText={v => setUser(v)} defaultValue={user} />
                     </InputArea>
 
-                    <SubmitButton onPress={() => setModalVisible(true)} disabled={hasChanges ? false : true} backgroundColor={hasChanges ? defaultColor : grayFont}>
+                    <SubmitButton onPress={submitData} disabled={hasChanges ? false : true} backgroundColor={hasChanges ? defaultColor : grayFont}>
                         <SubmitButtonText>Edit Changes</SubmitButtonText>
                     </SubmitButton>
                 </FormArea>
