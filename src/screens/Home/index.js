@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableNativeFeedback, View } from 'react-native';
 import { useSelector, connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
@@ -38,10 +38,24 @@ let categoryArray = [
 
 function Home (props) {
     const [filter, setFilter] = useState('All');
+    const [welcomeMessage, setWelcomeMessage] = useState('');
 
     const navigation = useNavigation();
 
     const avatar = useSelector(state=>state.user.avatar);
+
+    useEffect(() => {
+        let date = new Date();
+        let hour = date.getHours();
+
+        if(hour >= 6 && hour < 12) {
+            setWelcomeMessage('Good Morning');
+        } else if (hour >= 12 && hour < 18) {
+            setWelcomeMessage('Good Afternoon');
+        } else {
+            setWelcomeMessage('Good Evening');
+        } 
+    }, [])
 
     function logout() {
         props.setName('');
@@ -68,7 +82,7 @@ function Home (props) {
                         <FontAwesome name="user-circle" color="#999" size={60} />
                     }
                     <HeaderContent>
-                        <Title style={{fontSize: 14}}>Good Morning</Title>
+                        <Title style={{fontSize: 14}}>{welcomeMessage}</Title>
                         <Title style={{color: defaultColor}}>Matheus</Title>
                     </HeaderContent>
 
