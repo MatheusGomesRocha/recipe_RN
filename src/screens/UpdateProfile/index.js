@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useSelector, connect } from 'react-redux';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { useNavigation } from '@react-navigation/native';
 
 import Header from '../../components/Header';
 import { defaultColor, grayFont } from '../../globals';
@@ -29,7 +30,7 @@ import {
     SubmitButtonText,
 } from './styles';
 
-export default function UpdateProfile () {
+function UpdateProfile (props) {
     const [dataImg, setDataImg] = useState('');
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -43,31 +44,31 @@ export default function UpdateProfile () {
     const emailLoggedIn = useSelector(state => state.user.email);
     const userLoggedIn = useSelector(state => state.user.user);
 
+    const navigation = useNavigation();
+
     useEffect(() => {
         setName(nameLoggedIn);
         setEmail(emailLoggedIn);
         setUser(userLoggedIn);
+        setDataImg(avatarLoggedIn);
     }, []);
-
-    useEffect(() => {
-        if(name === '' || email === '') {
-            setHasChanges(false);
-        } else {
-            setHasChanges(true);
-        }
-    }, [name, email, user, dataImg]);
 
     function submitData () {
         setModalVisible(true);
 
         let formData = new FormData();
 
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('user', user);
-        formData.append('token', token);
+        if(name) {
+            formData.append('name', name);
+        } if (email) {
+            formData.append('email', email);
+        } if (user) {
+            formData.append('user', user);
+        } 
 
-        if(dataImg) {
+        if(dataImg === avatarLoggedIn) {
+            formData.append('img', dataImg);
+        }  else {
             let fileExtension = dataImg.slice(-3);
 
             formData.append('img', {
@@ -76,18 +77,33 @@ export default function UpdateProfile () {
                 name: 'image'
             })
         }
-        
+
+        formData.append('token', token);
+
         api.post(`/edit-profile/auth?token=${token}`, formData)
         .then((res) => {
             if(res.data.error) {
                 console.log(res.data.error);
             } else {
                 console.log(res.data);
+                props.setName(name);
+                props.setEmail(email);
+                props.setUser(user);
+                
+                if(res.data.filename) {
+                    props.setAvatar(res.data.filename);
+                }
             }
         }).catch((err) => console.log(err));
 
         setTimeout(() => {
             setModalVisible(false);
+
+            navigation.reset({
+                routes: [
+                    { name: 'update__profile' },
+                ]
+            });
         }, 2500)
     }
 
@@ -96,6 +112,8 @@ export default function UpdateProfile () {
             let data = res.assets;
             setDataImg(data[0].uri);
         });
+
+        setHasChanges(true);
     }
 
     return(
@@ -113,22 +131,19 @@ export default function UpdateProfile () {
 
             <UpdateProfileArea>
                 <UpdateImageArea>
-                    {dataImg ? 
-                        <UpdateImage source={{uri: dataImg}}/>
-                    :
-                        <FontAwesome name="user" color="#aaa" size={80} />
+                    {dataImg ?
+                        // Essa imagem vai verificar qual tipo de arquivo vem, se as 4 primeiras letras forem === file, é pq é um arquivo vindo do celular do usuário
+                        <UpdateImage source={{uri: dataImg.substring(4, 0) !== 'file' ? `http://192.168.0.110:3000/media/${dataImg}` : dataImg}} />    
+                        :
+                        <FontAwesome name="user" color="#aaa" size={80} /> 
                     }
+
 
                     <UpdateImageButton onPress={chooseImageGallery}>
                         <AntDesign name="camerao" color="#aaa" size={30} />
                     </UpdateImageButton>
                 </UpdateImageArea>
 
-                {!hasChanges ?
-                    <ErrorMessage>If you let an empty field, he will not be updated</ErrorMessage>
-                : 
-                    undefined
-                }
                 <FormArea>
                     <InputArea>
                         <Label>Name</Label>
@@ -153,3 +168,14 @@ export default function UpdateProfile () {
         </UpdateProfileContainer>
     )
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setName:(name)=>dispatch({type:'SET_NAME', payload: {name}}),    // Seta o nome do usuário com redux
+        setEmail:(email)=>dispatch({type:'SET_EMAIL', payload: {email}}),    // Seta o email do usuário com redux
+        setAvatar:(avatar)=>dispatch({type:'SET_AVATAR', payload: {avatar}}),    // Seta o token do usuário com redux
+        setUser:(user)=>dispatch({type:'SET_USER', payload: {user}})    // Seta o user do usuário com redux
+    };
+}
+
+export default connect(null, mapDispatchToProps) (UpdateProfile);

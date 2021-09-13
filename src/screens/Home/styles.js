@@ -29,10 +29,10 @@ export const LogoutButton = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
     margin-left: auto;
-    width: 40px;
-    height: 40px;
 `;
-
+export const LogoutText = styled.Text`
+    margin-top: 5px;
+`;
 /** ----------------------------------------------------- **/
 
 export const CategoryButton = styled.View`

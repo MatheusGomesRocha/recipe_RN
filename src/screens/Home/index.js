@@ -23,6 +23,7 @@ import {
     HeaderContent,
     Title,
     LogoutButton,
+    LogoutText,
 
     CategoryButton,
     CategoryIcon,
@@ -43,6 +44,7 @@ function Home (props) {
     const navigation = useNavigation();
 
     const avatar = useSelector(state=>state.user.avatar);
+    const name = useSelector(state=>state.user.name);
 
     useEffect(() => {
         let date = new Date();
@@ -55,6 +57,7 @@ function Home (props) {
         } else {
             setWelcomeMessage('Good Evening');
         } 
+        
     }, [])
 
     function logout() {
@@ -83,11 +86,12 @@ function Home (props) {
                     }
                     <HeaderContent>
                         <Title style={{fontSize: 14}}>{welcomeMessage}</Title>
-                        <Title style={{color: defaultColor}}>Matheus</Title>
+                        <Title style={{color: defaultColor}}>{name}</Title>
                     </HeaderContent>
 
                     <LogoutButton onPress={logout}>
-                        <MaterialIcons name="logout" color="#000" size={35} />
+                        <MaterialIcons name="logout" color="#000" size={25} />
+                        <LogoutText>Sair</LogoutText>
                     </LogoutButton>
                 </Header>
 
