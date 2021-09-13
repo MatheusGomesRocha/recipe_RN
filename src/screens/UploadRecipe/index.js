@@ -11,7 +11,7 @@ import Header from '../../components/Header';
 import { api } from '../../services/api';
 import CheckImage from '../../assets/images/checked.png';
 import ModalLoading from '../../components/ModalLoading';
-import ErrorMessage from '../../components/ErrorMessage';
+import ServerMessage from '../../components/ServerMessage';
 
 import { defaultColor, black, red, grayFont } from '../../globals';
 
@@ -247,7 +247,7 @@ export default function UploadRecipe () {
                 <Header title='Upload new recipe' />
 
                 {errorMsg ? 
-                    <ErrorMessage text={errorMsg} />
+                    <ServerMessage text={errorMsg} />
                 : undefined
                 }
                 <UploadImageArea onPress={chooseImageGallery}>

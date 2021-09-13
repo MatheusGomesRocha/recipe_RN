@@ -8,6 +8,7 @@ import Header from '../../components/Header';
 import { defaultColor, grayFont } from '../../globals';
 import { api } from '../../services/api';
 import ModalLoading from '../../components/ModalLoading';
+import ServerMessage from '../../components/ServerMessage';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -38,6 +39,8 @@ function UpdateProfile (props) {
     const [hasChanges, setHasChanges] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
 
+    const [serverMsg, setServerMsg] = useState('');
+
     const token = useSelector(state => state.user.token);
     const avatarLoggedIn = useSelector(state => state.user.avatar);
     const nameLoggedIn = useSelector(state => state.user.name);
@@ -52,6 +55,12 @@ function UpdateProfile (props) {
         setUser(userLoggedIn);
         setDataImg(avatarLoggedIn);
     }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setServerMsg('');
+        }, 2500)
+    }, [serverMsg]);
 
     function submitData () {
         setModalVisible(true);
@@ -93,17 +102,16 @@ function UpdateProfile (props) {
                 if(res.data.filename) {
                     props.setAvatar(res.data.filename);
                 }
+
+                setTimeout(() => {
+                    setHasChanges(false);
+                    setServerMsg(res.data.result);
+                }, 2500)
             }
         }).catch((err) => console.log(err));
 
         setTimeout(() => {
             setModalVisible(false);
-
-            navigation.reset({
-                routes: [
-                    { name: 'update__profile' },
-                ]
-            });
         }, 2500)
     }
 
@@ -119,6 +127,12 @@ function UpdateProfile (props) {
     return(
         <UpdateProfileContainer>
             <Header title="Update Profile" />
+
+            {serverMsg ? 
+                <ServerMessage type="result" text={serverMsg} />
+                :
+                undefined
+            }
 
             <Modal
                 animationType="fade"
