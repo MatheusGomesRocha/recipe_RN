@@ -25,13 +25,10 @@ export const Title = styled.Text`
     color: ${grayFont};
     font-size: 17px;
 `;
-export const LogoutButton = styled.TouchableOpacity`
+export const MenuButton = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
     margin-left: auto;
-`;
-export const LogoutText = styled.Text`
-    margin-top: 5px;
 `;
 /** ----------------------------------------------------- **/
 

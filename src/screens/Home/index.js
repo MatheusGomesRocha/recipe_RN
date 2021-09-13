@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, TouchableNativeFeedback, View } from 'react-native';
+import { ScrollView, TouchableNativeFeedback, View, TouchableWithoutFeedback} from 'react-native';
 import { useSelector, connect } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+import VerticalBar from '../../components/VerticalBar';
 import RecipeComponent from '../../components/RecipeComponent';
 
 import type1 from '../../assets/images/type1.png';
@@ -22,8 +24,7 @@ import {
     Avatar,
     HeaderContent,
     Title,
-    LogoutButton,
-    LogoutText,
+    MenuButton,
 
     CategoryButton,
     CategoryIcon,
@@ -40,11 +41,20 @@ let categoryArray = [
 function Home (props) {
     const [filter, setFilter] = useState('All');
     const [welcomeMessage, setWelcomeMessage] = useState('');
-
-    const navigation = useNavigation();
+    const [teste, setTeste] = useState(false);
 
     const avatar = useSelector(state=>state.user.avatar);
     const name = useSelector(state=>state.user.name);
+    
+    const navigation = useNavigation();
+
+    const offset = useSharedValue(-62);
+
+    const animatedStyles = useAnimatedStyle(() => {
+        return {
+          transform: [{ translateX: withSpring(offset.value) }],
+        };
+    });
 
     useEffect(() => {
         let date = new Date();
@@ -57,8 +67,15 @@ function Home (props) {
         } else {
             setWelcomeMessage('Good Evening');
         } 
-        
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if(teste) {
+            offset.value = 1;
+        } else {
+            offset.value = -62;
+        }
+    }, [teste])
 
     function logout() {
         props.setName('');
@@ -77,6 +94,10 @@ function Home (props) {
     return(
         <HomeContainer>
 
+            <Animated.View style={[{position: 'absolute', zIndex: 999, alignItems: 'center', width: 60, height: '100%'}, animatedStyles]}>
+                <VerticalBar />
+            </Animated.View>
+
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{paddingVertical: 20}}>
                 <Header>
                     {avatar ?
@@ -89,10 +110,9 @@ function Home (props) {
                         <Title style={{color: defaultColor}}>{name}</Title>
                     </HeaderContent>
 
-                    <LogoutButton onPress={logout}>
-                        <MaterialIcons name="logout" color="#000" size={25} />
-                        <LogoutText>Sair</LogoutText>
-                    </LogoutButton>
+                    <MenuButton style={{width: 50, height: 50}} onPress={() => setTeste(!teste)}>
+                        <Feather name="menu" color="#000" size={25} />
+                    </MenuButton>
                 </Header>
 
                 <View style={{marginTop: 30}}>
@@ -111,7 +131,7 @@ function Home (props) {
                 <RecipeComponent filter={filter} />
             
             </ScrollView> 
-        </HomeContainer>
+        </HomeContainer> 
     )
 }
 
