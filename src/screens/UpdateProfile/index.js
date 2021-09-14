@@ -16,10 +16,12 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {
     UpdateProfileContainer,
 
+    UpdateButton,
+    UpdateButtonText,
+
     UpdateProfileArea,
     
     UpdateImageArea,
-    ErrorMessage,
     UpdateImage,
     UpdateImageButton,
 
@@ -126,7 +128,11 @@ function UpdateProfile (props) {
 
     return(
         <UpdateProfileContainer>
-            <Header title="Update Profile" />
+            <Header />
+
+            <UpdateButton onPress={submitData} disabled={hasChanges ? false : true}>
+                <UpdateButtonText color={hasChanges ? '#2196F3' : grayFont}>Update</UpdateButtonText>
+            </UpdateButton>
 
             {serverMsg ? 
                 <ServerMessage type="result" text={serverMsg} />
@@ -173,11 +179,8 @@ function UpdateProfile (props) {
                         <Label>User</Label>
                         <Input onChange={() => setHasChanges(true)} onChangeText={v => setUser(v)} defaultValue={user} />
                     </InputArea>
-
-                    <SubmitButton onPress={submitData} disabled={hasChanges ? false : true} backgroundColor={hasChanges ? defaultColor : grayFont}>
-                        <SubmitButtonText>Edit Changes</SubmitButtonText>
-                    </SubmitButton>
                 </FormArea>
+
             </UpdateProfileArea>
         </UpdateProfileContainer>
     )

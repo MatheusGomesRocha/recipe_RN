@@ -8,6 +8,19 @@ export const UpdateProfileContainer = styled.SafeAreaView`
 
 /** ---------------------------------------------------- **/
 
+export const UpdateButton = styled.TouchableOpacity`
+    position: absolute;
+    z-index: 999;
+    right: 20px;
+    top: 25px;
+`;
+export const UpdateButtonText = styled.Text`
+    color: ${props=>props.color};
+    font-size: 16px;
+`;
+
+/** ---------------------------------------------------- **/
+
 export const UpdateProfileArea = styled.View`
     align-items: center;
     margin-top: 50px;
@@ -22,11 +35,6 @@ export const UpdateImageArea = styled.View`
     width: 130px;
     height: 130px;
     border-radius: 65px;
-`;
-export const ErrorMessage = styled.Text`
-    color: red;
-    margin-top: 20px;
-    font-size: 16px;
 `;
 export const UpdateImage = styled.Image`
     width: 130px;

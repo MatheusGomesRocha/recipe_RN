@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollView } from 'react-native';
 
 import Header from '../../components/Header';
@@ -41,48 +41,11 @@ let array = [
 export default function AddFood () {
     const [addFood, setAddFood] = useState('manually');
     const [quantityType, setQuantityType] = useState('');
+    const [name, setName] = useState('');
+    const [quantity, setQuantity] = useState(0);
+    const [expireAt, setExpireAt] = useState('');
 
-    const RenderItemManually = () => {
-        return(
-            <InputArea>
-                <InputView>
-                    <Label>Name</Label>
-
-                    <InputFather>
-                        <Input />
-                    </InputFather>
-                </InputView>
-
-                <InputView>
-                    <Label>Quantity</Label>
-
-                    <ScrollView horizontal={true} contentContainerStyle={{paddingHorizontal: 20, marginVertical: 10}}>
-                        {array.map((item, k) => (
-                            <QuantityItem borderColor={quantityType === item.title ? defaultColor : 'transparent'} onPress={() => setQuantityType(item.title)} key={k}>
-                                <QuantityItemText color={quantityType === item.title ? defaultColor : blackish}>{item.title}</QuantityItemText>
-                            </QuantityItem>
-                        ))}
-                    </ScrollView>
-
-                    <InputFather>
-                        <Input />
-                    </InputFather>
-                </InputView>
-
-                <InputView>
-                    <Label>Expire date</Label>
-
-                    <InputFather>
-                        <Input />
-                    </InputFather>
-                </InputView>
-                
-                <SubmitButton>
-                    <SubmitButtonText>Add Food</SubmitButtonText>
-                </SubmitButton>
-            </InputArea>
-        )
-    }
+    const [data, setData] = useState({});
 
     const RenderItemCode = () => {
         return(
@@ -103,9 +66,19 @@ export default function AddFood () {
         )
     }
 
+    function submitData () {
+        setData({
+            name: name,
+            quantity: quantity + quantityType,
+            expireAt: expireAt,
+        });
+        
+        console.log(data);
+    }
+
     return(
         <AddFoodContainer>
-            <Header title="Add New Food" />
+            <Header title={"Add New Food"} />
 
             <ActionButtons>
                 <ActionButton backgroundColor={addFood === 'manually' ? defaultColor : 'transparent'} onPress={() => setAddFood('manually')}>
@@ -118,7 +91,43 @@ export default function AddFood () {
             </ActionButtons>
 
             {addFood === 'manually' ? 
-                <RenderItemManually /> 
+                <InputArea>
+                    <InputView>
+                        <Label>Name</Label>
+
+                        <InputFather>
+                            <Input defaultValue={name} onChangeText={v => setName(v)} />
+                        </InputFather>
+                    </InputView>
+
+                    <InputView>
+                        <Label>Quantity</Label>
+
+                        <ScrollView horizontal={true} contentContainerStyle={{paddingHorizontal: 20, marginVertical: 10}}>
+                            {array.map((item, k) => (
+                                <QuantityItem borderColor={quantityType === item.title ? defaultColor : 'transparent'} onPress={() => setQuantityType(item.title)} key={k}>
+                                    <QuantityItemText color={quantityType === item.title ? defaultColor : blackish}>{item.title}</QuantityItemText>
+                                </QuantityItem>
+                            ))}
+                        </ScrollView>
+
+                        <InputFather>
+                            <Input keyboardType="numeric" defaultValue={quantity} onChangeText={v => setQuantity(v)} />
+                        </InputFather>
+                    </InputView>
+
+                    <InputView>
+                        <Label>Expire date</Label>
+
+                        <InputFather>
+                            <Input defaultValue={expireAt} onChangeText={v => setExpireAt(v)} />
+                        </InputFather>
+                    </InputView>
+                    
+                    <SubmitButton onPress={submitData}>
+                        <SubmitButtonText>Add Food</SubmitButtonText>
+                    </SubmitButton>
+                </InputArea>
                 : 
                 <RenderItemCode />
             }
