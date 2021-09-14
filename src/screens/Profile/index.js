@@ -1,11 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { ScrollView, TouchableNativeFeedback, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux'; 
 
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import imgPlaceholder from '../../assets/images/profile.jpg';
+import UserImgPlaceholder from '../../assets/images/user.png';
 
 import Review from '../../components/Review';
 import UserRecipes from '../../components/UserRecipes';
@@ -43,6 +44,10 @@ import {
 export default function Profile() {
     const borderBottomAnimated = useRef(new Animated.Value(0)).current;
     const [filterValue, setFilterValue] = useState('recipes');
+
+    const avatar = useSelector(state => state.user.avatar);
+    const name = useSelector(state => state.user.name);
+    const user = useSelector(state => state.user.user);
 
     const navigation = useNavigation();
 
@@ -83,8 +88,12 @@ export default function Profile() {
                 </Header>
 
                 <UserInfoArea>
-                    <UserImg source={imgPlaceholder} />
-                    <UserName>Matheus</UserName>
+                    { avatar ? 
+                        <UserImg source={{uri: `http://192.168.0.110:3000/media/${avatar}`}} />
+                    : 
+                        <UserImg resizeMode="contain" source={UserImgPlaceholder} />    
+                    }
+                    <UserName>{name}</UserName>
                     <UserJob>Chef @NBK</UserJob>
                 </UserInfoArea>
 

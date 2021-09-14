@@ -29,8 +29,6 @@ import {
     InputArea,
     Label,
     Input,
-    SubmitButton,
-    SubmitButtonText,
 } from './styles';
 
 function UpdateProfile (props) {

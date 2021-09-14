@@ -75,15 +75,3 @@ export const Input = styled.TextInput`
     margin-top: 10px;
     border-radius: 10px;
 `;
-export const SubmitButton = styled.TouchableOpacity`
-    background-color: ${props=>props.backgroundColor};
-    align-items: center;
-    justify-content: center;
-    height: 52px;
-    border-radius: 10px;
-    margin: 30px 20px;
-`;
-export const SubmitButtonText = styled.Text`
-    color: ${white};
-    font-size: 16px;
-`;
