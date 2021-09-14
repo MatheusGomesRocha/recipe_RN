@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
-import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSpring, withRepeat } from 'react-native-reanimated';
 
 import { defaultColor } from '../../globals';
 import LogoBranca from '../../assets/images/logo-recipe-branco.png';
@@ -17,13 +17,13 @@ export default function Preload() {
     const navigation = useNavigation();
     const token = useSelector(state=>state.user.token);
 
-    const logoPosition = useSharedValue(-250);
-    const widthLogo = useSharedValue(0);
-    const heightLogo = useSharedValue(0);
+    const opacityLogo = useSharedValue(0);
+    const widthLogo = useSharedValue(180);
+    const heightLogo = useSharedValue(180);
 
     const animatedStyles = useAnimatedStyle(() => {
         return {
-            transform: [{translateY: logoPosition.value}],
+            opacity: opacityLogo.value,
             width: widthLogo.value,
             height: heightLogo.value,
         };
@@ -63,18 +63,9 @@ export default function Preload() {
     }, []);
 
     useEffect(() => {
-        widthLogo.value = withTiming(200, {
-            duration: 1000
-        }, () => {
-            heightLogo.value = withTiming(200, {
-                duration: 1000
-            });
-            logoPosition.value = withSpring(0, {
-                duration: 2000,
-            });
-        });
-
-        
+        opacityLogo.value = withTiming(1, {duration: 1500});
+        widthLogo.value = withRepeat(withTiming(200, {duration: 750}), -1, true)
+        heightLogo.value = withRepeat(withTiming(200, {duration: 750}), -1, true)
     }, []);
 
     return(
