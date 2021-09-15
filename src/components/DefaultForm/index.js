@@ -73,56 +73,9 @@ function DefaultForm (props) {
         }, 5000)
     }, [verificationLogin, verificationSignUp])
 
-    function nameValidation () {
-        if(nameValue) {
-            const isValidName = validator.isAlpha(nameValue);
-
-            if(isValidName) {
-                setHasValidName(true);
-            } else {
-                setHasValidName(false);
-            }
-        } else {
-            setHasValidName(false);
-        }
-    }
-
-    function emailValidation () {
-        const isValidEmail = validator.isEmail(emailValue);
-
-            if(isValidEmail) {
-                setHasValidEmail(true);
-            } else {
-                setHasValidEmail(false);
-            }
-    }
-
-    function passwordValidation () {
-        if(props.screen === 'signUp') {
-            if(passwordValue && passwordValue === confirmPasswordValue && passwordValue.length >= 6 && confirmPasswordValue.length >= 6) {
-                setHasValidPassword(true);
-            } else {
-                setHasValidPassword(false);
-            }
-        } else {
-            if(passwordValue.length >= 6) {
-                setHasValidPassword(true);
-            } else {
-                setHasValidPassword(false);
-            }
-        }
-    }
-
     function verificationSignUp () {
-        if(!emailValue || !nameValue || !passwordValue || !confirmPasswordValue) {
+        if(!emailValue || !nameValue || !passwordValue || !confirmPasswordValue || passwordValue !== confirmPasswordValue || passwordValue.length < 6) {
             setErrorMessage('All fields are required');
-            return;
-        } if(passwordValue || confirmPasswordValue) {
-            passwordValidation();
-        } if (nameValue) {
-            nameValidation();
-        } if (emailValue) {
-            emailValidation();
         } else {
             // api.get(`/has-user/${emailValue}`)
             // .then((response) => {
@@ -145,10 +98,19 @@ function DefaultForm (props) {
             // })
             // .catch((err) => console.log(err));
 
-            navigation.navigate('verification__code', { 
+            // Usando enquanto não consigo enviar email para confirmação do cadastro
+            api.post('/create-user', {
                 name: nameValue,
                 email: emailValue,
                 password: passwordValue,
+            })
+            .then((response) => console.log(response.data))
+            .catch((err) => console.error(err));
+
+            navigation.reset({
+                routes: [
+                    { name: 'preload' },
+                ]
             });
         }
     };
@@ -174,7 +136,11 @@ function DefaultForm (props) {
                     props.setEmail(response.data.hasUser.email);
                     props.setAvatar(response.data.hasUser.avatar);
                     props.setUser(response.data.hasUser.user);
-                    navigation.navigate('preload');
+                    navigation.reset({
+                        routes: [
+                            { name: 'preload' },
+                        ]
+                    });
                 }
             })
             .catch((err) => console.log(err));
