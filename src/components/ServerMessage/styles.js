@@ -6,6 +6,7 @@ export const ServerArea = styled.View`
     justify-content: center;
     position: absolute;
     top: 0;
+    z-index: 999;
     width: 100%;
     height: 52px;
 `;

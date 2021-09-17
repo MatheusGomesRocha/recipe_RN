@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
-
-import Header from '../../components/Header';
-import { black, blackish, defaultColor, white } from '../../globals';
+import { useSelector } from 'react-redux';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
+
+import Header from '../../components/Header';
+import ServerMessage from '../../components/ServerMessage';
+
+import { black, blackish, defaultColor, white } from '../../globals';
+import { api } from '../../services/api';
 
 import {
     AddFoodContainer,
@@ -16,6 +21,9 @@ import {
     InputArea,
 
     InputView,
+    ImageButton,
+    Image,
+    ImageText,
     Label,
     InputFather,
     Input,
@@ -40,12 +48,22 @@ let array = [
 
 export default function AddFood () {
     const [addFood, setAddFood] = useState('manually');
-    const [quantityType, setQuantityType] = useState('');
     const [name, setName] = useState('');
     const [quantity, setQuantity] = useState(0);
+    const [quantityType, setQuantityType] = useState('');
     const [expireAt, setExpireAt] = useState('');
+    const [dataImg, setDataImg] = useState('');
+    const [serverMessage, setServerMessage] = useState('');
+    const [result, setResult] = useState(false); 
 
-    const [data, setData] = useState({});
+    const token = useSelector(state => state.user.token);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setServerMessage('');
+            setResult(false);
+        }, 2500)
+    }, [serverMessage]);
 
     const RenderItemCode = () => {
         return(
@@ -66,71 +84,119 @@ export default function AddFood () {
         )
     }
 
-    function submitData () {
-        setData({
-            name: name,
-            quantity: quantity + quantityType,
-            expireAt: expireAt,
+    function chooseImageGallery () {
+        launchImageLibrary(null, (res) => {
+            let data = res.assets;
+            setDataImg(data[0].uri);
         });
-        
-        console.log(data);
+    }
+
+    function submitData () {
+        if(!dataImg || !name || !quantity || !quantityType || !expireAt) {
+            setServerMessage('All fields are required');
+        } else {
+            let formData = new FormData();
+            formData.append('userId', token);
+            formData.append('name', name);
+            formData.append('quantity', quantity);
+            formData.append('quantityType', quantityType);
+            formData.append('expireAt', expireAt);
+
+            let fileExtension = dataImg.slice(-3);
+
+            formData.append('img', {
+                uri: dataImg,
+                type: `image/${fileExtension}`,
+                name: 'image'
+            })
+
+            api.post(`/insert-refrigerator/auth?token=${token}`, formData)
+            .then((res) => {
+                setServerMessage(res.data.result);
+                setResult(true);
+
+                setName('');
+                setQuantity('');
+                setQuantityType('');
+                setExpireAt('');
+                setDataImg('');
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
     }
 
     return(
         <AddFoodContainer>
-            <Header title={"Add New Food"} />
+            <ScrollView>
+                <Header title={"Add New Food"} />
 
-            <ActionButtons>
-                <ActionButton backgroundColor={addFood === 'manually' ? defaultColor : 'transparent'} onPress={() => setAddFood('manually')}>
-                    <ActionButtonText color={addFood === 'manually' ? white : black}>Add Manually</ActionButtonText>
-                </ActionButton>
+                {serverMessage ?
+                    <ServerMessage text={serverMessage} type={result ? 'result' : undefined} />
+                    :
+                    undefined
+                }
 
-                <ActionButton backgroundColor={addFood === 'code' ? defaultColor : 'transparent'} onPress={() => setAddFood('code')}>
-                    <ActionButtonText color={addFood === 'code' ? white : black}>Scan QR Code</ActionButtonText>
-                </ActionButton>
-            </ActionButtons>
+                <ActionButtons>
+                    <ActionButton backgroundColor={addFood === 'manually' ? defaultColor : 'transparent'} onPress={() => setAddFood('manually')}>
+                        <ActionButtonText color={addFood === 'manually' ? white : black}>Add Manually</ActionButtonText>
+                    </ActionButton>
 
-            {addFood === 'manually' ? 
-                <InputArea>
-                    <InputView>
-                        <Label>Name</Label>
+                    <ActionButton backgroundColor={addFood === 'code' ? defaultColor : 'transparent'} onPress={() => setAddFood('code')}>
+                        <ActionButtonText color={addFood === 'code' ? white : black}>Scan QR Code</ActionButtonText>
+                    </ActionButton>
+                </ActionButtons>
 
-                        <InputFather>
-                            <Input defaultValue={name} onChangeText={v => setName(v)} />
-                        </InputFather>
-                    </InputView>
+                {addFood === 'manually' ? 
+                    <InputArea>
+                        <ImageButton onPress={chooseImageGallery}>
+                            {dataImg ?
+                                <Image source={{uri: dataImg}} resizeMode="contain" />    
+                            :
+                                <ImageText>Upload Image</ImageText>
+                            }
+                        </ImageButton>
 
-                    <InputView>
-                        <Label>Quantity</Label>
+                        <InputView>
+                            <Label>Name</Label>
 
-                        <ScrollView horizontal={true} contentContainerStyle={{paddingHorizontal: 20, marginVertical: 10}}>
-                            {array.map((item, k) => (
-                                <QuantityItem borderColor={quantityType === item.title ? defaultColor : 'transparent'} onPress={() => setQuantityType(item.title)} key={k}>
-                                    <QuantityItemText color={quantityType === item.title ? defaultColor : blackish}>{item.title}</QuantityItemText>
-                                </QuantityItem>
-                            ))}
-                        </ScrollView>
+                            <InputFather>
+                                <Input value={name} onChangeText={v => setName(v)} />
+                            </InputFather>
+                        </InputView>
 
-                        <InputFather>
-                            <Input keyboardType="numeric" defaultValue={quantity} onChangeText={v => setQuantity(v)} />
-                        </InputFather>
-                    </InputView>
+                        <InputView>
+                            <Label>Quantity</Label>
 
-                    <InputView>
-                        <Label>Expire date</Label>
+                            <ScrollView horizontal={true} contentContainerStyle={{paddingHorizontal: 20, marginVertical: 10}}>
+                                {array.map((item, k) => (
+                                    <QuantityItem borderColor={quantityType === item.title ? defaultColor : 'transparent'} onPress={() => setQuantityType(item.title)} key={k}>
+                                        <QuantityItemText color={quantityType === item.title ? defaultColor : blackish}>{item.title}</QuantityItemText>
+                                    </QuantityItem>
+                                ))}
+                            </ScrollView>
 
-                        <InputFather>
-                            <Input defaultValue={expireAt} onChangeText={v => setExpireAt(v)} />
-                        </InputFather>
-                    </InputView>
-                    
-                    <SubmitButton onPress={submitData}>
-                        <SubmitButtonText>Add Food</SubmitButtonText>
-                    </SubmitButton>
-                </InputArea>
-                : 
-                <RenderItemCode />
-            }
+                            <InputFather>
+                                <Input keyboardType="numeric" onChangeText={v => setQuantity(v)} />
+                            </InputFather>
+                        </InputView>
+
+                        <InputView>
+                            <Label>Expire date</Label>
+
+                            <InputFather>
+                                <Input value={expireAt} onChangeText={v => setExpireAt(v)} />
+                            </InputFather>
+                        </InputView>
+                        
+                        <SubmitButton onPress={submitData}>
+                            <SubmitButtonText>Add Food</SubmitButtonText>
+                        </SubmitButton>
+                    </InputArea>
+                    : 
+                    <RenderItemCode />
+                }
+            </ScrollView>
         </AddFoodContainer>
     )
 }

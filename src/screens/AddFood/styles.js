@@ -20,6 +20,9 @@ export const ActionButton = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
     width: 50%;
+    height: 52px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 `;
 export const ActionButtonText = styled.Text`
     color: ${props=>props.color};
@@ -36,6 +39,26 @@ export const InputArea = styled.View`
 
 export const InputView = styled.View`
     margin: 10px 0;
+`;
+export const ImageButton = styled.TouchableOpacity`
+    background-color: ${grayish};
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    margin: 20px 0;
+`;
+export const Image = styled.Image`
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+`;
+export const ImageText = styled.Text`
+    font-weight: bold;
+    text-align: center;
+    font-size: 16px;
 `;
 export const Label = styled.Text`
     color: ${grayFont};
