@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { launchImageLibrary } from 'react-native-image-picker';
+import { TextInputMask } from 'react-native-masked-text';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -95,34 +96,47 @@ export default function AddFood () {
         if(!dataImg || !name || !quantity || !quantityType || !expireAt) {
             setServerMessage('All fields are required');
         } else {
-            let formData = new FormData();
-            formData.append('userId', token);
-            formData.append('name', name);
-            formData.append('quantity', quantity);
-            formData.append('quantityType', quantityType);
-            formData.append('expireAt', expireAt);
+            let date = new Date();
+            let day = date.getDate();
+            let month = date.getMonth() + 1;
+            let year = date.getFullYear();
 
-            let fileExtension = dataImg.slice(-3);
+            if(day < 10) {
+                day = `0${day}`;
+            }
 
-            formData.append('img', {
-                uri: dataImg,
-                type: `image/${fileExtension}`,
-                name: 'image'
-            })
+            let formatDate = `${day}/0${month}/${year}`;
 
-            api.post(`/insert-refrigerator/auth?token=${token}`, formData)
-            .then((res) => {
-                setServerMessage(res.data.result);
-                setResult(true);
+            console.log(formatDate)
 
-                setName('');
-                setQuantity('');
-                setQuantityType('');
-                setExpireAt('');
-                setDataImg('');
-            }).catch((err) => {
-                console.log(err);
-            })
+            // let formData = new FormData();
+            // formData.append('userId', token);
+            // formData.append('name', name);
+            // formData.append('quantity', quantity);
+            // formData.append('quantityType', quantityType);
+            // formData.append('expireAt', expireAt);
+
+            // let fileExtension = dataImg.slice(-3);
+
+            // formData.append('img', {
+            //     uri: dataImg,
+            //     type: `image/${fileExtension}`,
+            //     name: 'image'
+            // })
+
+            // api.post(`/insert-refrigerator/auth?token=${token}`, formData)
+            // .then((res) => {
+            //     setServerMessage(res.data.result);
+            //     setResult(true);
+
+            //     setName('');
+            //     setQuantity('');
+            //     setQuantityType('');
+            //     setExpireAt('');
+            //     setDataImg('');
+            // }).catch((err) => {
+            //     console.log(err);
+            // })
         }
     }
 
@@ -185,7 +199,19 @@ export default function AddFood () {
                             <Label>Expire date</Label>
 
                             <InputFather>
-                                <Input value={expireAt} onChangeText={v => setExpireAt(v)} />
+                                <TextInputMask
+                                    style={{
+                                        flex: 1,
+                                        color: '#000',
+                                        paddingLeft: 10
+                                    }}
+                                    type={'datetime'}
+                                    options={{
+                                        format: 'DD/MM/YYYY'
+                                    }}
+                                    value={expireAt}
+                                    onChangeText={v => setExpireAt(v)}
+                                />
                             </InputFather>
                         </InputView>
                         
