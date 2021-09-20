@@ -8,6 +8,38 @@ export const AddFoodContainer = styled.SafeAreaView`
 
 /** ------------------------------------------------- */
 
+export const ModalContainer = styled.View`
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+`;
+export const ModalArea = styled.View`
+    background-color: ${white};
+    width: 90%;
+    height: 160px;
+    border-radius: 5px;
+    padding: 20px;
+`;
+export const ModalTitle = styled.Text`
+    font-size: 18px;
+    font-weight: bold;
+`;
+export const ModalText = styled.Text`
+    font-size: 18px;
+    margin-top: 5px;
+`;
+export const ModalButton = styled.View`
+    align-self: flex-end;
+    margin-top: auto;
+`;
+export const ModalButtonText = styled.Text`
+    font-size: 18px;
+    color: ${blackish};
+`;
+
+/** ------------------------------------------------- */
+
 export const ActionButtons = styled.View`
     flex-direction: row;
     margin: 20px 20px 0 20px;

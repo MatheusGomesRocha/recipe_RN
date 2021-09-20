@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, Modal, TouchableWithoutFeedback } from 'react-native';
 import { useSelector } from 'react-redux';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { TextInputMask } from 'react-native-masked-text';
@@ -8,12 +8,20 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import Header from '../../components/Header';
 import ServerMessage from '../../components/ServerMessage';
+import ModalLoading from '../../components/ModalLoading';
 
 import { black, blackish, defaultColor, white } from '../../globals';
 import { api } from '../../services/api';
 
 import {
     AddFoodContainer,
+
+    ModalContainer,
+    ModalTitle,
+    ModalArea,
+    ModalText,
+    ModalButton,
+    ModalButtonText,
 
     ActionButtons,
     ActionButton,
@@ -37,7 +45,7 @@ import {
     QrCodeArea,
     QrCodeTitle,
     QrCodeItem,
-    QrCodeMarkdown
+    QrCodeMarkdown,
 } from './styles';
 
 let array = [
@@ -56,15 +64,37 @@ export default function AddFood () {
     const [dataImg, setDataImg] = useState('');
     const [serverMessage, setServerMessage] = useState('');
     const [result, setResult] = useState(false); 
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
 
     const token = useSelector(state => state.user.token);
 
     useEffect(() => {
         setTimeout(() => {
-            setServerMessage('');
-            setResult(false);
-        }, 2500)
-    }, [serverMessage]);
+            setModalLoadingVisible(false);
+        }, 2500);
+        
+        setTimeout(() => {
+            setResult('');
+        }, 7500);
+    }, [modalLoadingVisible]);
+
+    const ModalMessage = () => {
+        return(
+            <ModalContainer>
+                <ModalArea>
+                    <ModalTitle>Something wrent wrong</ModalTitle>
+                    <ModalText>{serverMessage}</ModalText>
+                    
+                    <ModalButton>
+                        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                            <ModalButtonText>Cancel</ModalButtonText>
+                        </TouchableWithoutFeedback>
+                    </ModalButton>
+                </ModalArea>
+            </ModalContainer>
+        )
+    }
 
     const RenderItemCode = () => {
         return(
@@ -95,60 +125,87 @@ export default function AddFood () {
     function submitData () {
         if(!dataImg || !name || !quantity || !quantityType || !expireAt) {
             setServerMessage('All fields are required');
+            setModalVisible(true);
         } else {
             let date = new Date();
             let day = date.getDate();
             let month = date.getMonth() + 1;
             let year = date.getFullYear();
 
+            let dayInput = parseInt(expireAt.substring(2, 0));
+            let monthInput = parseInt(expireAt.substring(5, 3));
+            let yearInput = parseInt(expireAt.substring(10, 6));
+
             if(day < 10) {
                 day = `0${day}`;
             }
 
+            
+            // Se o input passar por todas as verificações acima, ele é enviado para a API com o código abaixo
+
             let formatDate = `${day}/0${month}/${year}`;
 
-            console.log(formatDate)
+            let formData = new FormData();
+            formData.append('userId', token);
+            formData.append('name', name);
+            formData.append('quantity', quantity);
+            formData.append('quantityType', quantityType);
+            formData.append('addedAt', formatDate);
+            formData.append('expireAt', expireAt);
 
-            // let formData = new FormData();
-            // formData.append('userId', token);
-            // formData.append('name', name);
-            // formData.append('quantity', quantity);
-            // formData.append('quantityType', quantityType);
-            // formData.append('expireAt', expireAt);
+            let fileExtension = dataImg.slice(-3);
 
-            // let fileExtension = dataImg.slice(-3);
+            formData.append('img', {
+                uri: dataImg,
+                type: `image/${fileExtension}`,
+                name: 'image'
+            })
 
-            // formData.append('img', {
-            //     uri: dataImg,
-            //     type: `image/${fileExtension}`,
-            //     name: 'image'
-            // })
+            setModalLoadingVisible(true);
 
-            // api.post(`/insert-refrigerator/auth?token=${token}`, formData)
-            // .then((res) => {
-            //     setServerMessage(res.data.result);
-            //     setResult(true);
+            api.post(`/insert-refrigerator/auth?token=${token}`, formData)
+            .then((res) => {
+                setTimeout(() => {
+                    setResult(res.data.result);
+                }, 2500)
 
-            //     setName('');
-            //     setQuantity('');
-            //     setQuantityType('');
-            //     setExpireAt('');
-            //     setDataImg('');
-            // }).catch((err) => {
-            //     console.log(err);
-            // })
+                setName('');
+                setQuantity('');
+                setQuantityType('');
+                setExpireAt('');
+                setDataImg('');
+            }).catch((err) => {
+                console.log(err);
+            })
         }
     }
 
     return(
         <AddFoodContainer>
+            <Modal 
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+                animationType="fade"
+                transparent={true}
+            >
+                <ModalMessage />
+            </Modal>
+
+            <Modal 
+                visible={modalLoadingVisible}
+                onRequestClose={() => setModalLoadingVisible(false)}
+                animationType="fade"
+                transparent={true}
+            >
+                <ModalLoading />
+            </Modal>
+
             <ScrollView>
                 <Header title={"Add New Food"} />
 
-                {serverMessage ?
-                    <ServerMessage text={serverMessage} type={result ? 'result' : undefined} />
-                    :
-                    undefined
+                {result ? 
+                    <ServerMessage type="result" text={result} />
+                    : undefined
                 }
 
                 <ActionButtons>

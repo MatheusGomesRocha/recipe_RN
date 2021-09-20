@@ -8,11 +8,43 @@ export const FoodManagerContainer = styled.SafeAreaView`
 
 /** --------------------------------------------------------- **/
 
+export const ModalContainer = styled.View`
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.1);
+    align-items: center;
+    justify-content: center;
+`;
+export const ModalArea = styled.View`
+    background-color: ${white};
+    width: 90%;
+    height: 160px;
+    border-radius: 5px;
+    padding: 20px;
+`;
+export const ModalTitle = styled.Text`
+    font-size: 18px;
+    font-weight: bold;
+`;
+export const ModalText = styled.Text`
+    font-size: 18px;
+    margin-top: 5px;
+`;
+export const ModalButton = styled.TouchableOpacity`
+    margin-left: 30px;
+`;
+export const ModalButtonText = styled.Text`
+    font-size: 18px;
+    color: ${blackish};
+`;
+
+/** --------------------------------------------------------- **/
+
 export const SubHeaderArea = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     margin: 20px 20px 0 20px;
+    padding-bottom: 20px;
 `;
 export const SubHeader = styled.View`
     flex-direction: row;
@@ -39,12 +71,12 @@ export const FoodImageArea = styled.View`
     border-radius: 10px;
 `;
 export const FoodImage = styled.Image`
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
 `;
 export const FoodContent = styled.View`
     margin-left: 20px;
-    width: 60%;
+    width: 68%;
 `;
 export const FoodContentRow = styled.View`
     flex-direction: row;
