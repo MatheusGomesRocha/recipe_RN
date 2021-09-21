@@ -10,7 +10,7 @@ export const FoodManagerContainer = styled.SafeAreaView`
 
 export const ModalContainer = styled.View`
     flex: 1;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.5);
     align-items: center;
     justify-content: center;
 `;

@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 import Header from '../../components/Header';
+import ModalLoading from '../../components/ModalLoading';
 
 import shrimp from '../../assets/images/shrimp.png';
 
@@ -52,18 +53,12 @@ export default function FoodManager() {
     const [data, setData] = useState({});
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalLoadingVisible, setModalLoadingVisible] = useState(false);
+    const [foodId, setFoodId] = useState(0);
 
     const token = useSelector(state => state.user.token);
 
     const navigation = useNavigation();
-
-    useEffect(() => {
-        api.get(`/refrigerator/${token}`)
-        .then((res) => {
-            setData(res.data.refrigerator);
-        })
-        .catch((err) => console.log(err));
-    }, []);
 
     useEffect(() => {
         setTimeout(() => {
@@ -71,65 +66,99 @@ export default function FoodManager() {
         }, 2500)
     }, []);
 
+    useEffect(() => {
+        api.get(`/refrigerator/${token}`)
+        .then((res) => {
+            setData(res.data.refrigerator);
+        })
+        .catch((err) => console.log(err));
+    }, [loading]);
+
+    function openModal(id) {
+        setModalVisible(true);
+        setFoodId(id);
+    }
+
     function deleteFood () {
-        api.delete(`/delete-food/${token}`)
-        .then((res) => console.log(res.data))
-        .catch((err) => console.log(err))
+        api.post(`/delete-food/${token}`, {id: foodId})
+        .then((res) => {
+            if(res.data.result) {
+                setModalVisible(false);
+                setModalLoadingVisible(true);
+
+                setTimeout(() => {
+                    setModalLoadingVisible(false);
+                    setLoading(true);
+                }, 2000)
+
+                setTimeout(() => {
+                    setLoading(false);
+                }, 4000)
+            }
+        })
+        .catch((err) => console.log(err));
     }
 
     const renderItem = ({item}) => {
         return(
-            <>
-                <TouchableNativeFeedback onLongPress={() => setModalVisible(true)} background={TouchableNativeFeedback.Ripple('#ccc', false)}>
-                    <FoodItem>
-                        <FoodImageArea>
-                            <FoodImage source={{uri: `http://192.168.0.110:3000/media/${item.img}`}} />
-                        </FoodImageArea>
+            <TouchableNativeFeedback onLongPress={() => openModal(item.id)} background={TouchableNativeFeedback.Ripple('#ccc', false)}>
+                <FoodItem>
+                    <FoodImageArea>
+                        <FoodImage source={{uri: `http://192.168.0.110:3000/media/${item.img}`}} />
+                    </FoodImageArea>
 
-                        <FoodContent>
-                            <FoodContentRow>
-                                <FoodContentName numberOfLines={1}>{item.name}</FoodContentName>
-                                <FoodContentQuantityType>{item.quantity} {item.quantityType}</FoodContentQuantityType>
-                            </FoodContentRow>
+                    <FoodContent>
+                        <FoodContentRow>
+                            <FoodContentName numberOfLines={1}>{item.name}</FoodContentName>
+                            <FoodContentQuantityType>{item.quantity} {item.quantityType}</FoodContentQuantityType>
+                        </FoodContentRow>
 
-                            <FoodContentRow>
-                                <FoodContentDate>Added: {item.addedAt}</FoodContentDate>
-                                <FoodContentDate>Expire: {item.expireAt}</FoodContentDate>
-                            </FoodContentRow>
-                        </FoodContent>
-                    </FoodItem>
-                </TouchableNativeFeedback>
-
-                <Modal
-                    visible={modalVisible}
-                    onRequestClose={() => setModalVisible(false)}
-                    animationType="fade"
-                    transparent={true}
-                >
-                    <ModalContainer>
-                        <ModalArea>
-                            <ModalTitle>Delete item</ModalTitle>
-                            <ModalText>You want to delete this item?</ModalText>
-                            
-                            <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end', marginTop: 'auto', marginRight: 15}}>
-                                <ModalButton onPress={() => setModalVisible(false)}>
-                                    <ModalButtonText>Cancel</ModalButtonText>
-                                </ModalButton>
-
-                                <ModalButton onPress={deleteFood}>
-                                    <ModalButtonText>Ok</ModalButtonText>
-                                </ModalButton>
-                            </View>
-                        </ModalArea>
-                    </ModalContainer>
-                </Modal>
-            </>
+                        <FoodContentRow>
+                            <FoodContentDate>Added: {item.addedAt}</FoodContentDate>
+                            <FoodContentDate>Expire: {item.expireAt}</FoodContentDate>
+                        </FoodContentRow>
+                    </FoodContent>
+                </FoodItem>
+            </TouchableNativeFeedback>
         )
     }
 
     return(
         <FoodManagerContainer>
             <Header title='Food Manager' />
+
+            <Modal
+                visible={modalLoadingVisible}
+                onRequestClose={() => setModalLoadingVisible(false)}
+                animationType="fade"
+                transparent={true}
+            >
+                <ModalLoading />
+            </Modal>
+
+            <Modal
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+                animationType="fade"
+                transparent={true}
+            >
+                <ModalContainer>
+                    <ModalArea>
+                        <ModalTitle>Delete item</ModalTitle>
+                        <ModalText>You want to delete this item?</ModalText>
+                        
+                        <View style={{flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end', marginTop: 'auto', marginRight: 15}}>
+                            <ModalButton onPress={() => setModalVisible(false)}>
+                                <ModalButtonText>Cancel</ModalButtonText>
+                            </ModalButton>
+
+                            <ModalButton onPress={deleteFood}>
+                                <ModalButtonText>Ok</ModalButtonText>
+                            </ModalButton>
+                        </View>
+                    </ModalArea>
+                </ModalContainer>
+            </Modal>
 
             <SubHeaderArea>
                 <SubHeader>
