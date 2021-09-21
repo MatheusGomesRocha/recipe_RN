@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { ScrollView, TouchableNativeFeedback, Animated } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSelector } from 'react-redux'; 
@@ -42,14 +42,17 @@ import {
 } from './styles';
 
 export default function Profile() {
-    const borderBottomAnimated = useRef(new Animated.Value(0)).current;
     const [filterValue, setFilterValue] = useState('recipes');
+
+    const borderBottomAnimated = useRef(new Animated.Value(0)).current;
 
     const avatar = useSelector(state => state.user.avatar);
     const name = useSelector(state => state.user.name);
     const user = useSelector(state => state.user.user);
 
     const navigation = useNavigation();
+
+   
 
     const borderToLeft = () => {
         setFilterValue('recipes');

@@ -33,7 +33,7 @@ export const RecipeItem = styled.View`
     background-color: ${defaultColorTransparent};
     border-radius: 20px;
     width: 250px;
-    height: 250px;
+    height: 200px;
     margin: 30px 10px;
     padding: 0 20px;
 `;
@@ -50,6 +50,7 @@ export const RecipeImg = styled.Image`
 export const RecipeCategory = styled.View`
     flex-direction: row;
     align-items: center;
+    margin-top: -30px;
 `;
 export const RecipeCategoryMarkdown = styled.View`
     background-color: ${defaultColor};

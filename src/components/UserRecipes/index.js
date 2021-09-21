@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { ScrollView, TouchableWithoutFeedback } from 'react-native';
-
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import React, { useState, useEffect } from 'react';
+import { ActivityIndicator, ScrollView } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import food1 from '../../assets/images/food1.png';
 import { black, defaultColor } from '../../globals';
+
+import { api } from '../../services/api';
 
 import {
     Recipes,
@@ -43,6 +44,24 @@ let arrayFilter = [
 
 export default function UserRecipes() {
     const [filterRecipeValue, setFilterRecipeValue] = useState('All');
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState({});
+
+    const token = useSelector(state => state.user.token);
+
+    useEffect(() => {
+        api.get(`/user-recipes/${token}`)
+        .then((res) => {
+            setData(res.data.result);
+        })
+        .catch((err) => console.log(err))
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2500)
+    }, [])
 
     return(
         <Recipes>
@@ -56,24 +75,24 @@ export default function UserRecipes() {
                 </ScrollView>
             </FilterRecipeArea>
 
-            <ScrollView contentContainerStyle={{paddingHorizontal: 10}} showsHorizontalScrollIndicator={false} horizontal={true}>
-                {array.map((item, k) => (
-                    <RecipeItem key={k}>
-                        <RecipeHeader>
-                            <AntDesign name="pluscircleo" color="#D7263D" size={20} />
-                            <RecipeImg source={item.img} />
-                        </RecipeHeader>
+            {loading ? 
+                <ActivityIndicator size="large" color="#D7263D" style={{marginTop: 40}} />
+                :
+                <ScrollView contentContainerStyle={{paddingHorizontal: 10}} showsHorizontalScrollIndicator={false} horizontal={true}>
+                    {data.map((item, k) => (
+                        <RecipeItem key={k}>
+                            <RecipeImg source={{uri: `http://192.168.0.110:3000/media/${item.img}`}} />
 
+                            <RecipeCategory>
+                                <RecipeCategoryMarkdown />
+                                <RecipeCategoryText numberOfLines={2}>{item.category}</RecipeCategoryText>
+                            </RecipeCategory>
 
-                        <RecipeCategory>
-                            <RecipeCategoryMarkdown />
-                            <RecipeCategoryText>{item.category}</RecipeCategoryText>
-                        </RecipeCategory>
-
-                        <RecipeName>{item.name}</RecipeName>
-                    </RecipeItem>
-                ))}
-            </ScrollView>
+                            <RecipeName>{item.name}</RecipeName>
+                        </RecipeItem>
+                    ))}
+                </ScrollView>
+            }
         </Recipes>
     )
 }
