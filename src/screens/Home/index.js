@@ -34,7 +34,7 @@ import {
 let categoryArray = [
     {id: 1, name: 'All', icon: type1},
     {id: 2, name: 'Chinese', icon: type2},
-    {id: 3, name: 'Brazillian', icon: type3},
+    {id: 3, name: 'Brazilian', icon: type3},
     {id: 4, name: 'Italian', icon: type4},
 ];
 

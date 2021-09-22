@@ -53,14 +53,15 @@ export default function RecipeComponent ({ filter }) {
     const windowWidth = Dimensions.get('window').width;
 
     useEffect(() => {
-        api.get(`/recipes/filter?v=${filter}`)
+        api.get(`/recipes/${filter}/${verticalBarFilter}`)
         .then(res => {
             const data = res.data.recipes;
             setRecipes(data);
 
             setIsLoading(true);
         })
-    }, [filter]);
+        .catch((err) => console.log(err))
+    }, [filter, verticalBarFilter]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -72,7 +73,7 @@ export default function RecipeComponent ({ filter }) {
         return(
             <RecipeItem style={{width: windowWidth}}>
                 <ItemCategoryArea>
-                    <ItemCategoryText>{item.category} Food</ItemCategoryText>
+                    <ItemCategoryText>{item.category} {item.type}</ItemCategoryText>
                     <ItemName numberOfLines={1}>{item.name}</ItemName>
                 </ItemCategoryArea>
 
