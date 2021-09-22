@@ -12,15 +12,14 @@ export const Header = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    height: 102px;
+    padding: 10px;
 `;
 export const HeaderButton = styled.TouchableOpacity`
     align-items: center;
     justify-content: center;
-    height: 52px;
-    width: 52px;
-    border-radius: 26px;
+    width: 62px;
+    height: 62px;
+    border-radius: 31px;
 `;
 
 /** -------------------------------------------------------- **/

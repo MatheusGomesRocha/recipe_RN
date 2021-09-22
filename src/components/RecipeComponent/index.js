@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, Dimensions, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -44,6 +45,8 @@ let array = [
 export default function RecipeComponent ({ filter }) {
     const [recipes, setRecipes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const verticalBarFilter = useSelector(state=>state.user.filter);
 
     const navigation = useNavigation();
 

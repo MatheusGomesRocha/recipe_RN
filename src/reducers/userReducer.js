@@ -24,8 +24,8 @@ export default (state = initialState, action) => {
         case 'SET_USER':
             return {...state, user: action.payload.user};
         break
-        case 'SHOW_MENU':
-            return {...state, menu: action.payload.menu};
+        case 'SET_FILTER':
+            return {...state, filter: action.payload.filter};
         break
         default:
             return state

@@ -78,20 +78,22 @@ export default function UserRecipes() {
             {loading ? 
                 <ActivityIndicator size="large" color="#D7263D" style={{marginTop: 40}} />
                 :
-                <ScrollView contentContainerStyle={{paddingHorizontal: 10}} showsHorizontalScrollIndicator={false} horizontal={true}>
-                    {data.map((item, k) => (
-                        <RecipeItem key={k}>
-                            <RecipeImg source={{uri: `http://192.168.0.110:3000/media/${item.img}`}} />
+                data.length > 0 ? 
+                    <ScrollView contentContainerStyle={{paddingHorizontal: 10}} showsHorizontalScrollIndicator={false} horizontal={true}>
+                        {data.map((item, k) => (
+                            <RecipeItem key={k}>
+                                <RecipeImg source={{uri: `http://192.168.0.110:3000/media/${item.img}`}} />
 
-                            <RecipeCategory>
-                                <RecipeCategoryMarkdown />
-                                <RecipeCategoryText numberOfLines={2}>{item.category}</RecipeCategoryText>
-                            </RecipeCategory>
+                                <RecipeCategory>
+                                    <RecipeCategoryMarkdown />
+                                    <RecipeCategoryText numberOfLines={2}>{item.category}</RecipeCategoryText>
+                                </RecipeCategory>
 
-                            <RecipeName>{item.name}</RecipeName>
-                        </RecipeItem>
-                    ))}
-                </ScrollView>
+                                <RecipeName>{item.name}</RecipeName>
+                            </RecipeItem>
+                        ))}
+                    </ScrollView>
+                : undefined
             }
         </Recipes>
     )

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableNativeFeedback, View, TouchableWithoutFeedback} from 'react-native';
-import { useSelector, connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 
@@ -38,14 +38,15 @@ let categoryArray = [
     {id: 4, name: 'Italian', icon: type4},
 ];
 
-function Home (props) {
+export default function Home () {
     const [filter, setFilter] = useState('All');
     const [welcomeMessage, setWelcomeMessage] = useState('');
-    const [teste, setTeste] = useState(false);
+    const [openMenu, setOpenMenu] = useState(false);
 
+    const token = useSelector(state=>state.user.token);
     const avatar = useSelector(state=>state.user.avatar);
     const name = useSelector(state=>state.user.name);
-    
+
     const navigation = useNavigation();
 
     const offset = useSharedValue(-62);
@@ -70,26 +71,12 @@ function Home (props) {
     }, []);
 
     useEffect(() => {
-        if(teste) {
+        if(openMenu) {
             offset.value = 1;
         } else {
             offset.value = -62;
         }
-    }, [teste])
-
-    function logout() {
-        props.setName('');
-        props.setEmail('');
-        props.setUser('');
-        props.setAvatar('');
-        props.setToken('');
-
-        navigation.reset({
-            routes: [
-                { name: 'preload' },
-            ]
-        });
-    }
+    }, [openMenu])
 
     return(
         <HomeContainer>
@@ -110,7 +97,7 @@ function Home (props) {
                         <Title style={{color: defaultColor}}>{name}</Title>
                     </HeaderContent>
 
-                    <MenuButton style={{width: 50, height: 50}} onPress={() => setTeste(!teste)}>
+                    <MenuButton style={{width: 50, height: 50}} onPress={() => setOpenMenu(!openMenu)}>
                         <Feather name="menu" color="#000" size={25} />
                     </MenuButton>
                 </Header>
@@ -134,15 +121,3 @@ function Home (props) {
         </HomeContainer> 
     )
 }
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setName:(name)=>dispatch({type:'SET_NAME', payload: {name}}),    // Seta o nome do usuário com redux
-        setEmail:(email)=>dispatch({type:'SET_EMAIL', payload: {email}}),    // Seta o email do usuário com redux
-        setToken:(token)=>dispatch({type:'SET_TOKEN', payload: {token}}),    // Seta o token do usuário com redux
-        setAvatar:(avatar)=>dispatch({type:'SET_AVATAR', payload: {avatar}}),    // Seta o avatar do usuário com redux
-        setUser:(user)=>dispatch({type:'SET_USER', payload: {user}})    // Seta o user do usuário com redux
-    };
-}
-
-export default connect(null, mapDispatchToProps) (Home);

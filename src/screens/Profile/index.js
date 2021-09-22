@@ -1,10 +1,11 @@
-import React, { useRef, useState, useEffect } from 'react';
-import { ScrollView, TouchableNativeFeedback, Animated } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { ScrollView, TouchableNativeFeedback, Animated, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { useSelector } from 'react-redux'; 
+import { connect, useSelector } from 'react-redux'; 
 
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import UserImgPlaceholder from '../../assets/images/user.png';
 
@@ -41,7 +42,7 @@ import {
     FilterButtonText,
 } from './styles';
 
-export default function Profile() {
+function Profile(props) {
     const [filterValue, setFilterValue] = useState('recipes');
 
     const borderBottomAnimated = useRef(new Animated.Value(0)).current;
@@ -51,8 +52,6 @@ export default function Profile() {
     const user = useSelector(state => state.user.user);
 
     const navigation = useNavigation();
-
-   
 
     const borderToLeft = () => {
         setFilterValue('recipes');
@@ -70,12 +69,26 @@ export default function Profile() {
             toValue: 1,
             useNativeDriver: false,
         }).start();
-    }
+    };
 
     const borderInterpolated = borderBottomAnimated.interpolate({
         inputRange: [0, 1],
         outputRange: ['0%', '50%'],
-    })
+    });
+
+    function logout() {
+        props.setName('');
+        props.setEmail('');
+        props.setUser('');
+        props.setAvatar('');
+        props.setToken('');
+
+        navigation.reset({
+            routes: [
+                { name: 'preload' },
+            ]
+        });
+    };
 
     return(
         <ProfileContainer>
@@ -85,8 +98,8 @@ export default function Profile() {
                         <Feather name="clipboard" color="#000" size={25} />
                     </HeaderButton>
                 
-                    <HeaderButton onPress={() => navigation.navigate('notification')}>
-                        <Ionicons name="notifications" color="#000" size={25} />
+                    <HeaderButton onPress={logout}>
+                        <MaterialIcons name="logout" color="#000" size={25} />
                     </HeaderButton>
                 </Header>
 
@@ -166,3 +179,15 @@ export default function Profile() {
         </ProfileContainer>
     )
 }
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setName:(name)=>dispatch({type:'SET_NAME', payload: {name}}),    // Seta o nome do usuário com redux
+        setEmail:(email)=>dispatch({type:'SET_EMAIL', payload: {email}}),    // Seta o email do usuário com redux
+        setToken:(token)=>dispatch({type:'SET_TOKEN', payload: {token}}),    // Seta o token do usuário com redux
+        setAvatar:(avatar)=>dispatch({type:'SET_AVATAR', payload: {avatar}}),    // Seta o avatar do usuário com redux
+        setUser:(user)=>dispatch({type:'SET_USER', payload: {user}})    // Seta o user do usuário com redux
+    };
+}
+
+export default connect(null, mapDispatchToProps) (Profile);
