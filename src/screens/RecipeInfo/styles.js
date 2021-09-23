@@ -97,24 +97,14 @@ export const IngTitle = styled.Text`
     font-size: 16px;
 `;
 export const IngItemArea = styled.View`
-    align-items: center;
-    margin: 0 7px;
-`;
-export const IngItem = styled.View`
     background-color: ${grayish};
     align-items: center;
     justify-content: center;
-    width: 60px;
-    height: 60px;
+    padding: 15px;
     border-radius: 10px;
+    margin: 0 7px;
 `;
-export const IngImg = styled.Image`
-    width: 26px;
-    height: 26px;
-`;
-export const IngName = styled.Text`
-    margin-top: 5px;
-`;
+export const IngName = styled.Text``;
 
 /** ------------------------------------------------------- **/
 

@@ -5,7 +5,6 @@ import { WebView } from 'react-native-webview';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 import food1 from '../../assets/images/food1.png';
-import imgPlaceholder from '../../assets/images/type1.png';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -41,8 +40,6 @@ import {
     IngArea,
     IngTitle,
     IngItemArea,
-    IngItem,
-    IngImg,
     IngName,
     
     YoutubeVideoArea,
@@ -51,12 +48,12 @@ import {
 } from './styles';
 
 let array = [
-    {id: 1, img: imgPlaceholder, name: 'Shrimp'},
-    {id: 2, img: imgPlaceholder, name: 'Sugar'},
-    {id: 3, img: imgPlaceholder, name: 'Salt'},
-    {id: 4, img: imgPlaceholder, name: 'oil'},
-    {id: 5, img: imgPlaceholder, name: 'cake'},
-    {id: 6, img: imgPlaceholder, name: 'apple'},
+    {id: 1, name: 'Shrimp'},
+    {id: 2, name: 'Sugar'},
+    {id: 3, name: 'Salt'},
+    {id: 4, name: 'oil'},
+    {id: 5, name: 'cake'},
+    {id: 6, name: 'apple'},
 ];
 
 // Fake DATA to use when the Database is off
@@ -153,10 +150,6 @@ export default function RecipeInfo () {
                             <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 23, marginTop: 20}}>    
                                 {array.map((item, k) => (
                                     <IngItemArea key={k}>
-                                        <IngItem>
-                                            <IngImg source={item.img} />
-                                        </IngItem>
-
                                         <IngName>{item.name}</IngName>
                                     </IngItemArea>
                                 ))}

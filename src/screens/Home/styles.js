@@ -38,13 +38,10 @@ export const CategoryButton = styled.View`
     justify-content: center;
     border-color: ${props=>props.borderColor};
     border-width: 1px;
-    width: 82px;
-    height: 82px;
     border-radius: 10px;
+    padding: 15px;
     margin: 0 9px;
 `;
-export const CategoryIcon = styled.Image``;
 export const CategoryName = styled.Text`
     color: ${props=>props.color};
-    margin-top: 10px;
 `;

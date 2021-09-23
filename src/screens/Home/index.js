@@ -10,11 +10,6 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import VerticalBar from '../../components/VerticalBar';
 import RecipeComponent from '../../components/RecipeComponent';
 
-import type1 from '../../assets/images/type1.png';
-import type2 from '../../assets/images/type2.png';
-import type3 from '../../assets/images/type3.png';
-import type4 from '../../assets/images/type4.png';
-
 import { black, defaultColor } from '../../globals';
 
 import {
@@ -27,15 +22,18 @@ import {
     MenuButton,
 
     CategoryButton,
-    CategoryIcon,
     CategoryName
 } from './styles';
 
 let categoryArray = [
-    {id: 1, name: 'All', icon: type1},
-    {id: 2, name: 'Chinese', icon: type2},
-    {id: 3, name: 'Brazilian', icon: type3},
-    {id: 4, name: 'Italian', icon: type4},
+    {id: 1, name: 'All'},
+    {id: 2, name: 'Chinese'},
+    {id: 3, name: 'Brazilian'},
+    {id: 4, name: 'Italian'},
+    {id: 5, name: 'Japanese'},
+    {id: 6, name: 'Indian'},
+    {id: 7, name: 'French'},
+    {id: 8, name: 'Portuguese'},
 ];
 
 export default function Home () {
@@ -107,7 +105,6 @@ export default function Home () {
                         {categoryArray.map((item, k) => (
                             <TouchableNativeFeedback key={k} onPress={() => setFilter(item.name)} background={TouchableNativeFeedback.Ripple('#ccc', false, 55)}>
                                 <CategoryButton borderColor={filter === item.name ? defaultColor : 'transparent'}>
-                                    <CategoryIcon source={item.icon} />
                                     <CategoryName color={filter === item.name ? defaultColor : black}>{item.name}</CategoryName>
                                 </CategoryButton>
                             </TouchableNativeFeedback>
