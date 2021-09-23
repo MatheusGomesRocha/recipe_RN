@@ -29,11 +29,12 @@ let categoryArray = [
     {id: 1, name: 'All'},
     {id: 2, name: 'Chinese'},
     {id: 3, name: 'Brazilian'},
-    {id: 4, name: 'Italian'},
-    {id: 5, name: 'Japanese'},
-    {id: 6, name: 'Indian'},
-    {id: 7, name: 'French'},
-    {id: 8, name: 'Portuguese'},
+    {id: 4, name: 'American'},
+    {id: 5, name: 'Italian'},
+    {id: 6, name: 'Japanese'},
+    {id: 7, name: 'Indian'},
+    {id: 8, name: 'French'},
+    {id: 9, name: 'Portuguese'},
 ];
 
 export default function Home () {

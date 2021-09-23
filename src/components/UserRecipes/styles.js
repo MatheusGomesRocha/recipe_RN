@@ -29,7 +29,7 @@ export const FilterRecipeText = styled.Text`
 
 /** ------------------------------------------------- **/
 
-export const RecipeItem = styled.View`
+export const RecipeItem = styled.TouchableOpacity`
     background-color: ${defaultColorTransparent};
     border-radius: 20px;
     width: 250px;

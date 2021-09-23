@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
 import food1 from '../../assets/images/food1.png';
 import { black, defaultColor } from '../../globals';
@@ -33,13 +34,15 @@ let array = [
 ];
 
 let arrayFilter = [
-    {id: 1, title: 'All'},
-    {id: 2, title: 'French'},
-    {id: 3, title: 'Brazillian'},
-    {id: 4, title: 'American'},
-    {id: 5, title: 'Japanese'},
-    {id: 6, title: 'Chinese'},
-    {id: 7, title: 'Italian'},
+    {id: 1, name: 'All'},
+    {id: 2, name: 'Chinese'},
+    {id: 3, name: 'Brazilian'},
+    {id: 4, name: 'American'},
+    {id: 5, name: 'Italian'},
+    {id: 6, name: 'Japanese'},
+    {id: 7, name: 'Indian'},
+    {id: 8, name: 'French'},
+    {id: 9, name: 'Portuguese'},
 ];
 
 export default function UserRecipes() {
@@ -48,6 +51,8 @@ export default function UserRecipes() {
     const [data, setData] = useState({});
 
     const token = useSelector(state => state.user.token);
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         api.get(`/user-recipes/${token}`)
@@ -68,8 +73,8 @@ export default function UserRecipes() {
             <FilterRecipeArea>
                 <ScrollView contentContainerStyle={{paddingHorizontal: 20}} horizontal={true} showsHorizontalScrollIndicator={false}>
                         {arrayFilter.map((item, k) => (
-                            <FilterRecipeItem borderColor={filterRecipeValue === item.title ? defaultColor : 'transparent'} onPress={() => setFilterRecipeValue(item.title)} key={k}>
-                                <FilterRecipeText color={filterRecipeValue === item.title ? defaultColor : black}>{item.title}</FilterRecipeText>
+                            <FilterRecipeItem borderColor={filterRecipeValue === item.name ? defaultColor : 'transparent'} onPress={() => setFilterRecipeValue(item.name)} key={k}>
+                                <FilterRecipeText color={filterRecipeValue === item.name ? defaultColor : black}>{item.name}</FilterRecipeText>
                             </FilterRecipeItem>
                         ))}
                 </ScrollView>
@@ -81,7 +86,7 @@ export default function UserRecipes() {
                 data.length > 0 ? 
                     <ScrollView contentContainerStyle={{paddingHorizontal: 10}} showsHorizontalScrollIndicator={false} horizontal={true}>
                         {data.map((item, k) => (
-                            <RecipeItem key={k}>
+                            <RecipeItem key={k} onPress={() => navigation.navigate('recipe__info', {recipeId: item.id})}>
                                 <RecipeImg source={{uri: `http://192.168.0.110:3000/media/${item.img}`}} />
 
                                 <RecipeCategory>
