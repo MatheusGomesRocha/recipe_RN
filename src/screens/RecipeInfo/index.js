@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { Dimensions, ScrollView, TouchableNativeFeedback, TouchableWithoutFeedback, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ActivityIndicator, Dimensions, ScrollView, TouchableNativeFeedback, TouchableWithoutFeedback, View } from 'react-native';
 
 import { WebView } from 'react-native-webview';
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -63,12 +63,14 @@ export default function RecipeInfo () {
     const [recipe, setRecipe] = useState([]);
     const [isFavorited, setIsFavorited] = useState(false);
     const [showDescription, setShowDescription] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const navigation = useNavigation();
     const route = useRoute();
 
     const recipeId = route.params.recipeId;
     const windowWidth = Dimensions.get('window').width;
+    const windowHeight = Dimensions.get('window').height;
 
     useEffect(() => {
         api.get(`/recipe/${recipeId}`)
@@ -87,7 +89,13 @@ export default function RecipeInfo () {
         .catch((err) => {
             console.error(err);
         })
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2500)
+    }, []);
 
     return(
         <RecipeInfoContainer>
@@ -98,70 +106,76 @@ export default function RecipeInfo () {
                     </View>
                 </TouchableNativeFeedback>
 
-                <RecipeInfoArea>
-                        <RecipeImg style={{left: windowWidth - 210}} source={{uri: `http://192.168.0.110:3000/media/${recipe.img}`}} />
+                <RecipeInfoArea style={{minHeight: windowHeight - 100}}>
+                    {loading ?
+                        <ActivityIndicator style={{marginTop: 300}} size="large" color="#D7263D" />
+                    :
+                        <>
+                            <RecipeImg style={{left: windowWidth - 210}} source={{uri: `http://192.168.0.110:3000/media/${recipe.img}`}} />
 
-                        <RecipeHeaderButtons>
-                            <TouchableWithoutFeedback>
+                            <RecipeHeaderButtons>
+                                <TouchableWithoutFeedback>
+                                    <RecipeHeaderButton>
+                                        <Entypo name="share" color="#000" size={25} />
+                                    </RecipeHeaderButton>
+                                </TouchableWithoutFeedback>
+
                                 <RecipeHeaderButton>
-                                    <Entypo name="share" color="#000" size={25} />
+                                    <TouchableWithoutFeedback onPress={() => setIsFavorited(!isFavorited)}>
+                                        <AntDesign name={isFavorited ? 'heart' : 'hearto'} color="#000" size={25} />
+                                    </TouchableWithoutFeedback>
                                 </RecipeHeaderButton>
+                            </RecipeHeaderButtons>
+
+                            <CategoryArea>
+                                <CategoryDivider />
+                                <CategoryText>{recipe.category}</CategoryText>
+                            </CategoryArea>
+
+                            <RecipeName>{recipe.name}</RecipeName>
+
+                            <RecipeMoreInfoArea>
+                                <RecipeMoreInfo>
+                                    <Ionicons name="bonfire-outline" color="#000" size={25} />
+                                    <RecipeMoreInfoText>{recipe.cookTime} min</RecipeMoreInfoText>
+                                </RecipeMoreInfo>
+
+                                <RecipeMoreInfo>
+                                    <MaterialIcons name="kitchen" color="#000" size={25} />
+                                    <RecipeMoreInfoText>{recipe.ingQuantity} ing</RecipeMoreInfoText>
+                                </RecipeMoreInfo>
+
+                                <RecipeMoreInfo>
+                                    <Ionicons name="fitness-outline" color="#000" size={25} />
+                                    <RecipeMoreInfoText>400 cal</RecipeMoreInfoText>
+                                </RecipeMoreInfo>
+                            </RecipeMoreInfoArea>
+
+                            <TouchableWithoutFeedback onPress={() => setShowDescription(!showDescription)}>
+                                <DescriptionArea>
+                                    <DescriptionText numberOfLines={showDescription ? undefined : 3}>{recipe.description}</DescriptionText>
+                                </DescriptionArea>
                             </TouchableWithoutFeedback>
 
-                            <RecipeHeaderButton>
-                                <TouchableWithoutFeedback onPress={() => setIsFavorited(!isFavorited)}>
-                                    <AntDesign name={isFavorited ? 'heart' : 'hearto'} color="#000" size={25} />
-                                </TouchableWithoutFeedback>
-                            </RecipeHeaderButton>
-                        </RecipeHeaderButtons>
+                            <IngArea>
+                                <IngTitle>Ingredients ({array.length})</IngTitle>
+                                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 23, marginTop: 20}}>    
+                                    {array.map((item, k) => (
+                                        <IngItemArea key={k}>
+                                            <IngName>{item.name}</IngName>
+                                        </IngItemArea>
+                                    ))}
+                                </ScrollView>
+                            </IngArea>
 
-                        <CategoryArea>
-                            <CategoryDivider />
-                            <CategoryText>{recipe.category}</CategoryText>
-                        </CategoryArea>
-
-                        <RecipeName>{recipe.name}</RecipeName>
-
-                        <RecipeMoreInfoArea>
-                            <RecipeMoreInfo>
-                                <Ionicons name="bonfire-outline" color="#000" size={25} />
-                                <RecipeMoreInfoText>{recipe.cookTime} min</RecipeMoreInfoText>
-                            </RecipeMoreInfo>
-
-                            <RecipeMoreInfo>
-                                <MaterialIcons name="kitchen" color="#000" size={25} />
-                                <RecipeMoreInfoText>{recipe.ingQuantity} ing</RecipeMoreInfoText>
-                            </RecipeMoreInfo>
-
-                            <RecipeMoreInfo>
-                                <Ionicons name="fitness-outline" color="#000" size={25} />
-                                <RecipeMoreInfoText>400 cal</RecipeMoreInfoText>
-                            </RecipeMoreInfo>
-                        </RecipeMoreInfoArea>
-
-                        <TouchableWithoutFeedback onPress={() => setShowDescription(!showDescription)}>
-                            <DescriptionArea>
-                                <DescriptionText numberOfLines={showDescription ? undefined : 3}>{recipe.description}askm kadsk mdakm akmd akd kamkamdsk amskmdakm amd kakdamsdkamsdk akdma ksmd kamdm</DescriptionText>
-                            </DescriptionArea>
-                        </TouchableWithoutFeedback>
-
-                        <IngArea>
-                            <IngTitle>Ingredients ({array.length})</IngTitle>
-                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} contentContainerStyle={{paddingHorizontal: 23, marginTop: 20}}>    
-                                {array.map((item, k) => (
-                                    <IngItemArea key={k}>
-                                        <IngName>{item.name}</IngName>
-                                    </IngItemArea>
-                                ))}
-                            </ScrollView>
-                        </IngArea>
-
-                        <YoutubeVideoArea>
-                            <YoutubeVideoTitle>See this video to help you</YoutubeVideoTitle>
-                            <YoutubeVideo>
-                                <WebView allowFullScreen={true} source={{ uri: 'https://www.youtube.com/embed/i6Oi-YtXnAU' }} />
-                            </YoutubeVideo>
-                        </YoutubeVideoArea>
+                            <YoutubeVideoArea>
+                                <YoutubeVideoTitle>See this video to help you</YoutubeVideoTitle>
+                                <YoutubeVideo>
+                                    <WebView allowFullScreen={true} source={{ uri: 'https://www.youtube.com/embed/i6Oi-YtXnAU' }} />
+                                </YoutubeVideo>
+                            </YoutubeVideoArea>
+                        </>
+                    }
                 </RecipeInfoArea>
             </ScrollView>
         </RecipeInfoContainer>
