@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ActivityIndicator, Dimensions, ScrollView, TouchableNativeFeedback, TouchableWithoutFeedback, View } from 'react-native';
-
 import { WebView } from 'react-native-webview';
 import { useNavigation, useRoute } from '@react-navigation/native';
-
-import food1 from '../../assets/images/food1.png';
+import { useSelector } from 'react-redux';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -69,6 +67,7 @@ export default function RecipeInfo () {
     const route = useRoute();
 
     const recipeId = route.params.recipeId;
+    const token = useSelector(state => state.user.token);
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
 
@@ -97,6 +96,25 @@ export default function RecipeInfo () {
         }, 2500)
     }, []);
 
+    useEffect(() => {
+        api.get(`/recipe-favorite/${token}/${recipeId}`)
+        .then(res => setIsFavorited(res.data.result))
+        .catch((err) => console.log(err))
+    }, [])
+
+    function addFavorite () {
+        if(!isFavorited) {
+            api.post(`/add-favorites/${token}`, {
+                token: token,
+                recipeId: recipeId
+            }).then((res) => {
+                console.log(res.data);
+                setIsFavorited(true);
+            })
+            .catch((err) => console.log(err))
+        }
+    }
+
     return(
         <RecipeInfoContainer>
             <ScrollView>
@@ -121,7 +139,7 @@ export default function RecipeInfo () {
                                 </TouchableWithoutFeedback>
 
                                 <RecipeHeaderButton>
-                                    <TouchableWithoutFeedback onPress={() => setIsFavorited(!isFavorited)}>
+                                    <TouchableWithoutFeedback onPress={addFavorite}>
                                         <AntDesign name={isFavorited ? 'heart' : 'hearto'} color="#000" size={25} />
                                     </TouchableWithoutFeedback>
                                 </RecipeHeaderButton>
