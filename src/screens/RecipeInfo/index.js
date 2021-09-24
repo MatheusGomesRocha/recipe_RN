@@ -102,16 +102,23 @@ export default function RecipeInfo () {
         .catch((err) => console.log(err))
     }, [])
 
-    function addFavorite () {
+    function handleFavorite () {
         if(!isFavorited) {
             api.post(`/add-favorites/${token}`, {
                 token: token,
                 recipeId: recipeId
             }).then((res) => {
-                console.log(res.data);
                 setIsFavorited(true);
             })
-            .catch((err) => console.log(err))
+            .catch((err) => console.log(err));
+        } else {
+            api.post(`/delete-favorite/${token}`, {
+                token: token,
+                recipeId: recipeId
+            }).then((res) => {
+                setIsFavorited(false);
+            })
+            .catch((err) => console.log(err));
         }
     }
 
@@ -139,7 +146,7 @@ export default function RecipeInfo () {
                                 </TouchableWithoutFeedback>
 
                                 <RecipeHeaderButton>
-                                    <TouchableWithoutFeedback onPress={addFavorite}>
+                                    <TouchableWithoutFeedback onPress={handleFavorite}>
                                         <AntDesign name={isFavorited ? 'heart' : 'hearto'} color="#000" size={25} />
                                     </TouchableWithoutFeedback>
                                 </RecipeHeaderButton>
