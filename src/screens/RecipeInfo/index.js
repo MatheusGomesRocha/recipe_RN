@@ -215,7 +215,7 @@ export default function RecipeInfo () {
                             <YoutubeVideoArea>
                                 <YoutubeVideoTitle>See this video to help you</YoutubeVideoTitle>
                                 <YoutubeVideo>
-                                    <WebView allowFullScreen={true} source={{ uri: 'https://www.youtube.com/embed/i6Oi-YtXnAU' }} />
+                                    <WebView allowFullScreen={true} source={{ uri: 'https://www.youtube.com/embed/d8nTfzxES8' }} />
                                 </YoutubeVideo>
                             </YoutubeVideoArea>
                         </>

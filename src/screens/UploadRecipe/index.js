@@ -41,11 +41,14 @@ import {
 } from './styles';
 
 let array = [
-    {id: 1, title: 'Bulgarian'},
-    {id: 2, title: 'Chinese'},
-    {id: 3, title: 'Brazilian'},
-    {id: 4, title: 'Italian'},
-    {id: 5, title: 'Japanese'},
+    {id: 2, name: 'Chinese'},
+    {id: 3, name: 'Brazilian'},
+    {id: 4, name: 'American'},
+    {id: 5, name: 'Italian'},
+    {id: 6, name: 'Japanese'},
+    {id: 7, name: 'Indian'},
+    {id: 8, name: 'French'},
+    {id: 9, name: 'Portuguese'},
 ];
 
 let arrayType = [
@@ -216,7 +219,7 @@ export default function UploadRecipe () {
                     setTimeout(() => {
                         navigation.reset({
                             routes: [
-                                { name: 'upload__recipe' },
+                                { name: 'profile' },
                             ]
                         });
                     }, 3000)
@@ -296,8 +299,8 @@ export default function UploadRecipe () {
                         <Label color={forgotCuisine ? red : grayFont}>Select cuisine</Label>
                         <ScrollView contentContainerStyle={{paddingHorizontal: 15, marginTop: 10}} horizontal={true} showsHorizontalScrollIndicator={false}>
                             {array.map((item, k) => (
-                                <FilterItem onPress={() => setCuisine(item.title)} borderColor={cuisine === item.title ? defaultColor : 'transparent'} key={k}>
-                                    <FilterItemText color={cuisine === item.title ? defaultColor : black}>{item.title}</FilterItemText>
+                                <FilterItem onPress={() => setCuisine(item.name)} borderColor={cuisine === item.name ? defaultColor : 'transparent'} key={k}>
+                                    <FilterItemText color={cuisine === item.name ? defaultColor : black}>{item.name}</FilterItemText>
                                 </FilterItem>
                             ))}
                         </ScrollView>

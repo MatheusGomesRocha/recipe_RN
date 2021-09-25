@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, TouchableNativeFeedback, View, TouchableWithoutFeedback} from 'react-native';
 import { useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 
 import Feather from 'react-native-vector-icons/Feather';
@@ -41,12 +40,11 @@ export default function Home () {
     const [filter, setFilter] = useState('All');
     const [welcomeMessage, setWelcomeMessage] = useState('');
     const [openMenu, setOpenMenu] = useState(false);
+    const [refreshing, setRefreshing] = useState(false);
 
     const token = useSelector(state=>state.user.token);
     const avatar = useSelector(state=>state.user.avatar);
     const name = useSelector(state=>state.user.name);
-
-    const navigation = useNavigation();
 
     const offset = useSharedValue(-62);
 

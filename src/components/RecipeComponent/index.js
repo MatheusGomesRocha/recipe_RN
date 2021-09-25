@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 import food1 from '../../assets/images/food1.png';
 
@@ -30,6 +31,8 @@ import {
     ItemMoreInfo,
     ItemMoreInfoText,
 
+    ItemFooterButtons,
+    ItemFooterLeftButton,
     ItemViewButton,
     ItemViewButtonText,
 } from './styles';
@@ -42,7 +45,7 @@ let array = [
     {id: 4, name: 'Hot Sausage W/ Cheese And Milk', category: 'Japanese', description: 'Lorem ispum aksmd owodoia samda qqsdak mapodkqoa s aa mmammsa', cookTime: 50, ingQuantity: 12},
 ];
 
-export default function RecipeComponent ({ filter }) {
+export default function RecipeComponent ({ filter, children }) {
     const [recipes, setRecipes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -96,9 +99,15 @@ export default function RecipeComponent ({ filter }) {
                     </ItemMoreInfo>
                 </ItemMoreInfoArea>
 
-                <ItemViewButton onPress={() => navigation.navigate('recipe__info', {recipeId: item.id})}>
-                    <ItemViewButtonText>View Recipe</ItemViewButtonText>
-                </ItemViewButton>
+                <ItemFooterButtons>
+                    <ItemFooterLeftButton>
+                        <Entypo name="share" color="#fff" size={30} />
+                    </ItemFooterLeftButton>
+
+                    <ItemViewButton onPress={() => navigation.navigate('recipe__info', {recipeId: item.id})}>
+                        <ItemViewButtonText>View Recipe</ItemViewButtonText>
+                    </ItemViewButton>
+                </ItemFooterButtons>
             </RecipeItem>
         )
     }
@@ -110,6 +119,8 @@ export default function RecipeComponent ({ filter }) {
             :
                 recipes.length > 0 ? 
                     <FlatList
+                        onRefresh={() => setIsLoading(true)}
+                        refreshing={isLoading}
                         horizontal={true}
                         pagingEnabled={true}
                         showsHorizontalScrollIndicator={false}
