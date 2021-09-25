@@ -3,6 +3,7 @@ import { ActivityIndicator, Dimensions, ScrollView, TouchableNativeFeedback, Tou
 import { WebView } from 'react-native-webview';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, withSequence } from 'react-native-reanimated';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -11,6 +12,8 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Feather from 'react-native-vector-icons/Feather';
 
 import { api } from '../../services/api';
+import HeartIcon from '../../assets/images/heart.png';
+import HeartEmptyIcon from '../../assets/images/heart-empty.png';
 
 import {
     RecipeInfoContainer,
@@ -71,6 +74,9 @@ export default function RecipeInfo () {
     const windowWidth = Dimensions.get('window').width;
     const windowHeight = Dimensions.get('window').height;
 
+    const widthHeart = useSharedValue(30);
+    const heightHeart = useSharedValue(30);
+
     useEffect(() => {
         api.get(`/recipe/${recipeId}`)
         .then((res) => {
@@ -100,10 +106,20 @@ export default function RecipeInfo () {
         api.get(`/recipe-favorite/${token}/${recipeId}`)
         .then(res => setIsFavorited(res.data.result))
         .catch((err) => console.log(err))
-    }, [])
+    }, []);
+
+    const animatedStyles = useAnimatedStyle(() => {
+        return {
+            width: widthHeart.value,
+            height: heightHeart.value,
+        };
+    });
 
     function handleFavorite () {
         if(!isFavorited) {
+            widthHeart.value = withSequence(withTiming(40), withTiming(30));
+            heightHeart.value = withSequence(withTiming(40), withTiming(30));
+
             api.post(`/add-favorites/${token}`, {
                 token: token,
                 recipeId: recipeId
@@ -112,6 +128,9 @@ export default function RecipeInfo () {
             })
             .catch((err) => console.log(err));
         } else {
+            widthHeart.value = withSequence(withTiming(40), withTiming(30));
+            heightHeart.value = withSequence(withTiming(40), withTiming(30));
+            
             api.post(`/delete-favorite/${token}`, {
                 token: token,
                 recipeId: recipeId
@@ -147,7 +166,7 @@ export default function RecipeInfo () {
 
                                 <RecipeHeaderButton>
                                     <TouchableWithoutFeedback onPress={handleFavorite}>
-                                        <AntDesign name={isFavorited ? 'heart' : 'hearto'} color="#000" size={25} />
+                                        <Animated.Image source={isFavorited ? HeartIcon : HeartEmptyIcon} style={[animatedStyles], { position: 'absolute', bottom: -16}} />
                                     </TouchableWithoutFeedback>
                                 </RecipeHeaderButton>
                             </RecipeHeaderButtons>

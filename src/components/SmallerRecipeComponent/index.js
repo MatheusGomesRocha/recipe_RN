@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, TouchableWithoutFeedback } from 'react-native';
+import { ActivityIndicator, FlatList, TouchableWithoutFeedback } from 'react-native';
+import { useSelector } from 'react-redux';
 
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -34,15 +35,24 @@ import {
 } from './styles';
 
 export default function SmallerRecipe({children}) {
-    const [recipes, setRecipes] = useState({});
+    const [recipes, setRecipes] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    const token = useSelector(state => state.user.token);
 
     useEffect(() => {
-        api.get('/recipes')
+        api.get(`/favorites/${token}`)
         .then(res => {
-            const data = res.data.recipes;
-            setRecipes(data);
+            console.log(res.data);
         })
-    }, [])
+        .catch((err) => console.log(err));
+    }, []);
+
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 2500)
+    }, []);
 
     const renderItem = ({item}) => {
         return(
@@ -68,18 +78,15 @@ export default function SmallerRecipe({children}) {
                     </ItemHeader>
 
                     <TouchableWithoutFeedback>
-                        <ItemName numberOfLines={3}>{item.name}</ItemName>
                     </TouchableWithoutFeedback>
 
                     <ItemFooter>
                         <ItemFooterDefault>
                             <Ionicons name="bonfire-outline" color="#000" size={25} />
-                            <ItemFooterDefaultText>{item.cookTime.toString()} min</ItemFooterDefaultText>
                         </ItemFooterDefault>
 
                         <ItemFooterDefault>
                             <MaterialIcons name="kitchen" color="#000" size={25} />
-                            <ItemFooterDefaultText>{item.ingQuantity.toString()} Ing</ItemFooterDefaultText>
                         </ItemFooterDefault>
                     </ItemFooter>
                 </ItemRightContent>
@@ -89,14 +96,18 @@ export default function SmallerRecipe({children}) {
 
     return(
         <SmallerRecipeArea>
-            <FlatList
-                contentContainerStyle={{paddingHorizontal: 20, paddingVertical: 20}}
-                ListHeaderComponent={children}
-                showsVerticalScrollIndicator={false}
-                data={recipes}
-                renderItem={renderItem}
-                keyExtractor={item => item.id}
-            />
+            {loading ?
+                <ActivityIndicator size="large" color="#D7263D" />
+                :
+                <FlatList
+                    contentContainerStyle={{paddingHorizontal: 20, paddingVertical: 20}}
+                    ListHeaderComponent={children}
+                    showsVerticalScrollIndicator={false}
+                    data={recipes}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                />
+            }
         </SmallerRecipeArea>
     )
 }
