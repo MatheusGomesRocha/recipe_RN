@@ -11,6 +11,7 @@ export const SavedContainer = styled.View`
 export const RecipeQuantityText = styled.Text`
     text-align: right;
     font-size: 16px;
+    margin: 20px;
 `;
 
 /** ----------------------------------------------- **/

@@ -1,7 +1,9 @@
 import styled from 'styled-components/native';
 import { defaultColor, grayFont } from '../../globals';
 
-export const SmallerRecipeArea = styled.View``;
+export const SmallerRecipeArea = styled.View`
+    padding: 20px;
+`;
 
 /** --------------------------------------------- **/
 
@@ -9,7 +11,6 @@ export const SmallerRecipeItem = styled.View`
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    flex: 1;
     border: 1px solid ${grayFont};
     margin-top: 50px;
     padding: 20px;

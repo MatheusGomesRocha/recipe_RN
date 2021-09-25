@@ -30,23 +30,19 @@ export default function Saved() {
 
     return(
         <SavedContainer>
-            <SmallerRecipe 
-                children={
-                    <>
-                        <RecipeQuantityText>22 recipes</RecipeQuantityText>
+            <RecipeQuantityText>1 recipes</RecipeQuantityText>
 
-                        <FilterArea>
-                            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
-                                {array.map((item, k) => (
-                                    <FilterItem onPress={() => setFilter(item.title)} backgroundColor={filter === item.title ? defaultColor : grayish} key={k}>
-                                        <FilterItemText color={filter === item.title ? white : black}>{item.title}</FilterItemText>
-                                    </FilterItem>
-                                ))}
-                            </ScrollView>
-                        </FilterArea>
-                    </>
-                } 
-            />
+            <FilterArea>
+                <ScrollView contentContainerStyle={{paddingHorizontal: 10}} horizontal={true} showsHorizontalScrollIndicator={false}>
+                    {array.map((item, k) => (
+                        <FilterItem onPress={() => setFilter(item.title)} backgroundColor={filter === item.title ? defaultColor : grayish} key={k}>
+                            <FilterItemText color={filter === item.title ? white : black}>{item.title}</FilterItemText>
+                        </FilterItem>
+                    ))}
+                </ScrollView>
+            </FilterArea>
+            
+            <SmallerRecipe />
         </SavedContainer>
     )
 }

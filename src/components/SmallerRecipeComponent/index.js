@@ -34,8 +34,16 @@ import {
     ItemFooterDefaultText
 } from './styles';
 
-export default function SmallerRecipe({children}) {
-    const [recipes, setRecipes] = useState([]);
+export default function SmallerRecipe() {
+    const [recipes, setRecipes] = useState({
+        id: 0,
+        category: '',
+        cookTime: 0,
+        ingQuantity: 0,
+        description: '',
+        img: '',
+        name: '',
+    });
     const [loading, setLoading] = useState(true);
 
     const token = useSelector(state => state.user.token);
@@ -43,7 +51,15 @@ export default function SmallerRecipe({children}) {
     useEffect(() => {
         api.get(`/favorites/${token}`)
         .then(res => {
-            console.log(res.data);
+            setRecipes({
+                id: res.data[0].Recipe.id,
+                category: res.data[0].Recipe.category,
+                cookTime: res.data[0].Recipe.cookTime,
+                description: res.data[0].Recipe.description,
+                img: res.data[0].Recipe.img,
+                name: res.data[0].Recipe.name,
+                ingQuantity: res.data[0].Recipe.ingQuantity,
+            })
         })
         .catch((err) => console.log(err));
     }, []);
@@ -54,7 +70,7 @@ export default function SmallerRecipe({children}) {
         }, 2500)
     }, []);
 
-    const renderItem = ({item}) => {
+    const RenderItem = () => {
         return(
             <SmallerRecipeItem>
                 <ItemImg source={food2} />
@@ -63,7 +79,7 @@ export default function SmallerRecipe({children}) {
                     <ItemHeader>
                         <ItemCategory>
                             <ItemCategoryMarkdown />
-                            <ItemCategoryText>{item.category}</ItemCategoryText>
+                            <ItemCategoryText>{recipes.category}</ItemCategoryText>
                         </ItemCategory>
 
                         <ItemActionButtons>
@@ -77,16 +93,17 @@ export default function SmallerRecipe({children}) {
                         </ItemActionButtons>
                     </ItemHeader>
 
-                    <TouchableWithoutFeedback>
-                    </TouchableWithoutFeedback>
+                    <ItemName>{recipes.name}</ItemName>
 
                     <ItemFooter>
                         <ItemFooterDefault>
                             <Ionicons name="bonfire-outline" color="#000" size={25} />
+                            <ItemFooterDefaultText>{recipes.cookTime} min</ItemFooterDefaultText>
                         </ItemFooterDefault>
 
                         <ItemFooterDefault>
                             <MaterialIcons name="kitchen" color="#000" size={25} />
+                            <ItemFooterDefaultText>{recipes.ingQuantity} ing</ItemFooterDefaultText>
                         </ItemFooterDefault>
                     </ItemFooter>
                 </ItemRightContent>
@@ -99,14 +116,7 @@ export default function SmallerRecipe({children}) {
             {loading ?
                 <ActivityIndicator size="large" color="#D7263D" />
                 :
-                <FlatList
-                    contentContainerStyle={{paddingHorizontal: 20, paddingVertical: 20}}
-                    ListHeaderComponent={children}
-                    showsVerticalScrollIndicator={false}
-                    data={recipes}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.id}
-                />
+                <RenderItem />
             }
         </SmallerRecipeArea>
     )
